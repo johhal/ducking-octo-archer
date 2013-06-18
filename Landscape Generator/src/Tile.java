@@ -12,6 +12,7 @@ public class Tile {
 	private double waterThreshold;
 	private double plainThreshold;
 	private double mountainThreshold;
+	private boolean containsZombies = false;
 
 	public Tile(TypeEnum type) {
 		this.type = type;
@@ -24,65 +25,81 @@ public class Tile {
 		if (northTile != null) {
 			switch (northTile.getType()) {
 			case FORREST:
-				forrestChance+=50;
-				waterChance+=10;
+				forrestChance += 50;
+				waterChance += 10;
 				break;
 			case PLAIN:
-				plainChance+=20;
-				mountainChance+=5;
+				plainChance += 20;
+				mountainChance += 5;
 				break;
 			case MOUNTAIN:
-				mountainChance+=20;
-				plainChance+=5;
+				mountainChance += 20;
+				plainChance += 5;
 				break;
 			case WATER:
-				waterChance+=50;
-				forrestChance+=10;
+				waterChance += 50;
+				forrestChance += 10;
 				break;
 			}
 		}
 		if (westTile != null) {
 			switch (westTile.getType()) {
 			case FORREST:
-				forrestChance+=80;
-				waterChance+=10;
+				forrestChance += 80;
+				waterChance += 10;
 				break;
 			case PLAIN:
-				plainChance+=20;
-				mountainChance+=5;
+				plainChance += 20;
+				mountainChance += 5;
 				break;
 			case MOUNTAIN:
-				mountainChance+=20;
-				plainChance+=5;
+				mountainChance += 20;
+				plainChance += 5;
 				break;
 			case WATER:
-				waterChance+=50;
-				forrestChance+=20;
+				waterChance += 50;
+				forrestChance += 20;
 				break;
 			}
 		}
 		calculateThresholds();
 		double rnd = Math.random();
-		if(rnd<waterThreshold){
+		if (rnd < waterThreshold) {
 			type = TypeEnum.FORREST;
-		}else if(rnd<plainThreshold){
+		} else if (rnd < plainThreshold) {
 			type = TypeEnum.WATER;
-		}else if(rnd<mountainThreshold){
+		} else if (rnd < mountainThreshold) {
 			type = TypeEnum.PLAIN;
-		}else{
+		} else {
 			type = TypeEnum.MOUNTAIN;
 		}
+//		if (type != TypeEnum.WATER) {
+//			rnd = Math.random();
+//			if (rnd < 0.01) {
+//				containsZombies = true;
+//			}
+//		}
 	}
-
+	public void infest(boolean infest){
+		containsZombies=infest;
+	}
+	public boolean isInfested(){
+		return containsZombies;
+	}
 	private void calculateThresholds() {
-		forrestThreshold=0;
-		waterThreshold = forrestChance/(forrestChance + plainChance + mountainChance + waterChance);
-		plainThreshold = waterChance/(forrestChance + plainChance + mountainChance + waterChance)+ waterThreshold;
-		mountainThreshold = plainChance/(forrestChance + plainChance + mountainChance + waterChance)+plainThreshold;
-//		System.out.println("Forrest="+forrestThreshold+"-"+waterThreshold);
-//		System.out.println("Water="+waterThreshold+"-"+plainThreshold);
-//		System.out.println("Plain="+plainThreshold+"-"+mountainThreshold);
-//		System.out.println("Mountain="+mountainThreshold+"- 1");
+		forrestThreshold = 0;
+		waterThreshold = forrestChance
+				/ (forrestChance + plainChance + mountainChance + waterChance);
+		plainThreshold = waterChance
+				/ (forrestChance + plainChance + mountainChance + waterChance)
+				+ waterThreshold;
+		mountainThreshold = plainChance
+				/ (forrestChance + plainChance + mountainChance + waterChance)
+				+ plainThreshold;
+		// System.out.println("Forrest="+forrestThreshold+"-"+waterThreshold);
+		// System.out.println("Water="+waterThreshold+"-"+plainThreshold);
+		// System.out.println("Plain="+plainThreshold+"-"+mountainThreshold);
+		// System.out.println("Mountain="+mountainThreshold+"- 1");
 	}
 
 	public void setNorthTile(Tile tile) {
@@ -98,6 +115,9 @@ public class Tile {
 	}
 
 	public int getRGBA() {
+		if (containsZombies) {
+			return new Color(255, 0, 0).getRGB();
+		}
 		switch (type) {
 		case FORREST:
 			return new Color(0, 255, 0).getRGB();
@@ -112,6 +132,9 @@ public class Tile {
 	}
 
 	public String toString() {
+		if(containsZombies){
+			return "Z";
+		}
 		switch (type) {
 		case FORREST:
 			return "F";
