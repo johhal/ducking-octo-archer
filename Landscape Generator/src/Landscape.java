@@ -1,3 +1,5 @@
+import java.awt.image.BufferedImage;
+
 public class Landscape {
 	private Tile[][] landscape;
 	private int sizeX;
@@ -23,7 +25,6 @@ public class Landscape {
 				landscape[newX][newY]
 						.infest(landscape[oldX][oldY].isInfested());
 				landscape[oldX][oldY].infest(false);
-				System.out.println("Zombie moved!!!");
 				return true;
 			}
 		}
@@ -55,5 +56,20 @@ public class Landscape {
 			return false;
 		}
 		return true;
+	}
+
+	public BufferedImage getLandscapeImg(int pixelX, int pixelY) {
+		int type = BufferedImage.TYPE_INT_ARGB;
+		BufferedImage image = new BufferedImage(pixelX * sizeX, pixelY * sizeY,
+				type);
+		for (int j = 0; j < sizeX; j++) {
+			for (int i = 0; i < sizeY; i++) {
+				image.createGraphics().drawImage(
+						getTile(i, j)
+								.getTileImage(pixelX, pixelY),
+						i * pixelX, j * pixelY, null);
+			}
+		}
+		return image;
 	}
 }

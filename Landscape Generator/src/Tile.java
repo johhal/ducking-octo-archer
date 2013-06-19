@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 public class Tile {
 	private TypeEnum type = null;
@@ -45,20 +46,20 @@ public class Tile {
 		if (westTile != null) {
 			switch (westTile.getType()) {
 			case FORREST:
-				forrestChance += 80;
-				waterChance += 10;
+				forrestChance += 5;
+				waterChance += 0;
 				break;
 			case PLAIN:
-				plainChance += 20;
-				mountainChance += 5;
+				plainChance += 90;
+				mountainChance += 15;
 				break;
 			case MOUNTAIN:
 				mountainChance += 20;
-				plainChance += 5;
+				plainChance += 10;
 				break;
 			case WATER:
-				waterChance += 50;
-				forrestChance += 20;
+				waterChance += 5;
+				forrestChance += 0;
 				break;
 			}
 		}
@@ -100,6 +101,18 @@ public class Tile {
 		// System.out.println("Water="+waterThreshold+"-"+plainThreshold);
 		// System.out.println("Plain="+plainThreshold+"-"+mountainThreshold);
 		// System.out.println("Mountain="+mountainThreshold+"- 1");
+	}
+	
+	public BufferedImage getTileImage(int x, int y){
+		
+		BufferedImage image = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);
+		for(int i=0;i<x;i++){
+			for(int j=0;j<y;j++){
+				image.setRGB(i, j, getRGBA());
+			}
+		}
+		
+		return image;
 	}
 
 	public void setNorthTile(Tile tile) {
