@@ -14,6 +14,7 @@ public class Tile {
 	private double plainThreshold;
 	private double mountainThreshold;
 	private boolean containsZombies = false;
+	private boolean inhabited = false;
 
 	public Tile(TypeEnum type) {
 		this.type = type;
@@ -84,8 +85,14 @@ public class Tile {
 	public void infest(boolean infest){
 		containsZombies=infest;
 	}
+	public void inhabited(boolean inhabit){
+		inhabited = inhabit;
+	}
 	public boolean isInfested(){
 		return containsZombies;
+	}
+	public boolean isInhabited(){
+		return inhabited;
 	}
 	private void calculateThresholds() {
 		forrestThreshold = 0;
@@ -97,10 +104,6 @@ public class Tile {
 		mountainThreshold = plainChance
 				/ (forrestChance + plainChance + mountainChance + waterChance)
 				+ plainThreshold;
-		// System.out.println("Forrest="+forrestThreshold+"-"+waterThreshold);
-		// System.out.println("Water="+waterThreshold+"-"+plainThreshold);
-		// System.out.println("Plain="+plainThreshold+"-"+mountainThreshold);
-		// System.out.println("Mountain="+mountainThreshold+"- 1");
 	}
 	
 	public BufferedImage getTileImage(int x, int y){
@@ -130,6 +133,9 @@ public class Tile {
 	public int getRGBA() {
 		if (containsZombies) {
 			return new Color(255, 0, 0).getRGB();
+		}
+		if(inhabited) {
+			return new Color(0,0,0).getRGB();
 		}
 		switch (type) {
 		case FORREST:

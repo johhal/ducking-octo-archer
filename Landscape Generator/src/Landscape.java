@@ -1,14 +1,18 @@
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
-public class Landscape {
+public class Landscape implements MouseListener {
 	private Tile[][] landscape;
 	private int sizeX;
 	private int sizeY;
+	private ImageViewer imageViewer;
 
-	public Landscape(Tile[][] landscape) {
+	public Landscape(Tile[][] landscape, ImageViewer imageViewer) {
 		this.landscape = landscape;
 		sizeX = landscape.length;
 		sizeY = landscape[0].length;
+		this.imageViewer = imageViewer;
 	}
 
 	public Tile getTile(int x, int y) {
@@ -25,10 +29,49 @@ public class Landscape {
 				landscape[newX][newY]
 						.infest(landscape[oldX][oldY].isInfested());
 				landscape[oldX][oldY].infest(false);
+				if(landscape[newX][newY].isInhabited()){
+					landscape[newX][newY].inhabited(false);
+					System.out.println("The people at tile x: "+newX+" y: "+newY+" was turned into zombies!!!");
+					spawnZombie(newX, newY);
+				}
 				return true;
 			}
 		}
 		return false;
+	}
+	private void spawnZombie(int x, int y){
+		if(validateMove(0,0,x,y) && !isWater(x,y)){
+			if(!landscape[x][y].isInfested()){
+				landscape[x][y].infest(true);
+				new ZombieThread(x, y, this, imageViewer).start();
+			}else{
+				if(!landscape[x-1][y].isInfested()&& validateMove(0,0,x-1,y) && !isWater(x-1,y)){
+					landscape[x-1][y].infest(true);
+					new ZombieThread(x-1, y, this,imageViewer).start();
+				}else if(!landscape[x-1][y-1].isInfested() &&validateMove(0,0,x-1,y-1) && !isWater(x-1,y-1)){
+					landscape[x-1][y-1].infest(true);
+					new ZombieThread(x-1, y-1, this,imageViewer).start();
+				}else if(!landscape[x-1][y+1].isInfested() && validateMove(0,0,x-1,y+1) && !isWater(x-1,y+1)){
+					landscape[x-1][y+1].infest(true);
+					new ZombieThread(x-1, y+1, this,imageViewer).start();
+				}else if(!landscape[x+1][y].isInfested() && validateMove(0,0,x+1,y) && !isWater(x+1,y)){
+					landscape[x+1][y].infest(true);
+					new ZombieThread(x+1, y, this,imageViewer).start();
+				}else if(!landscape[x+1][y+1].isInfested() && validateMove(0,0,x+1,y+1) && !isWater(x+1,y+1)){
+					landscape[x+1][y+1].infest(true);
+					new ZombieThread(x+1, y+1, this,imageViewer).start();
+				}else if(!landscape[x+1][y-1].isInfested() && validateMove(0,0,x+1,y-1) && !isWater(x+1,y-1)){
+					landscape[x+1][y-1].infest(true);
+					new ZombieThread(x+1, y-1, this,imageViewer).start();
+				}else if(!landscape[x][y-1].isInfested() && validateMove(0,0,x,y-1) && !isWater(x,y-1)){
+					landscape[x][y-1].infest(true);
+					new ZombieThread(x, y-1, this,imageViewer).start();
+				}else if(!landscape[x][y+1].isInfested() && validateMove(0,0,x,y+1) && !isWater(x,y+1)){
+					landscape[x][y+1].infest(true);
+					new ZombieThread(x, y+1, this,imageViewer).start();
+				}
+			}
+		}
 	}
 
 	private boolean isWater(int x, int y) {
@@ -72,4 +115,24 @@ public class Landscape {
 		}
 		return image;
 	}
+	public void mouseClicked(MouseEvent e) {
+  	  System.out.println("X:"+e.getX());
+  	  System.out.println("Y:"+e.getY());
+  	  
+  	  System.out.println("Tile X:"+(e.getX()/10));
+  	  System.out.println("Tile Y:"+(e.getY()/10));
+  	  landscape[e.getX()/10][e.getY()/10].inhabited(true);
+	}
+
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    public void mouseExited(MouseEvent e) {
+    }
+
+    public void mousePressed(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+    }
 }

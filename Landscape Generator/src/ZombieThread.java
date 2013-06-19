@@ -1,18 +1,16 @@
 public class ZombieThread extends Thread {
 
-	private Tile currentLocation;
 	private int currentX;
 	private int currentY;
-	private int zombieID;
 	private Landscape landscape;
+	private ImageViewer imageViewer;
 
-	public ZombieThread(Tile currentLocation, int currentX, int currentY,
-			Landscape landscape, int zombieID) {
-		this.currentLocation = currentLocation;
+	public ZombieThread(int currentX, int currentY,
+			Landscape landscape, ImageViewer imageViewer) {
 		this.currentX = currentX;
 		this.currentY = currentY;
 		this.landscape = landscape;
-		this.zombieID = zombieID;
+		this.imageViewer = imageViewer;
 	}
 
 	public void run() {
@@ -37,9 +35,20 @@ public class ZombieThread extends Thread {
 			if (landscape.moveZombie(currentX, currentY, newX, newY)) {
 				currentX = newX;
 				currentY = newY;
+				imageViewer.setImage(landscape.getLandscapeImg(10, 10));
 			}
 			try {
-				Thread.sleep((long) (Math.random() * 1000));
+				switch(landscape.getTile(currentX, currentY).getType()){
+				case FORREST:
+					Thread.sleep((long) (Math.random() * 1000)+1000);
+					break;
+				case PLAIN:
+					Thread.sleep((long) (Math.random() * 1000));
+					break;
+				case MOUNTAIN:
+					Thread.sleep((long) (Math.random() * 1000)+3000);
+					break;
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

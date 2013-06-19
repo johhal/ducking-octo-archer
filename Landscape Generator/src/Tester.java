@@ -18,8 +18,9 @@ public class Tester {
 		int y = 50;
 		int tileSize = 10;
 		int zombieCount = 0;
+		ImageViewer viewer = new ImageViewer();
 		// int type = BufferedImage.TYPE_INT_ARGB;
-		Landscape landscape = new Landscape(landGen.generate(x, y));
+		Landscape landscape = new Landscape(landGen.generate(x, y), viewer);
 		StringBuilder sb = new StringBuilder();
 
 		// BufferedImage image = new BufferedImage(tileSize*x, tileSize*y,
@@ -33,14 +34,14 @@ public class Tester {
 					if (rnd < 0.01) {
 						current.infest(true);
 						zombieCount++;
-						new ZombieThread(current, i, j, landscape, zombieCount).start();
+						new ZombieThread(i, j, landscape, viewer).start();
 					}
 					break;
 				case PLAIN:
 					if (rnd < 0.01) {
 						current.infest(true);
 						zombieCount++;
-						new ZombieThread(current, i, j, landscape, zombieCount).start();
+						new ZombieThread(i, j, landscape, viewer).start();
 					}
 					break;
 				case WATER:
@@ -49,7 +50,7 @@ public class Tester {
 					if (rnd < 0.01) {						
 						current.infest(true);
 						zombieCount++;
-						new ZombieThread(current, i, j, landscape, zombieCount).start();
+						new ZombieThread(i, j, landscape, viewer).start();
 					}
 					break;
 				}
@@ -58,31 +59,13 @@ public class Tester {
 		JFrame f = new JFrame("World map");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		ImageViewer viewer = new ImageViewer();
 		
 		f.setContentPane(viewer.getGui());
 
 		f.pack();
 		f.setLocationByPlatform(true);
 		f.setVisible(true);
-		viewer.setMouseListener(new MouseListener() {
-		      public void mouseClicked(MouseEvent e) {
-		    	  System.out.println("X:"+e.getX());
-		    	  System.out.println("Y:"+e.getY());
-		      }
-
-		      public void mouseEntered(MouseEvent e) {
-		      }
-
-		      public void mouseExited(MouseEvent e) {
-		      }
-
-		      public void mousePressed(MouseEvent e) {
-		      }
-
-		      public void mouseReleased(MouseEvent e) {
-		      }
-		    });
+		viewer.setMouseListener(landscape);
 		
 		while (true) {
 			viewer.setImage(landscape.getLandscapeImg(tileSize, tileSize));
