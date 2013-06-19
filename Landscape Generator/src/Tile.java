@@ -75,25 +75,24 @@ public class Tile {
 		} else {
 			type = TypeEnum.MOUNTAIN;
 		}
-//		if (type != TypeEnum.WATER) {
-//			rnd = Math.random();
-//			if (rnd < 0.01) {
-//				containsZombies = true;
-//			}
-//		}
 	}
-	public void infest(boolean infest){
-		containsZombies=infest;
+
+	public void infest(boolean infest) {
+		containsZombies = infest;
 	}
-	public void inhabited(boolean inhabit){
+
+	public void inhabited(boolean inhabit) {
 		inhabited = inhabit;
 	}
-	public boolean isInfested(){
+
+	public boolean isInfested() {
 		return containsZombies;
 	}
-	public boolean isInhabited(){
+
+	public boolean isInhabited() {
 		return inhabited;
 	}
+
 	private void calculateThresholds() {
 		forrestThreshold = 0;
 		waterThreshold = forrestChance
@@ -105,16 +104,27 @@ public class Tile {
 				/ (forrestChance + plainChance + mountainChance + waterChance)
 				+ plainThreshold;
 	}
-	
-	public BufferedImage getTileImage(int x, int y){
-		
-		BufferedImage image = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);
-		for(int i=0;i<x;i++){
-			for(int j=0;j<y;j++){
-				image.setRGB(i, j, getRGBA());
+
+	public BufferedImage getTileImage(int x, int y) {
+
+		BufferedImage image = new BufferedImage(x, y,
+				BufferedImage.TYPE_INT_ARGB);
+		for (int i = 0; i < x; i++) {
+			for (int j = 0; j < y; j++) {
+				if (i == 0) {
+					image.setRGB(i,j, Color.black.getRGB());
+				} else if (j == 0) {
+					image.setRGB(i,j, Color.black.getRGB());
+				} else if (i == (x - 1)) {
+					image.setRGB(i,j, Color.black.getRGB());
+				} else if (j == (y - 1)) {
+					image.setRGB(i,j, Color.black.getRGB());
+				} else {
+					image.setRGB(i, j, getRGBA());
+				}
 			}
 		}
-		
+
 		return image;
 	}
 
@@ -134,8 +144,8 @@ public class Tile {
 		if (containsZombies) {
 			return new Color(255, 0, 0).getRGB();
 		}
-		if(inhabited) {
-			return new Color(0,0,0).getRGB();
+		if (inhabited) {
+			return new Color(255, 255, 255).getRGB();
 		}
 		switch (type) {
 		case FORREST:
@@ -151,7 +161,7 @@ public class Tile {
 	}
 
 	public String toString() {
-		if(containsZombies){
+		if (containsZombies) {
 			return "Z";
 		}
 		switch (type) {
