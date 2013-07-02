@@ -124,15 +124,15 @@ public class Landscape implements MouseListener {
 		return true;
 	}
 
-	public BufferedImage getLandscapeImg(int pixelX, int pixelY) {
+	public BufferedImage getLandscapeImg() {
 		int type = BufferedImage.TYPE_INT_ARGB;
-		BufferedImage image = new BufferedImage(pixelX * sizeX, pixelY * sizeY,
+		BufferedImage image = new BufferedImage(tileSize * sizeX, tileSize * sizeY,
 				type);
 		for (int i = 0; i < sizeX; i++) {
 			for (int j = 0; j < sizeY; j++) {
 				image.createGraphics().drawImage(
-						getTile(i, j).getTileImage(pixelX, pixelY), i * pixelX,
-						j * pixelY, null);
+						getTile(i, j).getTileImage(tileSize, tileSize), i * tileSize,
+						j * tileSize, null);
 			}
 		}
 		return image;

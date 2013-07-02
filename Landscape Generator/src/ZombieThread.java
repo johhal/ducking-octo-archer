@@ -35,7 +35,7 @@ public class ZombieThread extends Thread {
 			if (landscape.moveZombie(currentX, currentY, newX, newY)) {
 				currentX = newX;
 				currentY = newY;
-				imageViewer.setImage(landscape.getLandscapeImg(landscape.getTileSize(), landscape.getTileSize()));
+				imageViewer.setImage(landscape.getLandscapeImg(/*landscape.getTileSize(), landscape.getTileSize()*/));
 			}
 			try {
 				switch(landscape.getTile(currentX, currentY).getType()){
