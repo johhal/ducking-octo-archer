@@ -13,20 +13,30 @@ public class Tester {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		LandscapeGenerator landGen = new LandscapeGenerator();
-		int x = 50;
-		int y = 50;
-		int tileSize = 10;
-		int zombieCount = 0;
+		//Storlek på områden och antal områden
+		int boardWidth = 50;
+		int boardHeight = 75;
+		int tileSize = 10; //Hårdkodad på sina ställen, rör ej
+		
+		//Skapa Fönster
 		ImageViewer viewer = new ImageViewer();
+		
+		//Antal Zombies
+		int zombieCount = 0;
+		
 		// int type = BufferedImage.TYPE_INT_ARGB;
-		Landscape landscape = new Landscape(landGen.generate(x, y), viewer);
-		StringBuilder sb = new StringBuilder();
+		
+		// Skapa världen och generera områden
+		LandscapeGenerator landGen = new LandscapeGenerator();
+		Landscape landscape = new Landscape(landGen.generate(boardWidth, boardHeight), viewer);
+		//StringBuilder sb = new StringBuilder();
 
 		// BufferedImage image = new BufferedImage(tileSize*x, tileSize*y,
 		// type);
-		for (int j = 0; j < y; j++) {
-			for (int i = 0; i < x; i++) {
+		
+		//Sätt ut zombies? zombiechans?
+		for (int j = 0; j < boardHeight; j++) {
+			for (int i = 0; i < boardWidth; i++) {
 				double rnd = Math.random();
 				Tile current = landscape.getTile(i, j);
 				switch (current.getType()) {
@@ -56,6 +66,7 @@ public class Tester {
 				}
 			}
 		}
+		
 		JFrame f = new JFrame("World map");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

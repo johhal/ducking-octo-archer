@@ -52,3 +52,13 @@ Command-line arguments:  -os linux -ws gtk -arch x86_64
 
 !ENTRY org.eclipse.ui 4 4 2013-06-19 18:34:45.044
 !MESSAGE Invalid preference page path: XML Syntax
+!SESSION 2013-07-02 12:04:17.148 -----------------------------------------------
+eclipse.buildId=M20120914-1800
+java.version=1.7.0_07
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_GB
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.m2e.logback.appender 4 0 2013-07-02 13:31:41.051
+!MESSAGE Failed to open search index.
