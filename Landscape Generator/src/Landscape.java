@@ -8,10 +8,11 @@ public class Landscape implements MouseListener {
 	private int sizeY;
 	private ImageViewer imageViewer;
 
-	public Landscape(Tile[][] landscape, ImageViewer imageViewer) {
-		this.landscape = landscape;
+	public Landscape(Tile[][] Landscape, ImageViewer imageViewer) {
+		this.landscape = Landscape;
 		sizeX = landscape.length;
 		sizeY = landscape[0].length;
+		
 		this.imageViewer = imageViewer;
 	}
 
@@ -119,8 +120,8 @@ public class Landscape implements MouseListener {
 		int type = BufferedImage.TYPE_INT_ARGB;
 		BufferedImage image = new BufferedImage(pixelX * sizeX, pixelY * sizeY,
 				type);
-		for (int j = 0; j < sizeX; j++) {
-			for (int i = 0; i < sizeY; i++) {
+		for (int i = 0; i < sizeX; i++) {
+			for (int j = 0; j < sizeY; j++) {
 				image.createGraphics().drawImage(
 						getTile(i, j).getTileImage(pixelX, pixelY), i * pixelX,
 						j * pixelY, null);

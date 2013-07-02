@@ -3,23 +3,23 @@ public class LandscapeGenerator {
 	public LandscapeGenerator(){
 		
 	}
-	public Tile[][] generate(int x, int y){
-		Tile[][] landscape = new Tile[x][y];
-		for(int i=0;i<x;i++){
-			for(int j=0;j<y;j++){
+	public Tile[][] generate(int boardWidth, int boardHeight){
+		Tile[][] landscape = new Tile[boardWidth][boardHeight];
+		for(int i=0;i<boardWidth;i++){
+			for(int j=0;j<boardHeight;j++){
 				
 				landscape[i][j] = randomTile(landscape,i,j);
 			}
 		}
 		return landscape;
 	}
-	private Tile randomTile(Tile[][] landscape, int i, int j) {
+	private Tile randomTile(Tile[][] landscape, int tilePosX, int tilePosY) {
 		Tile tile = new Tile();
-		if(i>1){
-			tile.setWestTile(landscape[i-1][j]);
+		if(tilePosX>1){
+			tile.setWestTile(landscape[tilePosX-1][tilePosY]);
 		}
-		if(j>1){
-			tile.setNorthTile(landscape[i][j-1]);
+		if(tilePosY>1){
+			tile.setNorthTile(landscape[tilePosX][tilePosY-1]);
 		}
 		tile.randomizeType();
 		return tile;

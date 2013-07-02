@@ -28,7 +28,7 @@ public class ImageViewer {
             JPanel imageCenter = new JPanel(new GridBagLayout());
             imageCenter.add(imageCanvas);
             JScrollPane imageScroll = new JScrollPane(imageCenter);
-            imageScroll.setPreferredSize(new Dimension(300,100));
+            imageScroll.setPreferredSize(new Dimension(510,510));
             gui.add(imageScroll, BorderLayout.CENTER);
         }
     }
