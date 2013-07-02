@@ -6,10 +6,13 @@ public class Landscape implements MouseListener {
 	private Tile[][] landscape;
 	private int sizeX;
 	private int sizeY;
+	private int tileSize;
 	private ImageViewer imageViewer;
 
-	public Landscape(Tile[][] Landscape, ImageViewer imageViewer) {
+	public Landscape(Tile[][] Landscape, int tileSize,ImageViewer imageViewer) {
 		this.landscape = Landscape;
+		this.tileSize = tileSize;
+		
 		sizeX = landscape.length;
 		sizeY = landscape[0].length;
 		
@@ -21,6 +24,11 @@ public class Landscape implements MouseListener {
 			return landscape[x][y];
 		}
 		return null;
+	}
+	
+	public int getTileSize()
+	{
+		return tileSize;
 	}
 
 	public synchronized boolean moveZombie(int oldX, int oldY, int newX,
@@ -134,9 +142,9 @@ public class Landscape implements MouseListener {
 		System.out.println("X:" + e.getX());
 		System.out.println("Y:" + e.getY());
 
-		System.out.println("Tile X:" + (e.getX() / 10));
-		System.out.println("Tile Y:" + (e.getY() / 10));
-		spawnHuman(e.getX()/10,e.getY()/10);
+		System.out.println("Tile X:" + (e.getX() / tileSize));
+		System.out.println("Tile Y:" + (e.getY() / tileSize));
+		spawnHuman(e.getX()/tileSize,e.getY()/tileSize);
 	}
 
 	public void mouseEntered(MouseEvent e) {

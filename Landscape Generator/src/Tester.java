@@ -15,8 +15,8 @@ public class Tester {
 	public static void main(String[] args) {
 		//Storlek på områden och antal områden
 		int boardWidth = 50;
-		int boardHeight = 75;
-		int tileSize = 10; //Hårdkodad på sina ställen, rör ej
+		int boardHeight = 50;
+		int tileSize = 10; 
 		
 		//Skapa Fönster
 		ImageViewer viewer = new ImageViewer();
@@ -28,7 +28,7 @@ public class Tester {
 		
 		// Skapa världen och generera områden
 		LandscapeGenerator landGen = new LandscapeGenerator();
-		Landscape landscape = new Landscape(landGen.generate(boardWidth, boardHeight), viewer);
+		Landscape landscape = new Landscape(landGen.generate(boardWidth, boardHeight), tileSize, viewer);
 		//StringBuilder sb = new StringBuilder();
 
 		// BufferedImage image = new BufferedImage(tileSize*x, tileSize*y,

@@ -35,10 +35,13 @@ public class ZombieThread extends Thread {
 			if (landscape.moveZombie(currentX, currentY, newX, newY)) {
 				currentX = newX;
 				currentY = newY;
-				imageViewer.setImage(landscape.getLandscapeImg(10, 10));
+				imageViewer.setImage(landscape.getLandscapeImg(landscape.getTileSize(), landscape.getTileSize()));
 			}
 			try {
 				switch(landscape.getTile(currentX, currentY).getType()){
+				case WATER:
+					//går inte, men ville inte ha felmeddelandet.
+					break;
 				case FORREST:
 					Thread.sleep((long) (Math.random() * 1000)+1000);
 					break;
