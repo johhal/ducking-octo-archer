@@ -1,17 +1,9 @@
-import java.awt.FlowLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 public class GameManager {
 	private int boardWidth;
 	private int boardHeight;
 	private int tileSize;
-	private int zombieCount;
 	private HumanoidManager humanoidManager;
 	public InputManager inputManager;
 

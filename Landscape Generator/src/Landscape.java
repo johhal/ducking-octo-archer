@@ -48,7 +48,7 @@ public class Landscape implements MouseListener {
 					landscape[newX][newY].inhabited(false);
 					System.out.println("The people at tile x: " + newX + " y: "
 							+ newY + " was turned into zombies!!!");
-					spawnZombie(newX, newY);
+//					spawnZombie(newX, newY);
 				}
 				return true;
 			}
@@ -63,52 +63,52 @@ public class Landscape implements MouseListener {
 		return sizeY;
 	}
 
-	private void spawnZombie(int x, int y) {
-		if (validateMove(0, 0, x, y) && !isWater(x, y)) {
-			if (!landscape[x][y].isInfested()) {
-				landscape[x][y].infest(true);
-				new ZombieThread(x, y, this).start();
-			} else {
-				if (!landscape[x - 1][y].isInfested()
-						&& validateMove(0, 0, x - 1, y) && !isWater(x - 1, y)) {
-					landscape[x - 1][y].infest(true);
-					new ZombieThread(x - 1, y, this).start();
-				} else if (!landscape[x - 1][y - 1].isInfested()
-						&& validateMove(0, 0, x - 1, y - 1)
-						&& !isWater(x - 1, y - 1)) {
-					landscape[x - 1][y - 1].infest(true);
-					new ZombieThread(x - 1, y - 1, this).start();
-				} else if (!landscape[x - 1][y + 1].isInfested()
-						&& validateMove(0, 0, x - 1, y + 1)
-						&& !isWater(x - 1, y + 1)) {
-					landscape[x - 1][y + 1].infest(true);
-					new ZombieThread(x - 1, y + 1, this).start();
-				} else if (!landscape[x + 1][y].isInfested()
-						&& validateMove(0, 0, x + 1, y) && !isWater(x + 1, y)) {
-					landscape[x + 1][y].infest(true);
-					new ZombieThread(x + 1, y, this).start();
-				} else if (!landscape[x + 1][y + 1].isInfested()
-						&& validateMove(0, 0, x + 1, y + 1)
-						&& !isWater(x + 1, y + 1)) {
-					landscape[x + 1][y + 1].infest(true);
-					new ZombieThread(x + 1, y + 1, this).start();
-				} else if (!landscape[x + 1][y - 1].isInfested()
-						&& validateMove(0, 0, x + 1, y - 1)
-						&& !isWater(x + 1, y - 1)) {
-					landscape[x + 1][y - 1].infest(true);
-					new ZombieThread(x + 1, y - 1, this).start();
-				} else if (!landscape[x][y - 1].isInfested()
-						&& validateMove(0, 0, x, y - 1) && !isWater(x, y - 1)) {
-					landscape[x][y - 1].infest(true);
-					new ZombieThread(x, y - 1, this).start();
-				} else if (!landscape[x][y + 1].isInfested()
-						&& validateMove(0, 0, x, y + 1) && !isWater(x, y + 1)) {
-					landscape[x][y + 1].infest(true);
-					new ZombieThread(x, y + 1, this).start();
-				}
-			}
-		}
-	}
+//	private void spawnZombie(int x, int y) {
+//		if (validateMove(0, 0, x, y) && !isWater(x, y)) {
+//			if (!landscape[x][y].isInfested()) {
+//				landscape[x][y].infest(true);
+//				new ZombieThread(x, y, this).start();
+//			} else {
+//				if (!landscape[x - 1][y].isInfested()
+//						&& validateMove(0, 0, x - 1, y) && !isWater(x - 1, y)) {
+//					landscape[x - 1][y].infest(true);
+//					new ZombieThread(x - 1, y, this).start();
+//				} else if (!landscape[x - 1][y - 1].isInfested()
+//						&& validateMove(0, 0, x - 1, y - 1)
+//						&& !isWater(x - 1, y - 1)) {
+//					landscape[x - 1][y - 1].infest(true);
+//					new ZombieThread(x - 1, y - 1, this).start();
+//				} else if (!landscape[x - 1][y + 1].isInfested()
+//						&& validateMove(0, 0, x - 1, y + 1)
+//						&& !isWater(x - 1, y + 1)) {
+//					landscape[x - 1][y + 1].infest(true);
+//					new ZombieThread(x - 1, y + 1, this).start();
+//				} else if (!landscape[x + 1][y].isInfested()
+//						&& validateMove(0, 0, x + 1, y) && !isWater(x + 1, y)) {
+//					landscape[x + 1][y].infest(true);
+//					new ZombieThread(x + 1, y, this).start();
+//				} else if (!landscape[x + 1][y + 1].isInfested()
+//						&& validateMove(0, 0, x + 1, y + 1)
+//						&& !isWater(x + 1, y + 1)) {
+//					landscape[x + 1][y + 1].infest(true);
+//					new ZombieThread(x + 1, y + 1, this).start();
+//				} else if (!landscape[x + 1][y - 1].isInfested()
+//						&& validateMove(0, 0, x + 1, y - 1)
+//						&& !isWater(x + 1, y - 1)) {
+//					landscape[x + 1][y - 1].infest(true);
+//					new ZombieThread(x + 1, y - 1, this).start();
+//				} else if (!landscape[x][y - 1].isInfested()
+//						&& validateMove(0, 0, x, y - 1) && !isWater(x, y - 1)) {
+//					landscape[x][y - 1].infest(true);
+//					new ZombieThread(x, y - 1, this).start();
+//				} else if (!landscape[x][y + 1].isInfested()
+//						&& validateMove(0, 0, x, y + 1) && !isWater(x, y + 1)) {
+//					landscape[x][y + 1].infest(true);
+//					new ZombieThread(x, y + 1, this).start();
+//				}
+//			}
+//		}
+//	}
 
 	private boolean isWater(int x, int y) {
 		if (x < 0 || x >= sizeX) {

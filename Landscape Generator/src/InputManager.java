@@ -68,12 +68,10 @@ public class InputManager implements MouseListener, ActionListener {
 		if (SwingUtilities.isLeftMouseButton(arg0)) {
 			leftMouseClicked = true;
 			clickLocation = new Point(arg0.getX(), arg0.getY());
-			System.out.println("Left mouse clicked");
 		}
 		if (SwingUtilities.isRightMouseButton(arg0)) {
 			rightMouseClicked = true;
 			clickLocation = new Point(arg0.getX(), arg0.getY());
-			System.out.println("Right mouse clicked");
 		}
 	}
 

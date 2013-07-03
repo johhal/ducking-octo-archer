@@ -1,12 +1,14 @@
-public class HumanoidManager extends Thread {
+import java.util.ArrayList;
+
+public class HumanoidManager {
 
 	
-	private Humanoids humanoids[];
+	private ArrayList<Humanoids> humanoids;
 	private Landscape landscape;
 
 	public void Initialize(Landscape lAndscape) {
 		this.landscape = lAndscape;
-		humanoids = new Humanoids[0];
+		humanoids = new ArrayList<Humanoids>();
 		for (int j = 0; j < landscape.getBoardHeight(); j++) {
 			for (int i = 0; i < landscape.getBoardWidth(); i++) {
 				double rnd = Math.random();
@@ -15,13 +17,11 @@ public class HumanoidManager extends Thread {
 				switch (current.getType()) {
 				case FORREST:
 					if (rnd < 0.01) {
-//						current.infest(true);
 						addZombie(i, j);
 					}
 					break;
 				case PLAIN:
 					if (rnd < 0.01) {
-//						current.infest(true);
 						addZombie(i, j);
 					}
 					break;
@@ -29,19 +29,18 @@ public class HumanoidManager extends Thread {
 					break;
 				case MOUNTAIN:
 					if (rnd < 0.01) {
-//						current.infest(true);
 						addZombie(i, j);
 					}
 					break;
 				}
-
 			}
 		}
 	}
 
 	public boolean addZombie(int xpos, int ypos) {
 		// Sätt ut zombies? zombiechans?
-		new ZombieThread(xpos, ypos, landscape).start();
+		//new ZombieThread(xpos, ypos, landscape).start();
+		humanoids.add(new Humanoids(xpos, ypos, landscape));
 		return true;
 	}
 
@@ -50,9 +49,9 @@ public class HumanoidManager extends Thread {
 	}
 
 	public void Update() {
-		for(int i = 0; i < humanoids.length; i++)
+		for(int i = 0; i < humanoids.size(); i++)
 		{
-			humanoids[i].Update();
+			humanoids.get(i).Update();
 		}
 	}
 
