@@ -1,6 +1,12 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 
 public class Landscape implements MouseListener {
 	private Tile[][] landscape;
@@ -9,13 +15,13 @@ public class Landscape implements MouseListener {
 	private int tileSize;
 	private ImageViewer imageViewer;
 
-	public Landscape(Tile[][] Landscape, int tileSize,ImageViewer imageViewer) {
+	public Landscape(Tile[][] Landscape, int tileSize, ImageViewer imageViewer) {
 		this.landscape = Landscape;
 		this.tileSize = tileSize;
-		
+
 		sizeX = landscape.length;
 		sizeY = landscape[0].length;
-		
+
 		this.imageViewer = imageViewer;
 	}
 
@@ -25,9 +31,8 @@ public class Landscape implements MouseListener {
 		}
 		return null;
 	}
-	
-	public int getTileSize()
-	{
+
+	public int getTileSize() {
 		return tileSize;
 	}
 
@@ -126,25 +131,27 @@ public class Landscape implements MouseListener {
 
 	public BufferedImage getLandscapeImg() {
 		int type = BufferedImage.TYPE_INT_ARGB;
-		BufferedImage image = new BufferedImage(tileSize * sizeX, tileSize * sizeY,
-				type);
+		BufferedImage image = new BufferedImage(tileSize * sizeX, tileSize
+				* sizeY, type);
 		for (int i = 0; i < sizeX; i++) {
 			for (int j = 0; j < sizeY; j++) {
 				image.createGraphics().drawImage(
-						getTile(i, j).getTileImage(tileSize, tileSize), i * tileSize,
-						j * tileSize, null);
+						getTile(i, j).getTileImage(tileSize, tileSize),
+						i * tileSize, j * tileSize, null);
 			}
 		}
 		return image;
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("X:" + e.getX());
-		System.out.println("Y:" + e.getY());
+		if (SwingUtilities.isLeftMouseButton(e)) {
+			System.out.println("X:" + e.getX());
+			System.out.println("Y:" + e.getY());
 
-		System.out.println("Tile X:" + (e.getX() / tileSize));
-		System.out.println("Tile Y:" + (e.getY() / tileSize));
-		spawnHuman(e.getX()/tileSize,e.getY()/tileSize);
+			System.out.println("Tile X:" + (e.getX() / tileSize));
+			System.out.println("Tile Y:" + (e.getY() / tileSize));
+			spawnHuman(e.getX() / tileSize, e.getY() / tileSize);
+		}
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -161,12 +168,11 @@ public class Landscape implements MouseListener {
 
 	public void spawnHuman(int x, int y) {
 		if (validateMove(0, 0, x, y) && !isWater(x, y)) {
-			if (!landscape[x][y].isInfested()
-					&& validateMove(0, 0, x, y) && !isWater(x, y)
-					&& !landscape[x][y].isInhabited()) {
+			if (!landscape[x][y].isInfested() && validateMove(0, 0, x, y)
+					&& !isWater(x, y) && !landscape[x][y].isInhabited()) {
 				landscape[x][y].inhabited(true);
 				new HumanThread(x, y, this, imageViewer).start();
-			}else if (!landscape[x - 1][y].isInfested()
+			} else if (!landscape[x - 1][y].isInfested()
 					&& validateMove(0, 0, x - 1, y) && !isWater(x - 1, y)
 					&& !landscape[x - 1][y].isInhabited()) {
 				landscape[x - 1][y].inhabited(true);
