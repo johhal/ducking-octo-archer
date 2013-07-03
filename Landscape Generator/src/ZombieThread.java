@@ -1,16 +1,14 @@
-public class ZombieThread extends Thread {
+public class ZombieThread extends Thread  {
 
 	private int currentX;
 	private int currentY;
 	private Landscape landscape;
-	private ImageViewer imageViewer;
 
 	public ZombieThread(int currentX, int currentY,
-			Landscape landscape, ImageViewer imageViewer) {
+			Landscape landscape) {
 		this.currentX = currentX;
 		this.currentY = currentY;
 		this.landscape = landscape;
-		this.imageViewer = imageViewer;
 	}
 
 	public void run() {
@@ -35,7 +33,6 @@ public class ZombieThread extends Thread {
 			if (landscape.moveZombie(currentX, currentY, newX, newY)) {
 				currentX = newX;
 				currentY = newY;
-				imageViewer.setImage(landscape.getLandscapeImg(/*landscape.getTileSize(), landscape.getTileSize()*/));
 			}
 			try {
 				switch(landscape.getTile(currentX, currentY).getType()){
