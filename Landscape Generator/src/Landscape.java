@@ -6,6 +6,7 @@ public class Landscape implements MouseListener {
 	private Tile[][] landscape;
 	private int sizeX;
 	private int sizeY;
+	
 	private int tileSize;
 	private ImageViewer imageViewer;
 
@@ -49,49 +50,56 @@ public class Landscape implements MouseListener {
 		}
 		return false;
 	}
+	
+	public int getBoardWidth() {
+		return sizeX;
+	}
+	public int getBoardHeight() {
+		return sizeY;
+	}
 
 	private void spawnZombie(int x, int y) {
 		if (validateMove(0, 0, x, y) && !isWater(x, y)) {
 			if (!landscape[x][y].isInfested()) {
 				landscape[x][y].infest(true);
-				new ZombieThread(x, y, this, imageViewer).start();
+				new ZombieThread(x, y, this).start();
 			} else {
 				if (!landscape[x - 1][y].isInfested()
 						&& validateMove(0, 0, x - 1, y) && !isWater(x - 1, y)) {
 					landscape[x - 1][y].infest(true);
-					new ZombieThread(x - 1, y, this, imageViewer).start();
+					new ZombieThread(x - 1, y, this).start();
 				} else if (!landscape[x - 1][y - 1].isInfested()
 						&& validateMove(0, 0, x - 1, y - 1)
 						&& !isWater(x - 1, y - 1)) {
 					landscape[x - 1][y - 1].infest(true);
-					new ZombieThread(x - 1, y - 1, this, imageViewer).start();
+					new ZombieThread(x - 1, y - 1, this).start();
 				} else if (!landscape[x - 1][y + 1].isInfested()
 						&& validateMove(0, 0, x - 1, y + 1)
 						&& !isWater(x - 1, y + 1)) {
 					landscape[x - 1][y + 1].infest(true);
-					new ZombieThread(x - 1, y + 1, this, imageViewer).start();
+					new ZombieThread(x - 1, y + 1, this).start();
 				} else if (!landscape[x + 1][y].isInfested()
 						&& validateMove(0, 0, x + 1, y) && !isWater(x + 1, y)) {
 					landscape[x + 1][y].infest(true);
-					new ZombieThread(x + 1, y, this, imageViewer).start();
+					new ZombieThread(x + 1, y, this).start();
 				} else if (!landscape[x + 1][y + 1].isInfested()
 						&& validateMove(0, 0, x + 1, y + 1)
 						&& !isWater(x + 1, y + 1)) {
 					landscape[x + 1][y + 1].infest(true);
-					new ZombieThread(x + 1, y + 1, this, imageViewer).start();
+					new ZombieThread(x + 1, y + 1, this).start();
 				} else if (!landscape[x + 1][y - 1].isInfested()
 						&& validateMove(0, 0, x + 1, y - 1)
 						&& !isWater(x + 1, y - 1)) {
 					landscape[x + 1][y - 1].infest(true);
-					new ZombieThread(x + 1, y - 1, this, imageViewer).start();
+					new ZombieThread(x + 1, y - 1, this).start();
 				} else if (!landscape[x][y - 1].isInfested()
 						&& validateMove(0, 0, x, y - 1) && !isWater(x, y - 1)) {
 					landscape[x][y - 1].infest(true);
-					new ZombieThread(x, y - 1, this, imageViewer).start();
+					new ZombieThread(x, y - 1, this).start();
 				} else if (!landscape[x][y + 1].isInfested()
 						&& validateMove(0, 0, x, y + 1) && !isWater(x, y + 1)) {
 					landscape[x][y + 1].infest(true);
-					new ZombieThread(x, y + 1, this, imageViewer).start();
+					new ZombieThread(x, y + 1, this).start();
 				}
 			}
 		}
