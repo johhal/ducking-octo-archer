@@ -3,12 +3,12 @@ import java.util.ArrayList;
 public class HumanoidManager {
 
 	
-	private ArrayList<Humanoids> humanoids;
+	private ArrayList<Humanoid> humanoids;
 	private Landscape landscape;
 
 	public void Initialize(Landscape lAndscape) {
 		this.landscape = lAndscape;
-		humanoids = new ArrayList<Humanoids>();
+		humanoids = new ArrayList<Humanoid>();
 		for (int j = 0; j < landscape.getBoardHeight(); j++) {
 			for (int i = 0; i < landscape.getBoardWidth(); i++) {
 				double rnd = Math.random();
@@ -39,8 +39,7 @@ public class HumanoidManager {
 
 	public boolean addZombie(int xpos, int ypos) {
 		// Sätt ut zombies? zombiechans?
-		//new ZombieThread(xpos, ypos, landscape).start();
-		humanoids.add(new Humanoids(xpos, ypos, landscape));
+		humanoids.add(new Zombie(xpos, ypos, landscape));
 		return true;
 	}
 
