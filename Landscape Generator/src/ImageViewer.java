@@ -27,7 +27,9 @@ public class ImageViewer {
 
 	public void setActionListener(ActionListener listener) {
 		zombieItem.addActionListener(listener);
+		zombieItem.setActionCommand("zombie");
 		humanItem.addActionListener(listener);
+		humanItem.setActionCommand("human");
 	}
 
 	public void initComponents() {

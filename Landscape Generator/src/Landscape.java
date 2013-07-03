@@ -152,14 +152,14 @@ public class Landscape implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		if (SwingUtilities.isLeftMouseButton(e)) {
-			System.out.println("X:" + e.getX());
-			System.out.println("Y:" + e.getY());
-
-			System.out.println("Tile X:" + (e.getX() / tileSize));
-			System.out.println("Tile Y:" + (e.getY() / tileSize));
-			spawnHuman(e.getX() / tileSize, e.getY() / tileSize);
-		}
+//		if (SwingUtilities.isLeftMouseButton(e)) {
+//			System.out.println("X:" + e.getX());
+//			System.out.println("Y:" + e.getY());
+//
+//			System.out.println("Tile X:" + (e.getX() / tileSize));
+//			System.out.println("Tile Y:" + (e.getY() / tileSize));
+//			spawnHuman(e.getX() / tileSize, e.getY() / tileSize);
+//		}
 	}
 
 	public void mouseEntered(MouseEvent e) {

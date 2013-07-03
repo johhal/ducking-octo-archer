@@ -13,35 +13,46 @@ public class InputManager implements MouseListener, ActionListener {
 	private boolean rightMouseClicked = false;
 	public Point clickLocation;
 	JPopupMenu popMenu;
+	private boolean spawnZombieSelected = false;
+	private boolean spawnHumanSelected = false;
 
-	public InputManager() {
-		popMenu=new JPopupMenu();
+	public void Initilize() {
+		popMenu = new JPopupMenu();
 		JMenuItem zombieItem = new JMenuItem("Zombies");
 		JMenuItem humanItem = new JMenuItem("Human");
-        zombieItem.addActionListener(new ActionListener() {
+		zombieItem.addActionListener(new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("ZOMBIES!!!");
-            }
-        });
-        humanItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				spawnZombieSelected = true;
+				spawnHumanSelected = false;
+			}
+		});
+		humanItem.addActionListener(new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("HUMAN!!!");
-            }
-        });
-        
-        popMenu.add(zombieItem);
-        popMenu.add(humanItem);
-        
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				spawnZombieSelected = false;
+				spawnHumanSelected = true;
+			}
+		});
+
+		popMenu.add(zombieItem);
+		popMenu.add(humanItem);
+	}
+
+	public boolean spawnZombieSelected() {
+		return spawnZombieSelected;
+	}
+
+	public boolean spawnHumanSelected() {
+		return spawnHumanSelected;
 	}
 
 	public boolean isLeftMouseClicked() {
 		return leftMouseClicked;
 	}
-	
+
 	public boolean isRightMouseClicked() {
 		return rightMouseClicked;
 	}
@@ -57,12 +68,12 @@ public class InputManager implements MouseListener, ActionListener {
 		if (SwingUtilities.isLeftMouseButton(arg0)) {
 			leftMouseClicked = true;
 			clickLocation = new Point(arg0.getX(), arg0.getY());
+			System.out.println("Left mouse clicked");
 		}
-		if(SwingUtilities.isRightMouseButton(arg0)){
+		if (SwingUtilities.isRightMouseButton(arg0)) {
 			rightMouseClicked = true;
 			clickLocation = new Point(arg0.getX(), arg0.getY());
-			popMenu.setPopupSize(50, 10);
-	        popMenu.show(arg0.getComponent(), arg0.getX(), arg0.getY());
+			System.out.println("Right mouse clicked");
 		}
 	}
 
@@ -92,8 +103,16 @@ public class InputManager implements MouseListener, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		String command = e.getActionCommand();
+		if (command.equals("zombie")) {
+			spawnZombieSelected = true;
+			spawnHumanSelected = false;
+		}
+		if (command.equals("human")) {
+			spawnZombieSelected = false;
+			spawnHumanSelected = true;
+		}
+
 	}
 
 }

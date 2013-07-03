@@ -15,13 +15,13 @@ public class HumanoidManager extends Thread {
 				switch (current.getType()) {
 				case FORREST:
 					if (rnd < 0.01) {
-						current.infest(true);
+//						current.infest(true);
 						addZombie(i, j);
 					}
 					break;
 				case PLAIN:
 					if (rnd < 0.01) {
-						current.infest(true);
+//						current.infest(true);
 						addZombie(i, j);
 					}
 					break;
@@ -29,7 +29,7 @@ public class HumanoidManager extends Thread {
 					break;
 				case MOUNTAIN:
 					if (rnd < 0.01) {
-						current.infest(true);
+//						current.infest(true);
 						addZombie(i, j);
 					}
 					break;
