@@ -7,6 +7,7 @@ public class Human {
 	private long remainingSleepTime;
 	private long lastEntered;
 	private int fertility;
+	private boolean isWarrior;
 
 	public Human(int currentX, int currentY, Landscape landscape) {
 		this.currentX = currentX;
@@ -16,6 +17,10 @@ public class Human {
 		lastEntered = System.currentTimeMillis();
 		landscape.getTile(currentX, currentY).inhabited(true);
 		fertility = 0;
+		if(Math.random()<0.2){
+			System.out.println("A WARRIOR IS BORN!!!");
+			isWarrior = true;
+		}
 	}
 
 	private void generateSleepTime() {
@@ -93,6 +98,11 @@ public class Human {
 
 	public void setFertility(int i) {
 		fertility = i;
+	}
+
+	public boolean isWarrior() {
+		// TODO Auto-generated method stub
+		return isWarrior;
 	}
 
 }

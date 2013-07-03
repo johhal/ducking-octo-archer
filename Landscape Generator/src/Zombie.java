@@ -84,6 +84,9 @@ public class Zombie {
 			break;
 		}
 	}
+	public void kill() {
+		landscape.getTile(currentX, currentY).infest(false);
+	}
 
 	public void Draw() {
 

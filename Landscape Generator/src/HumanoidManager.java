@@ -73,8 +73,8 @@ public class HumanoidManager {
 			if (humans.get(i).getFertility() >= 100) {
 				Point pos = landscape.getNearbyAvailableLocation(humans.get(i)
 						.getPos().x, humans.get(i).getPos().y);
-				if(pos!=null){
-				addHuman(pos.x, pos.y);
+				if (pos != null) {
+					addHuman(pos.x, pos.y);
 				}
 				humans.get(i).setFertility(0);
 			}
@@ -97,14 +97,24 @@ public class HumanoidManager {
 		for (int i = 0; i < zombies.size(); i++) {
 			for (int j = 0; j < humans.size(); j++) {
 				if (zombies.get(i).getPos().equals(humans.get(j).getPos())) {
-					humans.get(j).kill();
-					Point pos = landscape.getNearbyAvailableLocation(zombies
-							.get(i).getPos().x, zombies.get(i).getPos().y);
-					if(pos!=null){
-					addZombie(pos.x, pos.y);
+					if (!humans.get(j).isWarrior()) {
+						humans.get(j).kill();
+						Point pos = landscape.getNearbyAvailableLocation(
+								zombies.get(i).getPos().x, zombies.get(i)
+										.getPos().y);
+						if (pos != null) {
+							addZombie(pos.x, pos.y);
+						}
+						humans.remove(j);
+					}else{
+						if(Math.random()<0.9){
+							zombies.get(i).kill();
+							zombies.remove(i);
+							System.out.println("A ZOMBIE HAS BEEN SLAYED BY A GREAT WARRIOR!!!");
+						}
 					}
-					humans.remove(j);
 					return true;
+
 				}
 			}
 		}

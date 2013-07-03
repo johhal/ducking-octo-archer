@@ -15,7 +15,7 @@ public class GameManager {
 		// Storlek på områden och antal områden
 		boardWidth = 50;
 		boardHeight = 50;
-		tileSize = 10;
+		tileSize = 20;
 
 		// Skapa Fönster
 		viewer = new ImageViewer();
