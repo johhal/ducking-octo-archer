@@ -1,17 +1,25 @@
+import java.awt.Point;
 
-public class Zombie extends Humanoid {
 
+public class Zombie {
+	private int currentX;
+	private int currentY;
+	private Landscape landscape;
 	private long remainingSleepTime;
 	private long lastEntered;
 
 	public Zombie(int currentX, int currentY, Landscape landscape) {
-		super(currentX, currentY, landscape);
+		this.currentX = currentX;
+		this.currentY = currentY;
+		this.landscape = landscape;
 		generateSleepTime();
 		lastEntered = System.currentTimeMillis();
 		landscape.getTile(currentX,currentY).infest(true);
 		// TODO Auto-generated constructor stub
 	}
-
+	public Point getPos(){
+		return new Point(currentX, currentY);
+	}
 
 	public void Initialize() {
 	}
@@ -34,7 +42,7 @@ public class Zombie extends Humanoid {
 		}
 	}
 
-	public void move() {
+	private void move() {
 		int rnd = (int) (Math.random() * 4);
 		int newX = currentX;
 		int newY = currentY;
@@ -52,9 +60,11 @@ public class Zombie extends Humanoid {
 			newY = currentY - 1;
 			break;
 		}
-		if (landscape.moveZombie(currentX, currentY, newX, newY)) {
+		if (landscape.canMoveZombie(currentX, currentY, newX, newY)) {
+			landscape.getTile(currentX, currentY).infest(false);
 			currentX = newX;
 			currentY = newY;
+			landscape.getTile(currentX, currentY).infest(true);
 		}
 	}
 

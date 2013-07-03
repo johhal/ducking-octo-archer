@@ -34,7 +34,6 @@ public class GameManager {
 		f.pack();
 		f.setLocationByPlatform(true);
 		f.setVisible(true);
-		viewer.setMouseListener(landscape);
 
 		// Skapa Varelser
 		humanoidManager = new HumanoidManager();
@@ -60,15 +59,11 @@ public class GameManager {
 						.getX() / tileSize, (int) inputManager
 						.getClickLocation().getY() / tileSize);
 			} else {
-				landscape.spawnHuman((int) inputManager.getClickLocation()
+				humanoidManager.addHuman((int) inputManager.getClickLocation()
 						.getX() / tileSize, (int) inputManager
 						.getClickLocation().getY() / tileSize);
 			}
 		}
-
-		// if (inputManager.isRightMouseClicked()) {
-		// System.out.println("right mouse pressed, wont do shit");
-		// }
 	}
 
 	public void Draw() {
