@@ -19,7 +19,7 @@ public class GameManager {
 	
 	Landscape landscape;
 	
-	public int Initzialize()
+	public int Initialize()
 	{
 		//Storlek på områden och antal områden
 		boardWidth = 50;
@@ -33,9 +33,9 @@ public class GameManager {
 		LandscapeGenerator landGen = new LandscapeGenerator();
 		landscape = new Landscape(landGen.generate(boardWidth, boardHeight), tileSize, viewer);		
 		
+		//Skärmstuff
 		JFrame f = new JFrame("World map");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 		
 		f.setContentPane(viewer.getGui());
 
@@ -44,9 +44,11 @@ public class GameManager {
 		f.setVisible(true);
 		viewer.setMouseListener(landscape);
 				
+		//Skapa Varelser
 		humanoidManager = new HumanoidManager();
-		humanoidManager.Initzialize(landscape);
+		humanoidManager.Initialize(landscape);
 		
+		//Spela!!
 		while (true) {
 			Update();
 			Draw();

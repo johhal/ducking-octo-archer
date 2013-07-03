@@ -14,6 +14,6 @@ public class Tester {
 	 */
 	public static void main(String[] args) {
 		GameManager game = new GameManager();
-		game.Initzialize();
+		game.Initialize();
 	}
 }
