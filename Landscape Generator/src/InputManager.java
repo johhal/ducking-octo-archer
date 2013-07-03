@@ -15,30 +15,9 @@ public class InputManager implements MouseListener, ActionListener {
 	JPopupMenu popMenu;
 	private boolean spawnZombieSelected = false;
 	private boolean spawnHumanSelected = false;
+	private boolean spawnHouseSelected = false;
 
 	public void Initilize() {
-		popMenu = new JPopupMenu();
-		JMenuItem zombieItem = new JMenuItem("Zombies");
-		JMenuItem humanItem = new JMenuItem("Human");
-		zombieItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				spawnZombieSelected = true;
-				spawnHumanSelected = false;
-			}
-		});
-		humanItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				spawnZombieSelected = false;
-				spawnHumanSelected = true;
-			}
-		});
-
-		popMenu.add(zombieItem);
-		popMenu.add(humanItem);
 	}
 
 	public boolean spawnZombieSelected() {
@@ -105,12 +84,17 @@ public class InputManager implements MouseListener, ActionListener {
 		if (command.equals("zombie")) {
 			spawnZombieSelected = true;
 			spawnHumanSelected = false;
+			spawnHouseSelected = false;
 		}
 		if (command.equals("human")) {
 			spawnZombieSelected = false;
 			spawnHumanSelected = true;
+			spawnHouseSelected = false;
 		}
-
+		if (command.equals("house")) {
+			spawnZombieSelected = false;
+			spawnHumanSelected = false;
+			spawnHouseSelected = true;
+		}
 	}
-
 }

@@ -3,15 +3,16 @@ import java.util.ArrayList;
 
 public class HumanoidManager {
 
-	
 	private ArrayList<Zombie> zombies;
 	private ArrayList<Human> humans;
+	private ArrayList<House> houses;
 	private Landscape landscape;
 
 	public void Initialize(Landscape lAndscape) {
 		this.landscape = lAndscape;
 		zombies = new ArrayList<Zombie>();
 		humans = new ArrayList<Human>();
+		houses = new ArrayList<House>();
 		for (int j = 0; j < landscape.getBoardHeight(); j++) {
 			for (int i = 0; i < landscape.getBoardWidth(); i++) {
 				double rnd = Math.random();
@@ -45,8 +46,14 @@ public class HumanoidManager {
 		zombies.add(new Zombie(xpos, ypos, landscape));
 		return true;
 	}
+
 	public boolean addHuman(int xpos, int ypos) {
 		humans.add(new Human(xpos, ypos, landscape));
+		return true;
+	}
+
+	public boolean addHouse(int xpos, int ypos) {
+		houses.add(new House(xpos, ypos, landscape));
 		return true;
 	}
 
@@ -55,34 +62,47 @@ public class HumanoidManager {
 	}
 
 	public void Update() {
-		for(int i = 0; i < zombies.size(); i++)
-		{
+		for (int i = 0; i < zombies.size(); i++) {
 			zombies.get(i).Update();
 		}
-		while(zombieKillingSpree());
-		
-		for(int i=0;i<humans.size();i++){
+		while (zombieKillingSpree())
+			;
+
+		for (int i = 0; i < humans.size(); i++) {
 			humans.get(i).Update();
-			if(humans.get(i).getFertility()>=100){
-//				System.out.println("HUMANS ARE REPRODUCING!!!");
-				Point pos = landscape.getNearbyAvailableLocation(humans.get(i).getPos().x, humans.get(i).getPos().y);
-				addHuman(pos.x,pos.y);
+			if (humans.get(i).getFertility() >= 100) {
+				Point pos = landscape.getNearbyAvailableLocation(humans.get(i)
+						.getPos().x, humans.get(i).getPos().y);
+				if(pos!=null){
+				addHuman(pos.x, pos.y);
+				}
 				humans.get(i).setFertility(0);
 			}
 		}
-		
-//		System.out.println("Zombies: "+zombies.size());
-//		System.out.println("Humans: "+humans.size());
-		
+		for (int i = 0; i < houses.size(); i++) {
+			houses.get(i).Update();
+			if (houses.get(i).getFertility() >= 100) {
+
+				Point pos = landscape.getNearbyAvailableLocation(houses.get(i)
+						.getPos().x, houses.get(i).getPos().y);
+				if (pos != null) {
+					addHuman(pos.x, pos.y);
+				}
+				houses.get(i).setFertility(0);
+			}
+		}
 	}
 
 	private boolean zombieKillingSpree() {
-		for(int i = 0; i<zombies.size();i++){
-			for(int j = 0; j<humans.size();j++){
-				if(zombies.get(i).getPos().equals(humans.get(j).getPos())){
+		for (int i = 0; i < zombies.size(); i++) {
+			for (int j = 0; j < humans.size(); j++) {
+				if (zombies.get(i).getPos().equals(humans.get(j).getPos())) {
 					humans.get(j).kill();
-					Point pos = landscape.getNearbyAvailableLocation(zombies.get(i).getPos().x, zombies.get(i).getPos().y);
-					addZombie(pos.x,pos.y);
+					Point pos = landscape.getNearbyAvailableLocation(zombies
+							.get(i).getPos().x, zombies.get(i).getPos().y);
+					if(pos!=null){
+					addZombie(pos.x, pos.y);
+					}
 					humans.remove(j);
 					return true;
 				}

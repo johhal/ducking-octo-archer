@@ -15,6 +15,7 @@ public class Tile {
 	private double mountainThreshold;
 	private boolean containsZombies = false;
 	private boolean inhabited = false;
+	private boolean hasHouse = false;
 
 	public Tile(TypeEnum type) {
 		this.type = type;
@@ -112,13 +113,13 @@ public class Tile {
 		for (int i = 0; i < x; i++) {
 			for (int j = 0; j < y; j++) {
 				if (i == 0) {
-					image.setRGB(i,j, Color.black.getRGB());
+					image.setRGB(i, j, Color.black.getRGB());
 				} else if (j == 0) {
-					image.setRGB(i,j, Color.black.getRGB());
+					image.setRGB(i, j, Color.black.getRGB());
 				} else if (i == (x - 1)) {
-					image.setRGB(i,j, Color.black.getRGB());
+					image.setRGB(i, j, Color.black.getRGB());
 				} else if (j == (y - 1)) {
-					image.setRGB(i,j, Color.black.getRGB());
+					image.setRGB(i, j, Color.black.getRGB());
 				} else {
 					image.setRGB(i, j, getRGBA());
 				}
@@ -146,6 +147,9 @@ public class Tile {
 		}
 		if (inhabited) {
 			return new Color(255, 255, 255).getRGB();
+		}
+		if (hasHouse){
+			return new Color(100,50,0).getRGB();
 		}
 		switch (type) {
 		case FORREST:
@@ -175,5 +179,14 @@ public class Tile {
 			return "W";
 		}
 		return "#";
+	}
+
+	public boolean hasHouse() {
+		return hasHouse;
+	}
+
+	public void buildHouse(boolean b) {
+		hasHouse = b;
+
 	}
 }

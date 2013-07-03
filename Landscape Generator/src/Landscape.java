@@ -99,7 +99,7 @@ public class Landscape {
 	public Point getNearbyAvailableLocation(int x, int y) {
 		if (validateMove(0, 0, x, y) && !isWater(x, y)) {
 			if (!landscape[x][y].isInfested() && validateMove(0, 0, x, y)
-					&& !isWater(x, y) && !landscape[x][y].isInhabited()) {
+					&& !isWater(x, y) && !landscape[x][y].isInhabited()&&!landscape[x][y].hasHouse()) {
 				return new Point(x,y);
 			} else if (!landscape[x - 1][y].isInfested()
 					&& validateMove(0, 0, x - 1, y) && !isWater(x - 1, y)

@@ -58,8 +58,12 @@ public class GameManager {
 				humanoidManager.addZombie((int) inputManager.getClickLocation()
 						.getX() / tileSize, (int) inputManager
 						.getClickLocation().getY() / tileSize);
-			} else {
+			} else if (inputManager.spawnHumanSelected()){
 				humanoidManager.addHuman((int) inputManager.getClickLocation()
+						.getX() / tileSize, (int) inputManager
+						.getClickLocation().getY() / tileSize);
+			} else {
+				humanoidManager.addHouse((int) inputManager.getClickLocation()
 						.getX() / tileSize, (int) inputManager
 						.getClickLocation().getY() / tileSize);
 			}
