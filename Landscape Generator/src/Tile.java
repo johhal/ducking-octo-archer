@@ -161,6 +161,5 @@ public class Tile {
 
 	public void buildHouse(boolean b) {
 		hasHouse = b;
-
 	}
 }
