@@ -24,9 +24,6 @@ public class Zombie {
 	public Point getPos(){
 		return new Point(currentX, currentY);
 	}
-
-	public void initialize() {
-	}
 	
 	private void move() {
 		int rnd = (int) (Math.random() * 4);
@@ -73,28 +70,7 @@ public class Zombie {
 	public void kill() {
 		landscape.getTile(currentX, currentY).infest(false);
 	}
-
-	public void update() {
-		if (remainingSleepTime <= 0) {
-			//Has slept enough!
-			
-			//Genereate new sleep time
-			generateSleepTime();
-
-			//Randomize movement
-			move();
-
-		} else {
-			//Need more sleep!
-			remainingSleepTime = remainingSleepTime
-					- (System.currentTimeMillis() - lastEntered);
-			lastEntered = System.currentTimeMillis();
-		}
-	}
 	
-	public void draw(int tileSize) {
-		viewer.addImage(currentX*tileSize, currentY*tileSize, getTileImage(tileSize));
-	}
 	private BufferedImage getTileImage(int tileSize) {
 
 		BufferedImage image = new BufferedImage(tileSize, tileSize,
@@ -121,5 +97,29 @@ public class Zombie {
 	public int getRGBA() {
 		return new Color(255, 0, 0).getRGB();
 	}
+	
+	public void update() {
+		if (remainingSleepTime <= 0) {
+			//Has slept enough!
+			
+			//Genereate new sleep time
+			generateSleepTime();
+
+			//Randomize movement
+			move();
+
+		} else {
+			//Need more sleep!
+			remainingSleepTime = remainingSleepTime
+					- (System.currentTimeMillis() - lastEntered);
+			lastEntered = System.currentTimeMillis();
+		}
+	}
+	
+	public void draw(int tileSize) {
+		viewer.addImage(currentX*tileSize, currentY*tileSize, getTileImage(tileSize));
+	}
+	
+
 
 }

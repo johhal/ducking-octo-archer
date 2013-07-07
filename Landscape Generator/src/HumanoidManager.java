@@ -55,13 +55,13 @@ public class HumanoidManager {
 
 	public boolean addHuman(int xpos, int ypos) {
 		//Sätt ut människor
-		humans.add(new Human(xpos, ypos, landscape));
+		humans.add(new Human(xpos, ypos, landscape, viewer));
 		return true;
 	}
 
 	public boolean addHouse(int xpos, int ypos) {
 		//sätt ut hus
-		houses.add(new House(xpos, ypos, landscape));
+		houses.add(new House(xpos, ypos, landscape, viewer));
 		return true;
 	}
 
@@ -141,10 +141,10 @@ public class HumanoidManager {
 			z.draw(tileSize);
 		}
 		for(Human h: humans){
-			h.draw();
+			h.draw(tileSize);
 		}
 		for(House h: houses){
-			h.draw();
+			h.draw(tileSize);
 		}
 		viewer.redrawImage();
 	}
