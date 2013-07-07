@@ -95,6 +95,7 @@ public class Zombie {
 	public void draw(int tileSize) {
 		viewer.addImage(currentX*tileSize, currentY*tileSize, getTileImage(tileSize));
 	}
+	
 	private BufferedImage getTileImage(int tileSize) {
 
 		BufferedImage image = new BufferedImage(tileSize, tileSize,

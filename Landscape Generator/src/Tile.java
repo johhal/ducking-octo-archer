@@ -142,15 +142,6 @@ public class Tile {
 	}
 
 	public int getRGBA() {
-//		if (containsZombies) {
-//			return new Color(255, 0, 0).getRGB();
-//		}
-		if (inhabited) {
-			return new Color(255, 255, 255).getRGB();
-		}
-		if (hasHouse){
-			return new Color(100,50,0).getRGB();
-		}
 		switch (type) {
 		case FORREST:
 			return new Color(0, 255, 0).getRGB();
