@@ -7,9 +7,11 @@ public class HumanoidManager {
 	private ArrayList<Human> humans;
 	private ArrayList<House> houses;
 	private Landscape landscape;
+	private ImageViewer viewer;
 
-	public void initialize(Landscape _landscape) {
+	public void initialize(Landscape _landscape, ImageViewer viewer) {
 		this.landscape = _landscape;
+		this.viewer = viewer;
 		
 		//Initiera zombies + människor + hus
 		zombies = new ArrayList<Zombie>();
@@ -47,7 +49,7 @@ public class HumanoidManager {
 
 	public boolean addZombie(int xpos, int ypos) {
 		// Sätt ut zombies?
-		zombies.add(new Zombie(xpos, ypos, landscape));
+		zombies.add(new Zombie(xpos, ypos, landscape, viewer));
 		return true;
 	}
 
@@ -134,7 +136,16 @@ public class HumanoidManager {
 	}
 
 
-	public void draw() {
-		
+	public void draw(int tileSize) {
+		for(Zombie z: zombies){
+			z.draw(tileSize);
+		}
+		for(Human h: humans){
+			h.draw();
+		}
+		for(House h: houses){
+			h.draw();
+		}
+		viewer.redrawImage();
 	}
 }

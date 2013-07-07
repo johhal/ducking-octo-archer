@@ -37,7 +37,7 @@ public class GameManager {
 
 		// Skapa Varelser
 		humanoidManager = new HumanoidManager();
-		humanoidManager.initialize(landscape);
+		humanoidManager.initialize(landscape, viewer);
 		
 		//Skapa lyssnare till mus/tangentbord
 		inputManager = new InputManager();
@@ -81,5 +81,6 @@ public class GameManager {
 
 	public void draw() {
 		viewer.setImage(landscape.getLandscapeImg());
+		humanoidManager.draw(tileSize);
 	}
 }

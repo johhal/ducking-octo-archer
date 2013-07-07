@@ -1,4 +1,6 @@
+import java.awt.Color;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 
 
 public class Zombie {
@@ -7,14 +9,16 @@ public class Zombie {
 	private Landscape landscape;
 	private long remainingSleepTime;
 	private long lastEntered;
+	private ImageViewer viewer;
 
-	public Zombie(int currentX, int currentY, Landscape landscape) {
+	public Zombie(int currentX, int currentY, Landscape landscape, ImageViewer viewer) {
 		this.currentX = currentX;
 		this.currentY = currentY;
 		this.landscape = landscape;
 		generateSleepTime();
 		lastEntered = System.currentTimeMillis();
 		landscape.getTile(currentX,currentY).infest(true);
+		this.viewer = viewer;
 		// TODO Auto-generated constructor stub
 	}
 	public Point getPos(){
@@ -88,8 +92,34 @@ public class Zombie {
 		}
 	}
 	
-	public void draw() {
+	public void draw(int tileSize) {
+		viewer.addImage(currentX*tileSize, currentY*tileSize, getTileImage(tileSize));
+	}
+	private BufferedImage getTileImage(int tileSize) {
 
+		BufferedImage image = new BufferedImage(tileSize, tileSize,
+				BufferedImage.TYPE_INT_ARGB);
+		for (int i = 0; i < tileSize; i++) {
+			for (int j = 0; j < tileSize; j++) {
+				if (i == 0) {
+					image.setRGB(i, j, Color.black.getRGB());
+				} else if (j == 0) {
+					image.setRGB(i, j, Color.black.getRGB());
+				} else if (i == (tileSize - 1)) {
+					image.setRGB(i, j, Color.black.getRGB());
+				} else if (j == (tileSize - 1)) {
+					image.setRGB(i, j, Color.black.getRGB());
+				} else {
+					image.setRGB(i, j, getRGBA());
+				}
+			}
+		}
+
+		return image;
+	}
+	
+	public int getRGBA() {
+		return new Color(255, 0, 0).getRGB();
 	}
 
 }

@@ -43,6 +43,7 @@ public class ImageViewer {
 		currentImage = image;
 		redrawImage();
 	}
+	
 	public void redrawImage(){
 		imageCanvas.setIcon(new ImageIcon(currentImage));
 	}

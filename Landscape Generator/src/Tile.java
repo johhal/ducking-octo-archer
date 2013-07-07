@@ -142,9 +142,9 @@ public class Tile {
 	}
 
 	public int getRGBA() {
-		if (containsZombies) {
-			return new Color(255, 0, 0).getRGB();
-		}
+//		if (containsZombies) {
+//			return new Color(255, 0, 0).getRGB();
+//		}
 		if (inhabited) {
 			return new Color(255, 255, 255).getRGB();
 		}
