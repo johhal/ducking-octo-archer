@@ -11,11 +11,11 @@ public class GameManager {
 
 	Landscape landscape;
 
-	public int Initialize() {
+	public void initialize(int _boardWidth, int _boardHeight, int _tileSize) {
 		// Storlek på områden och antal områden
-		boardWidth = 50;
-		boardHeight = 50;
-		tileSize = 20;
+		boardWidth = _boardWidth;
+		boardHeight = _boardHeight;
+		tileSize = _tileSize;
 
 		// Skapa Fönster
 		viewer = new ImageViewer();
@@ -38,19 +38,28 @@ public class GameManager {
 		// Skapa Varelser
 		humanoidManager = new HumanoidManager();
 		humanoidManager.Initialize(landscape);
+		
+		//Skapa lyssnare till mus/tangentbord
 		inputManager = new InputManager();
 		inputManager.Initilize();
+		
+		//mer skärmstuff
 		viewer.setActionListener(inputManager);
 		viewer.setMouseListener(inputManager);
 
 		// Spela!!
+		run();
+
+	}
+
+	public void run()
+	{
 		while (true) {
 			Update();
 			Draw();
 		}
 
 	}
-
 	public void Update() {
 		humanoidManager.Update();
 		if (inputManager.isLeftMouseClicked()) {

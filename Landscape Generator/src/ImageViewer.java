@@ -113,6 +113,7 @@ public class ImageViewer {
 	}
 
 	private void initPopupMenu() {
+		//Initsierar popupp-menyerna
 		popMenu = new JPopupMenu();
 		zombieItem = new JMenuItem("Zombies");
 		zombieItem.setActionCommand("zombie");
@@ -123,7 +124,8 @@ public class ImageViewer {
 	}
 	
 	private void initButtons(){
-
+		//Ladda in bilder och initsiera knappar.
+		
 		zombieButton = new JToggleButton("Zombie");
 	    zombieButton.setMnemonic(KeyEvent.VK_B);
 	    zombieButton.setActionCommand("zombie");

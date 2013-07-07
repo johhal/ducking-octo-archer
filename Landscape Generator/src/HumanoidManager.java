@@ -8,11 +8,15 @@ public class HumanoidManager {
 	private ArrayList<House> houses;
 	private Landscape landscape;
 
-	public void Initialize(Landscape lAndscape) {
-		this.landscape = lAndscape;
+	public void Initialize(Landscape _landscape) {
+		this.landscape = _landscape;
+		
+		//Initiera zombies + människor + hus
 		zombies = new ArrayList<Zombie>();
 		humans = new ArrayList<Human>();
 		houses = new ArrayList<House>();
+		
+		//Slumpa ut zombies
 		for (int j = 0; j < landscape.getBoardHeight(); j++) {
 			for (int i = 0; i < landscape.getBoardWidth(); i++) {
 				double rnd = Math.random();
@@ -42,17 +46,19 @@ public class HumanoidManager {
 	}
 
 	public boolean addZombie(int xpos, int ypos) {
-		// Sätt ut zombies? zombiechans?
+		// Sätt ut zombies?
 		zombies.add(new Zombie(xpos, ypos, landscape));
 		return true;
 	}
 
 	public boolean addHuman(int xpos, int ypos) {
+		//Sätt ut människor
 		humans.add(new Human(xpos, ypos, landscape));
 		return true;
 	}
 
 	public boolean addHouse(int xpos, int ypos) {
+		//sätt ut hus
 		houses.add(new House(xpos, ypos, landscape));
 		return true;
 	}
@@ -62,12 +68,14 @@ public class HumanoidManager {
 	}
 
 	public void Update() {
+		//Uppdatera Zombies
 		for (int i = 0; i < zombies.size(); i++) {
 			zombies.get(i).Update();
 		}
 		while (zombieKillingSpree())
 			;
-
+		
+		//Uppdatera Människor
 		for (int i = 0; i < humans.size(); i++) {
 			humans.get(i).Update();
 			if (humans.get(i).getFertility() >= 100) {
@@ -79,6 +87,8 @@ public class HumanoidManager {
 				humans.get(i).setFertility(0);
 			}
 		}
+		
+		//Uppdatera Hus
 		for (int i = 0; i < houses.size(); i++) {
 			houses.get(i).Update();
 			if (houses.get(i).getFertility() >= 100) {
@@ -94,6 +104,7 @@ public class HumanoidManager {
 	}
 
 	private boolean zombieKillingSpree() {
+		//Skapa nya zombies och kolla om de stå på en människa, isf skapa ny zombie.
 		for (int i = 0; i < zombies.size(); i++) {
 			for (int j = 0; j < humans.size(); j++) {
 				if (zombies.get(i).getPos().equals(humans.get(j).getPos())) {
@@ -122,6 +133,6 @@ public class HumanoidManager {
 	}
 
 	public void Draw() {
-
+		
 	}
 }
