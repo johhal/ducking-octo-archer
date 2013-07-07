@@ -1,21 +1,34 @@
-import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.IOException;
+import java.awt.image.BufferedImage;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 public class ImageViewer {
 
 	JPanel gui;
 	/** Displays the image. */
+	int image_type = BufferedImage.TYPE_INT_ARGB;
 	JLabel imageCanvas;
+	BufferedImage currentImage;
 	JPopupMenu popMenu;
 	JMenuItem zombieItem;
 	JMenuItem humanItem;
@@ -26,8 +39,12 @@ public class ImageViewer {
 	ButtonGroup group;
 
 	/** Set the image as icon of the image canvas (display it). */
-	public void setImage(Image image) {
-		imageCanvas.setIcon(new ImageIcon(image));
+	public void setImage(BufferedImage image) {
+		currentImage = image;
+		redrawImage();
+	}
+	public void redrawImage(){
+		imageCanvas.setIcon(new ImageIcon(currentImage));
 	}
 
 	public void setMouseListener(MouseListener click) {
@@ -42,6 +59,11 @@ public class ImageViewer {
 		zombieButton.addActionListener(listener);
 	    humanButton.addActionListener(listener);
 	    houseButton.addActionListener(listener);
+	}
+	
+	public void addImage(int startX, int startY, BufferedImage image){
+		currentImage.createGraphics().drawImage(
+						image, startX, startY, null);
 	}
 
 	public void initComponents() {
