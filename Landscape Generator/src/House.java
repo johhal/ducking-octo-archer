@@ -36,25 +36,6 @@ public class House {
 		landscape.getTile(currentX, currentY).inhabited(false);
 	}
 
-	public void Update() {
-		if (remainingSleepTime <= 0) {
-			//Has slept enough!
-			
-			//Genereate new sleep time
-			generateSleepTime();
-			generateFertility();
-			//Randomize movement
-//			move();
-
-		} else {
-			//Need more sleep!
-			remainingSleepTime = remainingSleepTime
-					- (System.currentTimeMillis() - lastEntered);
-			lastEntered = System.currentTimeMillis();
-		}
-		
-	}
-
 	private void generateFertility() {
 		switch (landscape.getTile(currentX, currentY).getType()) {
 		case WATER:
@@ -83,13 +64,33 @@ public class House {
 			}
 		}
 	}
-
-	public void Draw() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	public void setFertility(int i) {
 		fertility = i;
+	}
+	
+	public void update() {
+		if (remainingSleepTime <= 0) {
+			//Has slept enough!
+			
+			//Genereate new sleep time
+			generateSleepTime();
+			generateFertility();
+			//Randomize movement
+//			move();
+
+		} else {
+			//Need more sleep!
+			remainingSleepTime = remainingSleepTime
+					- (System.currentTimeMillis() - lastEntered);
+			lastEntered = System.currentTimeMillis();
+		}
+		
+	}
+
+	public void draw() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -163,24 +163,7 @@ public class Tile {
 		}
 		return new Color(255, 255, 255).getRGB();
 	}
-
-	public String toString() {
-		if (containsZombies) {
-			return "Z";
-		}
-		switch (type) {
-		case FORREST:
-			return "F";
-		case PLAIN:
-			return "P";
-		case MOUNTAIN:
-			return "M";
-		case WATER:
-			return "W";
-		}
-		return "#";
-	}
-
+	
 	public boolean hasHouse() {
 		return hasHouse;
 	}

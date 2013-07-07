@@ -28,7 +28,7 @@ public class Human {
 
 	}
 
-	public void Initialize() {
+	public void initialize() {
 		// TODO Auto-generated method stub
 
 	}
@@ -39,25 +39,6 @@ public class Human {
 
 	public void kill() {
 		landscape.getTile(currentX, currentY).inhabited(false);
-	}
-
-	public void Update() {
-		if (remainingSleepTime <= 0) {
-			// Has slept enough!
-
-			// Genereate new sleep time
-			generateSleepTime();
-			generateFertility();
-			// Randomize movement
-			// move();
-
-		} else {
-			// Need more sleep!
-			remainingSleepTime = remainingSleepTime
-					- (System.currentTimeMillis() - lastEntered);
-			lastEntered = System.currentTimeMillis();
-		}
-
 	}
 
 	private void generateFertility() {
@@ -91,11 +72,6 @@ public class Human {
 		}
 	}
 
-	public void Draw() {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void setFertility(int i) {
 		fertility = i;
 	}
@@ -103,6 +79,30 @@ public class Human {
 	public boolean isWarrior() {
 		// TODO Auto-generated method stub
 		return isWarrior;
+	}
+	
+	public void update() {
+		if (remainingSleepTime <= 0) {
+			// Has slept enough!
+
+			// Genereate new sleep time
+			generateSleepTime();
+			generateFertility();
+			// Randomize movement
+			// move();
+
+		} else {
+			// Need more sleep!
+			remainingSleepTime = remainingSleepTime
+					- (System.currentTimeMillis() - lastEntered);
+			lastEntered = System.currentTimeMillis();
+		}
+
+	}
+	
+	public void draw() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

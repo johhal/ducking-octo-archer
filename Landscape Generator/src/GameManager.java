@@ -37,11 +37,11 @@ public class GameManager {
 
 		// Skapa Varelser
 		humanoidManager = new HumanoidManager();
-		humanoidManager.Initialize(landscape);
+		humanoidManager.initialize(landscape);
 		
 		//Skapa lyssnare till mus/tangentbord
 		inputManager = new InputManager();
-		inputManager.Initilize();
+		inputManager.initilize();
 		
 		//mer skärmstuff
 		viewer.setActionListener(inputManager);
@@ -55,13 +55,13 @@ public class GameManager {
 	public void run()
 	{
 		while (true) {
-			Update();
-			Draw();
+			update();
+			draw();
 		}
 
 	}
-	public void Update() {
-		humanoidManager.Update();
+	public void update() {
+		humanoidManager.update();
 		if (inputManager.isLeftMouseClicked()) {
 			if (inputManager.spawnZombieSelected()) {
 				humanoidManager.addZombie((int) inputManager.getClickLocation()
@@ -79,7 +79,7 @@ public class GameManager {
 		}
 	}
 
-	public void Draw() {
+	public void draw() {
 		viewer.setImage(landscape.getLandscapeImg());
 	}
 }

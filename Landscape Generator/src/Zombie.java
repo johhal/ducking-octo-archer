@@ -21,27 +21,9 @@ public class Zombie {
 		return new Point(currentX, currentY);
 	}
 
-	public void Initialize() {
+	public void initialize() {
 	}
 	
-	public void Update() {
-		if (remainingSleepTime <= 0) {
-			//Has slept enough!
-			
-			//Genereate new sleep time
-			generateSleepTime();
-
-			//Randomize movement
-			move();
-
-		} else {
-			//Need more sleep!
-			remainingSleepTime = remainingSleepTime
-					- (System.currentTimeMillis() - lastEntered);
-			lastEntered = System.currentTimeMillis();
-		}
-	}
-
 	private void move() {
 		int rnd = (int) (Math.random() * 4);
 		int newX = currentX;
@@ -88,7 +70,25 @@ public class Zombie {
 		landscape.getTile(currentX, currentY).infest(false);
 	}
 
-	public void Draw() {
+	public void update() {
+		if (remainingSleepTime <= 0) {
+			//Has slept enough!
+			
+			//Genereate new sleep time
+			generateSleepTime();
+
+			//Randomize movement
+			move();
+
+		} else {
+			//Need more sleep!
+			remainingSleepTime = remainingSleepTime
+					- (System.currentTimeMillis() - lastEntered);
+			lastEntered = System.currentTimeMillis();
+		}
+	}
+	
+	public void draw() {
 
 	}
 

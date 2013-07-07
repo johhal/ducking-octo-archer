@@ -8,7 +8,7 @@ public class HumanoidManager {
 	private ArrayList<House> houses;
 	private Landscape landscape;
 
-	public void Initialize(Landscape _landscape) {
+	public void initialize(Landscape _landscape) {
 		this.landscape = _landscape;
 		
 		//Initiera zombies + människor + hus
@@ -66,45 +66,10 @@ public class HumanoidManager {
 	public boolean removeZombie() {
 		return true;
 	}
-
-	public void Update() {
-		//Uppdatera Zombies
-		for (int i = 0; i < zombies.size(); i++) {
-			zombies.get(i).Update();
-		}
-		while (zombieKillingSpree())
-			;
-		
-		//Uppdatera Människor
-		for (int i = 0; i < humans.size(); i++) {
-			humans.get(i).Update();
-			if (humans.get(i).getFertility() >= 100) {
-				Point pos = landscape.getNearbyAvailableLocation(humans.get(i)
-						.getPos().x, humans.get(i).getPos().y);
-				if (pos != null) {
-					addHuman(pos.x, pos.y);
-				}
-				humans.get(i).setFertility(0);
-			}
-		}
-		
-		//Uppdatera Hus
-		for (int i = 0; i < houses.size(); i++) {
-			houses.get(i).Update();
-			if (houses.get(i).getFertility() >= 100) {
-
-				Point pos = landscape.getNearbyAvailableLocation(houses.get(i)
-						.getPos().x, houses.get(i).getPos().y);
-				if (pos != null) {
-					addHuman(pos.x, pos.y);
-				}
-				houses.get(i).setFertility(0);
-			}
-		}
-	}
+	
 
 	private boolean zombieKillingSpree() {
-		//Skapa nya zombies och kolla om de stå på en människa, isf skapa ny zombie.
+		//Skapa nya zombies och kolla om de står på en människa, isf skapa ny zombie.
 		for (int i = 0; i < zombies.size(); i++) {
 			for (int j = 0; j < humans.size(); j++) {
 				if (zombies.get(i).getPos().equals(humans.get(j).getPos())) {
@@ -132,7 +97,44 @@ public class HumanoidManager {
 		return false;
 	}
 
-	public void Draw() {
+	public void update() {
+		//Uppdatera Zombies
+		for (int i = 0; i < zombies.size(); i++) {
+			zombies.get(i).update();
+		}
+		while (zombieKillingSpree())
+			;
+		
+		//Uppdatera Människor
+		for (int i = 0; i < humans.size(); i++) {
+			humans.get(i).update();
+			if (humans.get(i).getFertility() >= 100) {
+				Point pos = landscape.getNearbyAvailableLocation(humans.get(i)
+						.getPos().x, humans.get(i).getPos().y);
+				if (pos != null) {
+					addHuman(pos.x, pos.y);
+				}
+				humans.get(i).setFertility(0);
+			}
+		}
+		
+		//Uppdatera Hus
+		for (int i = 0; i < houses.size(); i++) {
+			houses.get(i).update();
+			if (houses.get(i).getFertility() >= 100) {
+
+				Point pos = landscape.getNearbyAvailableLocation(houses.get(i)
+						.getPos().x, houses.get(i).getPos().y);
+				if (pos != null) {
+					addHuman(pos.x, pos.y);
+				}
+				houses.get(i).setFertility(0);
+			}
+		}
+	}
+
+
+	public void draw() {
 		
 	}
 }

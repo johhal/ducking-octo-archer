@@ -156,6 +156,7 @@ public class ImageViewer {
 	}
 
 	public Container getGui() {
+		
 		initComponents();
 		return gui;
 	}

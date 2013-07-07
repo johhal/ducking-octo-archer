@@ -17,7 +17,7 @@ public class InputManager implements MouseListener, ActionListener {
 	private boolean spawnHumanSelected = false;
 	private boolean spawnHouseSelected = false;
 
-	public void Initilize() {
+	public void initilize() {
 	}
 
 	public boolean spawnZombieSelected() {
