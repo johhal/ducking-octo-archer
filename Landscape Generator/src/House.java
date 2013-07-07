@@ -1,4 +1,6 @@
+import java.awt.Color;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 
 
 public class House {
@@ -8,11 +10,13 @@ public class House {
 	private long remainingSleepTime;
 	private long lastEntered;
 	private int fertility;
+	private ImageViewer viewer;
 	
-	public House(int currentX, int currentY, Landscape landscape) {
+	public House(int currentX, int currentY, Landscape landscape, ImageViewer imageViewer) {
 		this.currentX = currentX;
 		this.currentY = currentY;
 		this.landscape = landscape;
+		this.viewer = imageViewer;
 		generateSleepTime();
 		lastEntered = System.currentTimeMillis();
 		landscape.getTile(currentX,currentY).buildHouse(true);
@@ -55,19 +59,36 @@ public class House {
 	public int getFertility(){
 		return fertility;
 	}
-
-	private void move() {
-		if (landscape.getTile(currentX, currentY).isInhabited()) {
-			Point p = landscape.getNearbyAvailableLocation(currentX, currentY);
-			if(p!=null){
-			landscape.getTile((int)p.getX(),(int)p.getY()).inhabited(true);
-			}
-		}
-	}
 	
-
 	public void setFertility(int i) {
 		fertility = i;
+	}
+	
+	private BufferedImage getTileImage(int tileSize) {
+
+		BufferedImage image = new BufferedImage(tileSize, tileSize,
+				BufferedImage.TYPE_INT_ARGB);
+		for (int i = 0; i < tileSize; i++) {
+			for (int j = 0; j < tileSize; j++) {
+				if (i == 0) {
+					image.setRGB(i, j, Color.black.getRGB());
+				} else if (j == 0) {
+					image.setRGB(i, j, Color.black.getRGB());
+				} else if (i == (tileSize - 1)) {
+					image.setRGB(i, j, Color.black.getRGB());
+				} else if (j == (tileSize - 1)) {
+					image.setRGB(i, j, Color.black.getRGB());
+				} else {
+					image.setRGB(i, j, getRGBA());
+				}
+			}
+		}
+
+		return image;
+	}
+	
+	public int getRGBA() {
+		return new Color(100, 50, 0).getRGB();
 	}
 	
 	public void update() {
@@ -89,8 +110,7 @@ public class House {
 		
 	}
 
-	public void draw() {
-		// TODO Auto-generated method stub
-		
+	public void draw(int tileSize) {
+		viewer.addImage(currentX*tileSize, currentY*tileSize, getTileImage(tileSize));
 	}
 }
