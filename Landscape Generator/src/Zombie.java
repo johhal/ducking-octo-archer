@@ -69,8 +69,8 @@ public class Zombie {
 	}
 	public void kill() {
 		landscape.getTile(currentX, currentY).infest(false);
-	}
-	
+	}	
+
 	private BufferedImage getTileImage(int tileSize) {
 
 		BufferedImage image = new BufferedImage(tileSize, tileSize,
