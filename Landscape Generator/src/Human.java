@@ -63,12 +63,28 @@ public class Human {
 	}
 
 	private void move() {
-		if (landscape.getTile(currentX, currentY).isInhabited()) {
-			Point p = landscape.getNearbyAvailableLocation(currentX, currentY);
-			if (p != null) {
-				landscape.getTile((int) p.getX(), (int) p.getY()).inhabited(
-						true);
-			}
+		int rnd = (int) (Math.random() * 4);
+		int newX = currentX;
+		int newY = currentY;
+		switch (rnd) {
+		case 0:
+			newX = currentX + 1;
+			break;
+		case 1:
+			newX = currentX - 1;
+			break;
+		case 2:
+			newY = currentY + 1;
+			break;
+		case 3:
+			newY = currentY - 1;
+			break;
+		}
+		if (landscape.canMoveHuman(currentX, currentY, newX, newY)) {
+			landscape.getTile(currentX, currentY).inhabited(false);
+			currentX = newX;
+			currentY = newY;
+			landscape.getTile(currentX, currentY).inhabited(true);
 		}
 	}
 
@@ -88,6 +104,7 @@ public class Human {
 			// Genereate new sleep time
 			generateSleepTime();
 			generateFertility();
+			move();
 			// Randomize movement
 			// move();
 

@@ -5,7 +5,7 @@ public class Landscape {
 	private Tile[][] landscape;
 	private int sizeX;
 	private int sizeY;
-	
+
 	private int tileSize;
 	private ImageViewer imageViewer;
 
@@ -30,19 +30,19 @@ public class Landscape {
 		return tileSize;
 	}
 
-	public boolean canMoveZombie(int oldX, int oldY, int newX,
-			int newY) {
+	public boolean canMoveZombie(int oldX, int oldY, int newX, int newY) {
 		if (validateMove(oldX, oldY, newX, newY) && !isWater(newX, newY)) {
-			if (!landscape[newX][newY].isInfested()) {			
+			if (!landscape[newX][newY].isInfested()) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	public int getBoardWidth() {
 		return sizeX;
 	}
+
 	public int getBoardHeight() {
 		return sizeY;
 	}
@@ -90,51 +90,61 @@ public class Landscape {
 
 	public Point getNearbyAvailableLocation(int x, int y) {
 		if (validateMove(0, 0, x, y) && !isWater(x, y)) {
-			try{
+			try {
 				if (!landscape[x][y].isInfested() && validateMove(0, 0, x, y)
-						&& !isWater(x, y) && !landscape[x][y].isInhabited()&&!landscape[x][y].hasHouse()) {
-					return new Point(x,y);
+						&& !isWater(x, y) && !landscape[x][y].isInhabited()
+						&& !landscape[x][y].hasHouse()) {
+					return new Point(x, y);
 				} else if (!landscape[x - 1][y].isInfested()
 						&& validateMove(0, 0, x - 1, y) && !isWater(x - 1, y)
 						&& !landscape[x - 1][y].isInhabited()) {
-					return new Point(x-1,y);
+					return new Point(x - 1, y);
 				} else if (!landscape[x - 1][y - 1].isInfested()
 						&& validateMove(0, 0, x - 1, y - 1)
 						&& !isWater(x - 1, y - 1)
 						&& !landscape[x - 1][y - 1].isInhabited()) {
-					return new Point(x-1,y-1);
+					return new Point(x - 1, y - 1);
 				} else if (!landscape[x - 1][y + 1].isInfested()
 						&& validateMove(0, 0, x - 1, y + 1)
 						&& !isWater(x - 1, y + 1)
 						&& !landscape[x - 1][y + 1].isInhabited()) {
-					return new Point(x-1,y+1);
+					return new Point(x - 1, y + 1);
 				} else if (!landscape[x + 1][y].isInfested()
 						&& validateMove(0, 0, x + 1, y) && !isWater(x + 1, y)
 						&& !landscape[x + 1][y].isInhabited()) {
-					return new Point(x+1,y);
+					return new Point(x + 1, y);
 				} else if (!landscape[x + 1][y + 1].isInfested()
 						&& validateMove(0, 0, x + 1, y + 1)
 						&& !isWater(x + 1, y + 1)
 						&& !landscape[x + 1][y + 1].isInhabited()) {
-					return new Point(x+1,y+1);
+					return new Point(x + 1, y + 1);
 				} else if (!landscape[x + 1][y - 1].isInfested()
 						&& validateMove(0, 0, x + 1, y - 1)
 						&& !isWater(x + 1, y - 1)
 						&& !landscape[x + 1][y - 1].isInhabited()) {
-					return new Point(x+1,y-1);
+					return new Point(x + 1, y - 1);
 				} else if (!landscape[x][y - 1].isInfested()
 						&& validateMove(0, 0, x, y - 1) && !isWater(x, y - 1)
 						&& !landscape[x][y - 1].isInhabited()) {
-					return new Point(x,y-1);
+					return new Point(x, y - 1);
 				} else if (!landscape[x][y + 1].isInfested()
 						&& validateMove(0, 0, x, y + 1) && !isWater(x, y + 1)
 						&& !landscape[x][y + 1].isInhabited()) {
-					return new Point(x,y+1);
+					return new Point(x, y + 1);
 				}
-			}catch (ArrayIndexOutOfBoundsException e){
+			} catch (ArrayIndexOutOfBoundsException e) {
 				return null;
 			}
 		}
 		return null;
+	}
+
+	public boolean canMoveHuman(int oldX, int oldY, int newX, int newY) {
+		if (validateMove(oldX, oldY, newX, newY) && !isWater(newX, newY)) {
+			if (!landscape[newX][newY].isInfested()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
