@@ -154,7 +154,7 @@ public class Tile {
 		}
 		return new Color(255, 255, 255).getRGB();
 	}
-	
+
 	public boolean hasHouse() {
 		return hasHouse;
 	}
