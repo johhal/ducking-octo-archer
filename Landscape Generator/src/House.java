@@ -13,7 +13,7 @@ public class House extends Fighter{
 	private ImageViewer viewer;
 	
 	public House(int currentX, int currentY, Landscape landscape, ImageViewer imageViewer) {
-		super(10,2,4);
+		super(10,2,4,4,18);
 		this.currentX = currentX;
 		this.currentY = currentY;
 		this.landscape = landscape;

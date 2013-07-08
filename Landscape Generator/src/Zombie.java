@@ -12,7 +12,7 @@ public class Zombie extends Fighter{
 	private ImageViewer viewer;
 
 	public Zombie(int currentX, int currentY, Landscape landscape, ImageViewer viewer) {
-		super(7,4,7);
+		super(7,4,7, 6,16);
 		this.currentX = currentX;
 		this.currentY = currentY;
 		this.landscape = landscape;

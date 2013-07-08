@@ -13,11 +13,13 @@ public class Human extends Fighter {
 
 	public Human(int currentX, int currentY, Landscape landscape,
 			ImageViewer imageViewer) {
-		super(4, 2, 4);
+		super(4, 2, 4, 4, 15);
 		if (Math.random() < 0.2) {
 			setDamage(4);
 			setInitiative(10);
-			sethitPoints(10);
+			setHitPoints(10);
+			setArmor(18);
+			setAttack(8);
 		}
 		this.currentX = currentX;
 		this.currentY = currentY;
@@ -78,7 +80,6 @@ public class Human extends Fighter {
 		fertility = i;
 	}
 
-
 	private BufferedImage getTileImage(int tileSize) {
 
 		BufferedImage image = new BufferedImage(tileSize, tileSize,
@@ -103,7 +104,7 @@ public class Human extends Fighter {
 	}
 
 	public int getRGBA() {
-		int n = (int) (((double)getCurrentHitpoints() / (double)getMaxHitpoints()) * 255);
+		int n = (int) (((double) getCurrentHitpoints() / (double) getMaxHitpoints()) * 255);
 		return new Color(n, n, n).getRGB();
 	}
 
