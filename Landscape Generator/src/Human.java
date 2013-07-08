@@ -2,7 +2,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-public class Human {
+public class Human extends Fighter {
 	private int currentX;
 	private int currentY;
 	private Landscape landscape;
@@ -10,9 +10,15 @@ public class Human {
 	private ImageViewer viewer;
 	private long lastEntered;
 	private int fertility;
-	private boolean isWarrior;
-	
-	public Human(int currentX, int currentY, Landscape landscape, ImageViewer imageViewer) {
+
+	public Human(int currentX, int currentY, Landscape landscape,
+			ImageViewer imageViewer) {
+		super(4, 2, 4);
+		if (Math.random() < 0.2) {
+			setDamage(4);
+			setInitiative(10);
+			sethitPoints(10);
+		}
 		this.currentX = currentX;
 		this.currentY = currentY;
 		this.landscape = landscape;
@@ -21,10 +27,6 @@ public class Human {
 		lastEntered = System.currentTimeMillis();
 		landscape.getTile(currentX, currentY).inhabited(true);
 		fertility = 0;
-		if(Math.random()<0.2){
-			System.out.println("A WARRIOR IS BORN!!!");
-			isWarrior = true;
-		}
 	}
 
 	private void generateSleepTime() {
@@ -96,11 +98,6 @@ public class Human {
 		fertility = i;
 	}
 
-	public boolean isWarrior() {
-		// TODO Auto-generated method stub
-		return isWarrior;
-	}
-	
 	private BufferedImage getTileImage(int tileSize) {
 
 		BufferedImage image = new BufferedImage(tileSize, tileSize,
@@ -123,13 +120,12 @@ public class Human {
 
 		return image;
 	}
-	
+
 	public int getRGBA() {
-		return new Color(255, 255, 255).getRGB();
+		int n = (int) (((double)getCurrentHitpoints() / (double)getMaxHitpoints()) * 255);
+		return new Color(n, n, n).getRGB();
 	}
-	
-	
-	
+
 	public void update() {
 		if (remainingSleepTime <= 0) {
 			// Has slept enough!
@@ -149,9 +145,10 @@ public class Human {
 		}
 
 	}
-	
+
 	public void draw(int tileSize) {
-		viewer.addImage(currentX*tileSize, currentY*tileSize, getTileImage(tileSize));
+		viewer.addImage(currentX * tileSize, currentY * tileSize,
+				getTileImage(tileSize));
 	}
 
 }

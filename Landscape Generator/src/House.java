@@ -3,7 +3,7 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 
-public class House {
+public class House extends Fighter{
 	private int currentX;
 	private int currentY;
 	private Landscape landscape;
@@ -13,6 +13,7 @@ public class House {
 	private ImageViewer viewer;
 	
 	public House(int currentX, int currentY, Landscape landscape, ImageViewer imageViewer) {
+		super(10,2,4);
 		this.currentX = currentX;
 		this.currentY = currentY;
 		this.landscape = landscape;
@@ -88,7 +89,8 @@ public class House {
 	}
 	
 	public int getRGBA() {
-		return new Color(100, 50, 0).getRGB();
+		int n = (int) (((double)getCurrentHitpoints() / (double)getMaxHitpoints()) * 100);
+		return new Color(n, n/2, 0).getRGB();
 	}
 	
 	public void update() {

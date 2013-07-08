@@ -75,7 +75,12 @@ public class HumanoidManager {
 		for (int i = 0; i < zombies.size(); i++) {
 			for (int j = 0; j < humans.size(); j++) {
 				if (zombies.get(i).getPos().equals(humans.get(j).getPos())) {
-					if (!humans.get(j).isWarrior()) {
+					zombies.get(i).fight(humans.get(j));
+					if(zombies.get(i).getCurrentHitpoints()<=0){
+						zombies.get(i).kill();
+						zombies.remove(i);
+					}
+					if(humans.get(j).getCurrentHitpoints()<=0){
 						humans.get(j).kill();
 						Point pos = landscape.getNearbyAvailableLocation(
 								zombies.get(i).getPos().x, zombies.get(i)
@@ -84,15 +89,30 @@ public class HumanoidManager {
 							addZombie(pos.x, pos.y);
 						}
 						humans.remove(j);
-					}else{
-						if(Math.random()<0.9){
-							zombies.get(i).kill();
-							zombies.remove(i);
-							System.out.println("A ZOMBIE HAS BEEN SLAYED BY A GREAT WARRIOR!!!");
-						}
 					}
 					return true;
-
+				}
+			}
+		}
+		for (int i = 0; i < zombies.size(); i++) {
+			for (int j = 0; j < houses.size(); j++) {
+				if (zombies.get(i).getPos().equals(houses.get(j).getPos())) {
+					zombies.get(i).fight(houses.get(j));
+					if(zombies.get(i).getCurrentHitpoints()<=0){
+						zombies.get(i).kill();
+						zombies.remove(i);
+					}
+					if(houses.get(j).getCurrentHitpoints()<=0){
+						houses.get(j).kill();
+//						Point pos = landscape.getNearbyAvailableLocation(
+//								zombies.get(i).getPos().x, zombies.get(i)
+//										.getPos().y);
+//						if (pos != null) {
+//							addZombie(pos.x, pos.y);
+//						}
+						houses.remove(j);
+					}
+					return true;
 				}
 			}
 		}

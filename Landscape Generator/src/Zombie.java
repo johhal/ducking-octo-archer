@@ -3,7 +3,7 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 
-public class Zombie {
+public class Zombie extends Fighter{
 	private int currentX;
 	private int currentY;
 	private Landscape landscape;
@@ -12,6 +12,7 @@ public class Zombie {
 	private ImageViewer viewer;
 
 	public Zombie(int currentX, int currentY, Landscape landscape, ImageViewer viewer) {
+		super(7,4,7);
 		this.currentX = currentX;
 		this.currentY = currentY;
 		this.landscape = landscape;
@@ -95,7 +96,8 @@ public class Zombie {
 	}
 	
 	public int getRGBA() {
-		return new Color(255, 0, 0).getRGB();
+		int n = (int) (((double)getCurrentHitpoints() / (double)getMaxHitpoints()) * 255);
+		return new Color(n, 0, 0).getRGB();
 	}
 	
 	public void update() {
