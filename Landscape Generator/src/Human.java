@@ -27,6 +27,7 @@ public class Human extends Fighter {
 		lastEntered = System.currentTimeMillis();
 		landscape.getTile(currentX, currentY).inhabited(true);
 		fertility = 0;
+
 	}
 
 	private void generateSleepTime() {
@@ -45,27 +46,6 @@ public class Human extends Fighter {
 
 	public void kill() {
 		landscape.getTile(currentX, currentY).inhabited(false);
-	}
-
-	private void generateFertility() {
-		switch (landscape.getTile(currentX, currentY).getType()) {
-		case WATER:
-			// atm
-			break;
-		case FORREST:
-			fertility += (int) (Math.random() * 7);
-			break;
-		case PLAIN:
-			fertility += (int) (Math.random() * 10);
-			break;
-		case MOUNTAIN:
-			fertility += (int) (Math.random() * 5);
-			break;
-		}
-	}
-
-	public int getFertility() {
-		return fertility;
 	}
 
 	private void move() {
@@ -97,6 +77,7 @@ public class Human extends Fighter {
 	public void setFertility(int i) {
 		fertility = i;
 	}
+
 
 	private BufferedImage getTileImage(int tileSize) {
 
@@ -132,10 +113,9 @@ public class Human extends Fighter {
 
 			// Genereate new sleep time
 			generateSleepTime();
-			generateFertility();
-			move();
+
 			// Randomize movement
-			// move();
+			move();
 
 		} else {
 			// Need more sleep!
