@@ -9,7 +9,6 @@ public class Human {
 	private long remainingSleepTime;
 	private ImageViewer viewer;
 	private long lastEntered;
-	private int fertility;
 	private boolean isWarrior;
 	
 	public Human(int currentX, int currentY, Landscape landscape, ImageViewer imageViewer) {
@@ -20,7 +19,6 @@ public class Human {
 		generateSleepTime();
 		lastEntered = System.currentTimeMillis();
 		landscape.getTile(currentX, currentY).inhabited(true);
-		fertility = 0;
 		if(Math.random()<0.2){
 			System.out.println("A WARRIOR IS BORN!!!");
 			isWarrior = true;
@@ -43,27 +41,6 @@ public class Human {
 
 	public void kill() {
 		landscape.getTile(currentX, currentY).inhabited(false);
-	}
-
-	private void generateFertility() {
-		switch (landscape.getTile(currentX, currentY).getType()) {
-		case WATER:
-			// atm
-			break;
-		case FORREST:
-			fertility += (int) (Math.random() * 7);
-			break;
-		case PLAIN:
-			fertility += (int) (Math.random() * 10);
-			break;
-		case MOUNTAIN:
-			fertility += (int) (Math.random() * 5);
-			break;
-		}
-	}
-
-	public int getFertility() {
-		return fertility;
 	}
 
 	private void move() {
@@ -90,10 +67,6 @@ public class Human {
 			currentY = newY;
 			landscape.getTile(currentX, currentY).inhabited(true);
 		}
-	}
-
-	public void setFertility(int i) {
-		fertility = i;
 	}
 
 	public boolean isWarrior() {
@@ -136,10 +109,9 @@ public class Human {
 
 			// Genereate new sleep time
 			generateSleepTime();
-			generateFertility();
-			move();
+
 			// Randomize movement
-			// move();
+			move();
 
 		} else {
 			// Need more sleep!

@@ -65,11 +65,6 @@ public class HumanoidManager {
 		return true;
 	}
 
-	public boolean removeZombie() {
-		return true;
-	}
-	
-
 	private boolean zombieKillingSpree() {
 		//Skapa nya zombies och kolla om de står på en människa, isf skapa ny zombie.
 		for (int i = 0; i < zombies.size(); i++) {
@@ -101,23 +96,15 @@ public class HumanoidManager {
 
 	public void update() {
 		//Uppdatera Zombies
-		for (int i = 0; i < zombies.size(); i++) {
-			zombies.get(i).update();
+		for(Zombie z: zombies){
+			z.update();
 		}
 		while (zombieKillingSpree())
 			;
 		
 		//Uppdatera Människor
-		for (int i = 0; i < humans.size(); i++) {
-			humans.get(i).update();
-			if (humans.get(i).getFertility() >= 100) {
-				Point pos = landscape.getNearbyAvailableLocation(humans.get(i)
-						.getPos().x, humans.get(i).getPos().y);
-				if (pos != null) {
-					addHuman(pos.x, pos.y);
-				}
-				humans.get(i).setFertility(0);
-			}
+		for(Human h: humans){
+			h.update();
 		}
 		
 		//Uppdatera Hus
@@ -130,7 +117,7 @@ public class HumanoidManager {
 				if (pos != null) {
 					addHuman(pos.x, pos.y);
 				}
-				houses.get(i).setFertility(0);
+				houses.get(i).setFertility(-100);
 			}
 		}
 	}
