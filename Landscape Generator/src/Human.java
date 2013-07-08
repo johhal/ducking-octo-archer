@@ -9,7 +9,6 @@ public class Human extends Fighter {
 	private long remainingSleepTime;
 	private ImageViewer viewer;
 	private long lastEntered;
-	private int fertility;
 
 	public Human(int currentX, int currentY, Landscape landscape,
 			ImageViewer imageViewer) {
@@ -28,8 +27,6 @@ public class Human extends Fighter {
 		generateSleepTime();
 		lastEntered = System.currentTimeMillis();
 		landscape.getTile(currentX, currentY).inhabited(true);
-		fertility = 0;
-
 	}
 
 	private void generateSleepTime() {
@@ -74,10 +71,6 @@ public class Human extends Fighter {
 			currentY = newY;
 			landscape.getTile(currentX, currentY).inhabited(true);
 		}
-	}
-
-	public void setFertility(int i) {
-		fertility = i;
 	}
 
 	private BufferedImage getTileImage(int tileSize) {
