@@ -27,9 +27,6 @@ public class Fighter {
 	private int hit(int damage, int attackRoll) {
 		if (attackRoll >= armor) {
 			currentHitPoints -= damage;
-		} else {
-			System.out.println("Missed with attackroll: " + attackRoll
-					+ " vs. armor: " + armor);
 		}
 		return currentHitPoints;
 	}
@@ -37,12 +34,13 @@ public class Fighter {
 	public void setArmor(int armor) {
 		this.armor = armor;
 	}
-	public void setAttack(int attack){
+
+	public void setAttack(int attack) {
 		this.attack = attack;
 	}
 
 	private int getDamage() {
-		return (int) (Math.random() * damage+1);
+		return (int) (Math.random() * damage + 1);
 	}
 
 	public int attackRoll() {
