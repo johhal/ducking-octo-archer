@@ -30,11 +30,13 @@ public class ImageViewer {
 	JLabel imageCanvas;
 	BufferedImage currentImage;
 	JPopupMenu popMenu;
-	JMenuItem zombieItem;
-	JMenuItem humanItem;
+	JMenuItem statusItem;
+	
 	JToggleButton zombieButton;
 	JToggleButton humanButton;
 	JToggleButton houseButton;
+	
+	
 	
 	ButtonGroup group;
 
@@ -53,9 +55,7 @@ public class ImageViewer {
 	}
 
 	public void setActionListener(ActionListener listener) {
-		zombieItem.addActionListener(listener);
-
-		humanItem.addActionListener(listener);
+		statusItem.addActionListener(listener);
 		
 		zombieButton.addActionListener(listener);
 	    humanButton.addActionListener(listener);
@@ -88,7 +88,8 @@ public class ImageViewer {
 			buttonPanel.add(humanButton,c);
 			c.gridy++;
 			buttonPanel.add(houseButton,c);
-
+			c.gridy++;
+			
 			JPanel imageCenter = new JPanel(new GridBagLayout());
 			imageCenter.add(imageCanvas);
 			JScrollPane imageScroll = new JScrollPane(imageCenter);
@@ -138,12 +139,9 @@ public class ImageViewer {
 	private void initPopupMenu() {
 		//Initsierar popupp-menyerna
 		popMenu = new JPopupMenu();
-		zombieItem = new JMenuItem("Zombies");
-		zombieItem.setActionCommand("zombie");
-		humanItem = new JMenuItem("Human");
-		humanItem.setActionCommand("human");
-		popMenu.add(zombieItem);
-		popMenu.add(humanItem);
+		statusItem = new JMenuItem("Status");
+		statusItem.setActionCommand("status");
+		popMenu.add(statusItem);
 	}
 	
 	private void initButtons(){

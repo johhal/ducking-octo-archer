@@ -87,7 +87,6 @@ public class HumanoidManager {
 						}
 					}
 					return true;
-
 				}
 			}
 		}
