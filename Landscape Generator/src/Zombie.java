@@ -2,8 +2,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-
-public class Zombie extends Fighter{
+public class Zombie extends Fighter {
 	private int currentX;
 	private int currentY;
 	private Landscape landscape;
@@ -11,21 +10,23 @@ public class Zombie extends Fighter{
 	private long lastEntered;
 	private ImageViewer viewer;
 
-	public Zombie(int currentX, int currentY, Landscape landscape, ImageViewer viewer) {
-		super(7,4,7, 6,16);
+	public Zombie(int currentX, int currentY, Landscape landscape,
+			ImageViewer viewer) {
+		super(7, 4, 7, 6, 16);
 		this.currentX = currentX;
 		this.currentY = currentY;
 		this.landscape = landscape;
 		generateSleepTime();
 		lastEntered = System.currentTimeMillis();
-		landscape.getTile(currentX,currentY).infest(true);
+		landscape.getTile(currentX, currentY).infest(true);
 		this.viewer = viewer;
 		// TODO Auto-generated constructor stub
 	}
-	public Point getPos(){
+
+	public Point getPos() {
 		return new Point(currentX, currentY);
 	}
-	
+
 	private void move() {
 		int rnd = (int) (Math.random() * 4);
 		int newX = currentX;
@@ -61,16 +62,17 @@ public class Zombie extends Fighter{
 			remainingSleepTime = (long) (Math.random() * 1000) + 1500;
 			break;
 		case PLAIN:
-			remainingSleepTime = (long) (Math.random() * 1000)+500;
+			remainingSleepTime = (long) (Math.random() * 1000) + 500;
 			break;
 		case MOUNTAIN:
 			remainingSleepTime = (long) (Math.random() * 1000) + 4000;
 			break;
 		}
 	}
+
 	public void kill() {
 		landscape.getTile(currentX, currentY).infest(false);
-	}	
+	}
 
 	private BufferedImage getTileImage(int tileSize) {
 
@@ -94,34 +96,48 @@ public class Zombie extends Fighter{
 
 		return image;
 	}
-	
+
 	public int getRGBA() {
-		int n = (int) (((double)getCurrentHitpoints() / (double)getMaxHitpoints()) * 255);
+		int n = (int) (((double) getCurrentHitpoints() / (double) getMaxHitpoints()) * 255);
 		return new Color(n, 0, 0).getRGB();
 	}
-	
+
 	public void update() {
 		if (remainingSleepTime <= 0) {
-			//Has slept enough!
-			
-			//Genereate new sleep time
+			// Has slept enough!
+
+			// Genereate new sleep time
 			generateSleepTime();
 
-			//Randomize movement
+			// Randomize movement
 			move();
 
 		} else {
-			//Need more sleep!
+			// Need more sleep!
 			remainingSleepTime = remainingSleepTime
 					- (System.currentTimeMillis() - lastEntered);
 			lastEntered = System.currentTimeMillis();
 		}
 	}
-	
-	public void draw(int tileSize) {
-		viewer.addImage(currentX*tileSize, currentY*tileSize, getTileImage(tileSize));
-	}
-	
 
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Zombie");
+		sb.append("\n");
+		sb.append("HP: " + getCurrentHitpoints() + "/" + getMaxHitpoints());
+		sb.append("\n");
+		sb.append("Attack: " + getAttack());
+		sb.append("\n");
+		sb.append("Armor: " + getArmor());
+		sb.append("\n");
+		sb.append("Damage: " + getDamage());
+		return sb.toString();
+
+	}
+
+	public void draw(int tileSize) {
+		viewer.addImage(currentX * tileSize, currentY * tileSize,
+				getTileImage(tileSize));
+	}
 
 }

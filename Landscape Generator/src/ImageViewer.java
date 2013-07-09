@@ -3,7 +3,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -17,6 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -36,7 +36,8 @@ public class ImageViewer {
 	JToggleButton humanButton;
 	JToggleButton houseButton;
 	
-	
+	JPanel statusPanel;
+	JTextPane statusText;
 	
 	ButtonGroup group;
 
@@ -55,7 +56,7 @@ public class ImageViewer {
 	}
 
 	public void setActionListener(ActionListener listener) {
-		statusItem.addActionListener(listener);
+//		statusItem.addActionListener(listener);
 		
 		zombieButton.addActionListener(listener);
 	    humanButton.addActionListener(listener);
@@ -66,6 +67,9 @@ public class ImageViewer {
 		currentImage.createGraphics().drawImage(
 						image, startX, startY, null);
 	}
+	public void setStatus(String s){
+		statusText.setText(s);
+	}
 
 	public void initComponents() {
 		if (gui == null) {
@@ -73,7 +77,10 @@ public class ImageViewer {
 			gui.setBorder(new EmptyBorder(5, 5, 5, 5));
 			imageCanvas = new JLabel();
 
-			initPopupMenu();
+			statusText = new JTextPane();
+			statusText.setEditable(false);
+			statusText.setBackground(imageCanvas.getBackground());
+//			initPopupMenu();
 			
 			initButtons();
 			
@@ -81,14 +88,16 @@ public class ImageViewer {
 			JPanel buttonPanel = new JPanel(new GridBagLayout());
 			GridBagConstraints c = gbl.getConstraints(buttonPanel);
 			c.fill = GridBagConstraints.BOTH;
-			c.gridx=0;
-			c.gridy=0;
+			c.gridx = 0;
+			c.gridy = 0;
+			
 			buttonPanel.add(zombieButton,c);
 			c.gridy++;
 			buttonPanel.add(humanButton,c);
 			c.gridy++;
 			buttonPanel.add(houseButton,c);
 			c.gridy++;
+			buttonPanel.add(statusText, c);
 			
 			JPanel imageCenter = new JPanel(new GridBagLayout());
 			imageCenter.add(imageCanvas);
@@ -96,43 +105,6 @@ public class ImageViewer {
 			imageScroll.setPreferredSize(new Dimension(510, 510));
 			gui.add(imageScroll, BorderLayout.CENTER);
 			gui.add(buttonPanel, BorderLayout.WEST);
-
-			setMouseListener(new MouseListener() {
-
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					if (SwingUtilities.isRightMouseButton(arg0)) {
-						popMenu.show(arg0.getComponent(), arg0.getX(),
-								arg0.getY());
-					}
-
-				}
-
-				@Override
-				public void mouseEntered(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void mouseExited(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void mousePressed(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void mouseReleased(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-
-				}
-
-			});
 		}
 	}
 
@@ -145,6 +117,7 @@ public class ImageViewer {
 	}
 	
 	private void initButtons(){
+
 		//Ladda in bilder och initsiera knappar.
 		
 		zombieButton = new JToggleButton("Zombie");

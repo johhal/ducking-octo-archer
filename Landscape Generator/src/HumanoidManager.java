@@ -149,4 +149,24 @@ public class HumanoidManager {
 		}
 		viewer.redrawImage();
 	}
+
+	public String humanoidToString(Point p) {
+		StringBuilder sb = new StringBuilder();
+		for(Zombie z: zombies){
+			if(z.getPos().equals(p)){
+				sb.append(z.toString());
+			}
+		}
+		for(Human h: humans){
+			if(h.getPos().equals(p)){
+				sb.append(h.toString());
+			}
+		}
+		for(House h: houses){
+			if(h.getPos().equals(p)){
+				sb.append(h.toString());
+			}
+		}
+		return sb.toString();
+	}
 }

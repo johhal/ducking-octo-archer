@@ -1,3 +1,5 @@
+import java.awt.Point;
+
 import javax.swing.JFrame;
 
 public class GameManager {
@@ -38,12 +40,12 @@ public class GameManager {
 		// Skapa Varelser
 		humanoidManager = new HumanoidManager();
 		humanoidManager.initialize(landscape, viewer);
-		
-		//Skapa lyssnare till mus/tangentbord
+
+		// Skapa lyssnare till mus/tangentbord
 		inputManager = new InputManager();
 		inputManager.initilize();
-		
-		//mer skärmstuff
+
+		// mer skärmstuff
 		viewer.setActionListener(inputManager);
 		viewer.setMouseListener(inputManager);
 
@@ -52,31 +54,39 @@ public class GameManager {
 
 	}
 
-	public void run()
-	{
+	public void run() {
 		while (true) {
 			update();
 			draw();
 		}
 
 	}
+
 	public void update() {
 		humanoidManager.update();
 		if (inputManager.isLeftMouseClicked()) {
+			Point pos = inputManager.getClickLocation();
 			if (inputManager.spawnZombieSelected()) {
-				humanoidManager.addZombie((int) inputManager.getClickLocation()
-						.getX() / tileSize, (int) inputManager
-						.getClickLocation().getY() / tileSize);
-			} else if (inputManager.spawnHumanSelected()){
-				humanoidManager.addHuman((int) inputManager.getClickLocation()
-						.getX() / tileSize, (int) inputManager
-						.getClickLocation().getY() / tileSize);
+				humanoidManager.addZombie(pos.x / tileSize, pos.y / tileSize);
+			} else if (inputManager.spawnHumanSelected()) {
+				humanoidManager.addHuman(pos.x / tileSize, pos.y / tileSize);
 			} else {
-				humanoidManager.addHouse((int) inputManager.getClickLocation()
-						.getX() / tileSize, (int) inputManager
-						.getClickLocation().getY() / tileSize);
+				humanoidManager.addHouse(pos.x / tileSize, pos.y / tileSize);
 			}
 		}
+		if (inputManager.isRightMouseClicked()) {
+			System.out.println("GAMEMANAGER RIGHT CLICK");
+			Point pos = inputManager.getClickLocation();
+			viewer.setStatus(tileToString(pos.x / tileSize, pos.y / tileSize));
+		}
+	}
+
+	private String tileToString(int x, int y) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(landscape.getTile(x, y).toString());
+		sb.append("\n");
+		sb.append(humanoidManager.humanoidToString(new Point(x, y)));
+		return sb.toString();
 	}
 
 	public void draw() {

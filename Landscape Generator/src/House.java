@@ -115,4 +115,18 @@ public class House extends Fighter{
 	public void draw(int tileSize) {
 		viewer.addImage(currentX*tileSize, currentY*tileSize, getTileImage(tileSize));
 	}
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("House");
+		sb.append("\n");
+		sb.append("HP: " + getCurrentHitpoints() + "/" + getMaxHitpoints());
+		sb.append("\n");
+		sb.append("Attack: " + getAttack());
+		sb.append("\n");
+		sb.append("Armor: " + getArmor());
+		sb.append("\n");
+		sb.append("Damage: " + getDamage());
+		return sb.toString();
+
+	}
 }

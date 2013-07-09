@@ -140,7 +140,20 @@ public class Tile {
 	public TypeEnum getType() {
 		return type;
 	}
-
+	public String toString(){
+		switch (type){
+		case FORREST:
+			return "Forrest";
+		case PLAIN:
+			return "Plain";
+		case MOUNTAIN:
+			return "Mountain";
+		case WATER:
+			return "Water";
+		}
+		return "";
+		
+	}
 	public int getRGBA() {
 		switch (type) {
 		case FORREST:

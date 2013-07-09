@@ -16,6 +16,14 @@ public class Fighter {
 		this.armor = armor;
 	}
 
+	public int getAttack() {
+		return attack;
+	}
+
+	public int getArmor() {
+		return armor;
+	}
+
 	public int getCurrentHitpoints() {
 		return currentHitPoints;
 	}
@@ -39,8 +47,12 @@ public class Fighter {
 		this.attack = attack;
 	}
 
-	private int getDamage() {
+	public int damageRoll() {
 		return (int) (Math.random() * damage + 1);
+	}
+
+	public int getDamage() {
+		return damage;
 	}
 
 	public int attackRoll() {
@@ -74,14 +86,14 @@ public class Fighter {
 
 		if (myInit > otherInit) {
 			while (getCurrentHitpoints() > 0 && f.getCurrentHitpoints() > 0) {
-				if (f.hit(getDamage(), attackRoll()) > 0) {
-					hit(f.getDamage(), attackRoll());
+				if (f.hit(damageRoll(), attackRoll()) > 0) {
+					hit(f.damageRoll(), attackRoll());
 				}
 			}
 		} else {
 			while (getCurrentHitpoints() > 0 && f.getCurrentHitpoints() > 0) {
-				if (hit(f.getDamage(), attackRoll()) > 0) {
-					f.hit(getDamage(), attackRoll());
+				if (hit(f.damageRoll(), attackRoll()) > 0) {
+					f.hit(damageRoll(), attackRoll());
 				}
 			}
 		}

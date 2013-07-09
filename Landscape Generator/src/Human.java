@@ -124,5 +124,19 @@ public class Human extends Fighter {
 		viewer.addImage(currentX * tileSize, currentY * tileSize,
 				getTileImage(tileSize));
 	}
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Human");
+		sb.append("\n");
+		sb.append("HP: " + getCurrentHitpoints() + "/" + getMaxHitpoints());
+		sb.append("\n");
+		sb.append("Attack: " + getAttack());
+		sb.append("\n");
+		sb.append("Armor: " + getArmor());
+		sb.append("\n");
+		sb.append("Damage: " + getDamage());
+		return sb.toString();
+
+	}
 
 }

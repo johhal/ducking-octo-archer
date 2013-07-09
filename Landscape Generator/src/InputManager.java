@@ -12,7 +12,6 @@ public class InputManager implements MouseListener, ActionListener {
 	private boolean leftMouseClicked = false;
 	private boolean rightMouseClicked = false;
 	public Point clickLocation;
-	JPopupMenu popMenu;
 	private boolean spawnZombieSelected = false;
 	private boolean spawnHumanSelected = false;
 	private boolean spawnHouseSelected = false;
@@ -35,6 +34,7 @@ public class InputManager implements MouseListener, ActionListener {
 	public boolean isRightMouseClicked() {
 		return rightMouseClicked;
 	}
+	
 
 	public Point getClickLocation() {
 		leftMouseClicked = false;
@@ -49,6 +49,7 @@ public class InputManager implements MouseListener, ActionListener {
 			clickLocation = new Point(arg0.getX(), arg0.getY());
 		}
 		if (SwingUtilities.isRightMouseButton(arg0)) {
+			System.out.println("INPUT MANAGER MOUSE CLICKED");
 			rightMouseClicked = true;
 			clickLocation = new Point(arg0.getX(), arg0.getY());
 		}

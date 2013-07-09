@@ -1,11 +1,3 @@
-import java.awt.FlowLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 public class Tester {
 
@@ -14,6 +6,6 @@ public class Tester {
 	 */
 	public static void main(String[] args) {
 		GameManager game = new GameManager();
-		game.initialize(50, 50, 10);
+		game.initialize(50, 50, 15);
 	}
 }
