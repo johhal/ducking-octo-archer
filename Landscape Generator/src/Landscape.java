@@ -26,6 +26,11 @@ public class Landscape {
 		return null;
 	}
 
+	public Tile[][] getTiles()
+	{
+		return landscape;
+	}
+	
 	public int getTileSize() {
 		return tileSize;
 	}
@@ -146,5 +151,12 @@ public class Landscape {
 			}
 		}
 		return false;
+	}
+	
+	public void draw(int tileSize, OpenGL gl)
+	{
+		for(int i = 0; i < landscape.length; i++)
+			for(int j = 0; j < landscape[0].length; j++)
+				gl.drawTile(landscape[i][j], i, j);
 	}
 }

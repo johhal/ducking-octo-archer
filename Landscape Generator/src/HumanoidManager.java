@@ -13,7 +13,7 @@ public class HumanoidManager {
 		this.landscape = _landscape;
 		this.viewer = viewer;
 		
-		//Initiera zombies + människor + hus
+		//Initiera zombies + mï¿½nniskor + hus
 		zombies = new ArrayList<Zombie>();
 		humans = new ArrayList<Human>();
 		houses = new ArrayList<House>();
@@ -48,25 +48,25 @@ public class HumanoidManager {
 	}
 
 	public boolean addZombie(int xpos, int ypos) {
-		// Sätt ut zombies?
+		// Sï¿½tt ut zombies?
 		zombies.add(new Zombie(xpos, ypos, landscape, viewer));
 		return true;
 	}
 
 	public boolean addHuman(int xpos, int ypos) {
-		//Sätt ut människor
+		//Sï¿½tt ut mï¿½nniskor
 		humans.add(new Human(xpos, ypos, landscape, viewer));
 		return true;
 	}
 
 	public boolean addHouse(int xpos, int ypos) {
-		//sätt ut hus
+		//sï¿½tt ut hus
 		houses.add(new House(xpos, ypos, landscape, viewer));
 		return true;
 	}
 
 	private boolean zombieKillingSpree() {
-		//Skapa nya zombies och kolla om de står på en människa, isf skapa ny zombie.
+		//Skapa nya zombies och kolla om de stï¿½r pï¿½ en mï¿½nniska, isf skapa ny zombie.
 		for (int i = 0; i < zombies.size(); i++) {
 			for (int j = 0; j < humans.size(); j++) {
 				if (zombies.get(i).getPos().equals(humans.get(j).getPos())) {
@@ -116,7 +116,7 @@ public class HumanoidManager {
 		while (zombieKillingSpree())
 			;
 		
-		//Uppdatera Människor
+		//Uppdatera Mï¿½nniskor
 		for(Human h: humans){
 			h.update();
 		}
@@ -137,15 +137,15 @@ public class HumanoidManager {
 	}
 
 
-	public void draw(int tileSize) {
+	public void draw(int tileSize, OpenGL gl) {
 		for(Zombie z: zombies){
-			z.draw(tileSize);
+			z.draw(tileSize, gl);
 		}
 		for(Human h: humans){
-			h.draw(tileSize);
+			h.draw(tileSize, gl);
 		}
 		for(House h: houses){
-			h.draw(tileSize);
+			h.draw(tileSize, gl);
 		}
 		viewer.redrawImage();
 	}

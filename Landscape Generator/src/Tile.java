@@ -121,7 +121,7 @@ public class Tile {
 				} else if (j == (y - 1)) {
 					image.setRGB(i, j, Color.black.getRGB());
 				} else {
-					image.setRGB(i, j, getRGBA());
+					image.setRGB(i, j, getRGBA().getRGB());
 				}
 			}
 		}
@@ -154,18 +154,18 @@ public class Tile {
 		return "";
 		
 	}
-	public int getRGBA() {
+	public Color getRGBA() {
 		switch (type) {
 		case FORREST:
-			return new Color(0, 255, 0).getRGB();
+			return new Color(0, 255, 0);
 		case PLAIN:
-			return new Color(255, 255, 0).getRGB();
+			return new Color(255, 255, 0);
 		case MOUNTAIN:
-			return new Color(127, 127, 127).getRGB();
+			return new Color(127, 127, 127);
 		case WATER:
-			return new Color(0, 0, 255).getRGB();
+			return new Color(0, 0, 255);
 		}
-		return new Color(255, 255, 255).getRGB();
+		return new Color(255, 255, 255);
 	}
 
 	public boolean hasHouse() {

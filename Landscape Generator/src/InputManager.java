@@ -8,17 +8,32 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
+import org.lwjgl.input.Mouse;
+
 public class InputManager implements MouseListener, ActionListener {
 	private boolean leftMouseClicked = false;
 	private boolean rightMouseClicked = false;
-	public Point clickLocation;
+
+	public Point clickLocation = new Point(0,0);
+	
+	JPopupMenu popMenu;
+	
 	private boolean spawnZombieSelected = false;
 	private boolean spawnHumanSelected = false;
 	private boolean spawnHouseSelected = false;
+	
+	private boolean prevLeftBtn;
+	private boolean prevRightBtn;
 
 	public void initilize() {
 	}
-
+	
+	public void resetClickLocation()
+	{
+		clickLocation = new Point(0,0);
+		leftMouseClicked = false;
+	}
+	
 	public boolean spawnZombieSelected() {
 		return spawnZombieSelected;
 	}
@@ -96,6 +111,28 @@ public class InputManager implements MouseListener, ActionListener {
 			spawnZombieSelected = false;
 			spawnHumanSelected = false;
 			spawnHouseSelected = true;
+		}
+	}
+	
+	public void update()
+	{
+		if(Mouse.isButtonDown(0)){
+			prevLeftBtn=true;
+		}
+		
+		if(Mouse.isButtonDown(1)){
+			prevRightBtn=true;
+		}
+		
+		if(!Mouse.isButtonDown(0) && prevLeftBtn == true){
+			clickLocation = new Point(Mouse.getX(), Mouse.getY());
+			prevLeftBtn = false;
+			leftMouseClicked = true;
+		}
+		
+		if(!Mouse.isButtonDown(1) && prevRightBtn == true){
+			clickLocation = new Point(Mouse.getX(), Mouse.getY());
+			prevRightBtn = false;
 		}
 	}
 }

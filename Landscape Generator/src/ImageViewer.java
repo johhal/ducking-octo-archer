@@ -48,19 +48,19 @@ public class ImageViewer {
 	}
 	
 	public void redrawImage(){
-		imageCanvas.setIcon(new ImageIcon(currentImage));
+		//imageCanvas.setIcon(new ImageIcon(currentImage));
 	}
 
 	public void setMouseListener(MouseListener click) {
-		imageCanvas.addMouseListener(click);
+		//imageCanvas.addMouseListener(click);
 	}
 
 	public void setActionListener(ActionListener listener) {
 //		statusItem.addActionListener(listener);
 		
-		zombieButton.addActionListener(listener);
-	    humanButton.addActionListener(listener);
-	    houseButton.addActionListener(listener);
+		//zombieButton.addActionListener(listener);
+	    //humanButton.addActionListener(listener);
+	    //houseButton.addActionListener(listener);
 	}
 	
 	public void addImage(int startX, int startY, BufferedImage image){

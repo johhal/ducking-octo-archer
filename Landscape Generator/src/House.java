@@ -112,8 +112,9 @@ public class House extends Fighter{
 		
 	}
 
-	public void draw(int tileSize) {
-		viewer.addImage(currentX*tileSize, currentY*tileSize, getTileImage(tileSize));
+	public void draw(int tileSize, OpenGL gl) {
+		//viewer.addImage(currentX*tileSize, currentY*tileSize, getTileImage(tileSize));
+		gl.drawHouse(this);
 	}
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

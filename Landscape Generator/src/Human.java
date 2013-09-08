@@ -120,9 +120,10 @@ public class Human extends Fighter {
 
 	}
 
-	public void draw(int tileSize) {
-		viewer.addImage(currentX * tileSize, currentY * tileSize,
-				getTileImage(tileSize));
+	public void draw(int tileSize, OpenGL gl) {
+		//viewer.addImage(currentX * tileSize, currentY * tileSize,
+		//		getTileImage(tileSize));
+		gl.drawHuman(this);
 	}
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

@@ -56,7 +56,7 @@ public class Zombie extends Fighter {
 	public void generateSleepTime() {
 		switch (landscape.getTile(currentX, currentY).getType()) {
 		case WATER:
-			// går inte, men ville inte ha felmeddelandet.
+			// gï¿½r inte, men ville inte ha felmeddelandet.
 			break;
 		case FORREST:
 			remainingSleepTime = (long) (Math.random() * 1000) + 1500;
@@ -135,9 +135,10 @@ public class Zombie extends Fighter {
 
 	}
 
-	public void draw(int tileSize) {
-		viewer.addImage(currentX * tileSize, currentY * tileSize,
-				getTileImage(tileSize));
+	public void draw(int tileSize, OpenGL gl) {
+		gl.drawZombie(this);
+		//viewer.addImage(currentX * tileSize, currentY * tileSize,
+			//	getTileImage(tileSize));
 	}
 
 }

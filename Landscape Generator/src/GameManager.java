@@ -6,63 +6,87 @@ public class GameManager {
 	private int boardWidth;
 	private int boardHeight;
 	private int tileSize;
+	
+	private int screenWidth;
+	private int screenHeight;
+	
+	private int GUIWidth;
+	
+	private GUIHandler guiHandler;
+	
 	private HumanoidManager humanoidManager;
 	public InputManager inputManager;
 
 	ImageViewer viewer;
 
 	Landscape landscape;
+	
+	private OpenGL gl = new OpenGL(); 
 
 	public void initialize(int _boardWidth, int _boardHeight, int _tileSize) {
-		// Storlek på områden och antal områden
+		// Storlek pï¿½ omrï¿½den och antal omrï¿½den
 		boardWidth = _boardWidth;
 		boardHeight = _boardHeight;
 		tileSize = _tileSize;
 
-		// Skapa Fönster
+		screenWidth = 800;
+		screenHeight = 600;
+		
+		GUIWidth = 200;
+		
+		// Skapa Fï¿½nster
 		viewer = new ImageViewer();
 
-		// Skapa världen och generera områden
+		// Skapa vï¿½rlden och generera omrï¿½den
 		LandscapeGenerator landGen = new LandscapeGenerator();
 		landscape = new Landscape(landGen.generate(boardWidth, boardHeight),
 				tileSize, viewer);
-
-		// Skärmstuff
-		JFrame f = new JFrame("World map");
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		f.setContentPane(viewer.getGui());
-
-		f.pack();
-		f.setLocationByPlatform(true);
-		f.setVisible(true);
+		
+		// Skï¿½rmstuff
+		try
+		{
+			gl.Initialize(screenWidth, screenHeight, tileSize, GUIWidth);
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+			System.exit(0);
+		}
 
 		// Skapa Varelser
 		humanoidManager = new HumanoidManager();
 		humanoidManager.initialize(landscape, viewer);
 
-		// Skapa lyssnare till mus/tangentbord
 		inputManager = new InputManager();
-		inputManager.initilize();
-
-		// mer skärmstuff
+		try
+		{
+			inputManager.initilize();
+		}
+		catch(Exception ex)
+		{
+			
+		}
+		
+		guiHandler = new GUIHandler();
+		guiHandler.Initialize(3, 2);
+		
+		// mer skï¿½rmstuff
 		viewer.setActionListener(inputManager);
 		viewer.setMouseListener(inputManager);
-
-		// Spela!!
-		run();
-
 	}
 
-	public void run() {
-		while (true) {
+	public void run() 
+	{
+		// Spela!!
+		while (gl.isRunning()) {
 			update();
 			draw();
 		}
-
+		gl.quitGL();
 	}
 
 	public void update() {
+		/*
 		humanoidManager.update();
 		if (inputManager.isLeftMouseClicked()) {
 			Point pos = inputManager.getClickLocation();
@@ -79,6 +103,32 @@ public class GameManager {
 			Point pos = inputManager.getClickLocation();
 			viewer.setStatus(tileToString(pos.x / tileSize, pos.y / tileSize));
 		}
+		*/
+		int delta = gl.getDelta();
+		
+		gl.update(delta);
+		
+		inputManager.update();
+		
+		humanoidManager.update();
+		
+		guiHandler.update();
+		/*if (inputManager.isLeftMouseClicked()) {
+			if (inputManager.spawnZombieSelected()) {
+				humanoidManager.addZombie((int) inputManager.getClickLocation()
+						.getX() / tileSize, (int) inputManager
+						.getClickLocation().getY() / tileSize);
+			} else {
+				landscape.spawnHuman((int) inputManager.getClickLocation()
+						.getX() / tileSize, (int) inputManager
+						.getClickLocation().getY() / tileSize);
+			}
+		}
+
+		if (inputManager.isRightMouseClicked()) {
+		System.out.println("right mouse pressed, wont do shit");
+		}*/
+		inputManager.resetClickLocation();
 	}
 
 	private String tileToString(int x, int y) {
@@ -90,7 +140,14 @@ public class GameManager {
 	}
 
 	public void draw() {
-		viewer.setImage(landscape.getLandscapeImg());
-		humanoidManager.draw(tileSize);
+		gl.initDraw();
+		
+		landscape.draw(tileSize, gl);
+		
+		humanoidManager.draw(tileSize, gl);
+		
+		guiHandler.draw(gl);
+		
+		gl.endDraw();
 	}
 }
