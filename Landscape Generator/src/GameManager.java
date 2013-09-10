@@ -2,6 +2,8 @@ import java.awt.Point;
 
 import javax.swing.JFrame;
 
+import org.lwjgl.LWJGLException;
+
 public class GameManager {
 	private int boardWidth;
 	private int boardHeight;
@@ -23,7 +25,7 @@ public class GameManager {
 	
 	private OpenGL gl = new OpenGL(); 
 
-	public void initialize(int _boardWidth, int _boardHeight, int _tileSize) {
+	public void initialize(int _boardWidth, int _boardHeight, int _tileSize) throws LWJGLException{
 		// Storlek p� omr�den och antal omr�den
 		boardWidth = _boardWidth;
 		boardHeight = _boardHeight;
@@ -43,15 +45,7 @@ public class GameManager {
 				tileSize, viewer);
 		
 		// Sk�rmstuff
-		try
-		{
-			gl.Initialize(screenWidth, screenHeight, tileSize, GUIWidth);
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-			System.exit(0);
-		}
+		gl.Initialize(screenWidth, screenHeight, tileSize, GUIWidth);
 
 		// Skapa Varelser
 		humanoidManager = new HumanoidManager();
@@ -84,59 +78,25 @@ public class GameManager {
 		}
 		gl.quitGL();
 	}
-
-	public void update() {
-		/*
-		humanoidManager.update();
-		if (inputManager.isLeftMouseClicked()) {
-			Point pos = inputManager.getClickLocation();
-			if (inputManager.spawnZombieSelected()) {
-				humanoidManager.addZombie(pos.x / tileSize, pos.y / tileSize);
-			} else if (inputManager.spawnHumanSelected()) {
-				humanoidManager.addHuman(pos.x / tileSize, pos.y / tileSize);
-			} else {
-				humanoidManager.addHouse(pos.x / tileSize, pos.y / tileSize);
-			}
-		}
-		if (inputManager.isRightMouseClicked()) {
-			System.out.println("GAMEMANAGER RIGHT CLICK");
-			Point pos = inputManager.getClickLocation();
-			viewer.setStatus(tileToString(pos.x / tileSize, pos.y / tileSize));
-		}
-		*/
-		int delta = gl.getDelta();
-		
-		gl.update(delta);
-		
-		inputManager.update();
-		
-		humanoidManager.update();
-		
-		guiHandler.update();
-		/*if (inputManager.isLeftMouseClicked()) {
-			if (inputManager.spawnZombieSelected()) {
-				humanoidManager.addZombie((int) inputManager.getClickLocation()
-						.getX() / tileSize, (int) inputManager
-						.getClickLocation().getY() / tileSize);
-			} else {
-				landscape.spawnHuman((int) inputManager.getClickLocation()
-						.getX() / tileSize, (int) inputManager
-						.getClickLocation().getY() / tileSize);
-			}
-		}
-
-		if (inputManager.isRightMouseClicked()) {
-		System.out.println("right mouse pressed, wont do shit");
-		}*/
-		inputManager.resetClickLocation();
-	}
-
+	
 	private String tileToString(int x, int y) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(landscape.getTile(x, y).toString());
 		sb.append("\n");
 		sb.append(humanoidManager.humanoidToString(new Point(x, y)));
 		return sb.toString();
+	}
+
+	public void update() {		
+		inputManager.update(gl);
+		
+		humanoidManager.update();
+		
+		guiHandler.update();
+		
+		gl.update(gl.getDelta(), 0, 0, 0);
+		
+		inputManager.resetClickLocation();	
 	}
 
 	public void draw() {

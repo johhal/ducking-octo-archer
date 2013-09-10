@@ -3,11 +3,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.security.Key;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 public class InputManager implements MouseListener, ActionListener {
@@ -25,7 +28,8 @@ public class InputManager implements MouseListener, ActionListener {
 	private boolean prevLeftBtn;
 	private boolean prevRightBtn;
 
-	public void initilize() {
+	public void initilize() throws LWJGLException {
+		Keyboard.create();
 	}
 	
 	public void resetClickLocation()
@@ -114,8 +118,38 @@ public class InputManager implements MouseListener, ActionListener {
 		}
 	}
 	
-	public void update()
+	private void checkKeyboard(OpenGL gl)
 	{
+		if(Keyboard.isKeyDown(Keyboard.KEY_A))
+		{
+			gl.moveSideways(-1);
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_D))
+		{
+			gl.moveSideways(1);
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_W))
+		{
+			gl.moveForward(1);
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_S))
+		{
+			gl.moveForward(-1);
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_Q))
+		{
+			
+		}if(Keyboard.isKeyDown(Keyboard.KEY_E))
+		{
+			
+		}
+		
+	}
+	
+	public void update(OpenGL gl)
+	{
+		checkKeyboard(gl);
+		
 		if(Mouse.isButtonDown(0)){
 			prevLeftBtn=true;
 		}

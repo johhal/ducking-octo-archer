@@ -16,76 +16,110 @@ import static org.lwjgl.opengl.GL11.*;
 public class OpenGL {
 	int screen_width;
 	int screen_height;
-	
+	int tileHeight;
 	String title = "Ducking-Octo-Archer";
 	
 	int tileSize;
 	
+	float posX;
+	float posY;
+	float posZ;
+	
 	//Hur långt ifrån kanten nere och till vänster man börjar..typ
 	float startTileX;
 	float startTileY;
+	int spaceBetweenTiles;
 	
 	float GUIX;
 	
-	float rotation = 0.0f;
+	float rotationX;
+	float rotationY;
+	float rotationZ;
+	float rotationAngle;
 	
 	long last_frame;
 	int fps;
 	long last_fps;
 	
+	public void drawBox(float x, float y, float z, float boxSizeX, float boxSizeY, float boxSizeZ)
+	{	
+		//s1
+		glVertex3f(x + boxSizeX, y + boxSizeY, z);
+		glVertex3f(x, y + boxSizeY, z);
+		glVertex3f(x, y, z);
+		glVertex3f(x + boxSizeX, y, z);
+		
+		//s2
+		glVertex3f(x, y + boxSizeY, z + boxSizeZ);
+		glVertex3f(x + boxSizeX, y + boxSizeY, z + boxSizeZ);
+		glVertex3f(x + boxSizeX, y, z + boxSizeZ);
+		glVertex3f(x, y, z + boxSizeZ);
+		
+		//s3
+		glVertex3f(x + boxSizeX, y, z);
+		glVertex3f(x, y, z);
+		glVertex3f(x, y, z + boxSizeZ);
+		glVertex3f(x + boxSizeX, y, z + boxSizeZ);
+		
+		//s4
+		glVertex3f(x, y + boxSizeY, z);
+		glVertex3f(x + boxSizeX, y + boxSizeY, z);
+		glVertex3f(x + boxSizeX, y + boxSizeY, z + boxSizeZ);
+		glVertex3f(x, y + boxSizeY, z + boxSizeZ);
+		
+		//s5
+		glVertex3f(x, y + boxSizeY, z);
+		glVertex3f(x, y + boxSizeY, z + boxSizeZ);
+		glVertex3f(x, y, z + boxSizeZ);
+		glVertex3f(x, y, z);
+		
+		//s6
+		glVertex3f(x + boxSizeX, y + boxSizeY, z + boxSizeZ);
+		glVertex3f(x + boxSizeX, y + boxSizeY, z);
+		glVertex3f(x + boxSizeX, y, z);
+		glVertex3f(x + boxSizeX, y, z + boxSizeZ);
+		
+	}
+	
 	public void drawTile(Tile tile, float posX, float posY)
 	{
-		posX = startTileX + (tileSize + 2)*posX;
-		posY = startTileY + (tileSize + 2)*posY;
+		posX = startTileX + (tileSize + spaceBetweenTiles)*posX;
+		posY = startTileY + (tileSize + spaceBetweenTiles)*posY;
 		Color c = tile.getRGBA();
 		glColor3f((float)(c.getRed())/255, (float)(c.getGreen())/255, (float)(c.getBlue())/255);
 		
-		glVertex2f(posX - tileSize/2, posY - tileSize/2);
-		glVertex2f(posX + tileSize/2, posY - tileSize/2);
-		glVertex2f(posX + tileSize/2, posY + tileSize/2);
-		glVertex2f(posX - tileSize/2, posY + tileSize/2);
+		
+		drawBox(posX, posY, 1, tileSize, tileSize, tileHeight);
 	}	
 	
 	public void drawHuman(Human h)
 	{
-		int posX = h.getPos().x;
-		int posY = h.getPos().y;
+		float posX = startTileX + spaceBetweenTiles + (h.getPos().x * (tileSize + spaceBetweenTiles)) - tileSize/2;
+		float posY = startTileY + spaceBetweenTiles + (h.getPos().y * (tileSize + spaceBetweenTiles)) - tileSize/2;
 		
 		glColor3f(1.0f, 0.0f, 0.0f);
 		
-		
-		glVertex2f(startTileX + 1 + (posX * (tileSize + 1)) - tileSize/2, startTileY + 1 + (posY * (tileSize + 1)) - tileSize/2);
-		glVertex2f(startTileX - 1 + (posX * (tileSize + 1)) + tileSize/2, startTileY + 1 + (posY * (tileSize + 1)) - tileSize/2);
-		glVertex2f(startTileX - 1 + (posX * (tileSize + 1)) + tileSize/2, startTileY - 1 + (posY * (tileSize + 1)) + tileSize/2);
-		glVertex2f(startTileX + 1 + (posX * (tileSize + 1)) - tileSize/2, startTileY - 1 + (posY * (tileSize + 1)) + tileSize/2);
+		drawBox(posX, posY, tileHeight, tileSize - 2, tileSize - 2, tileSize - 2);
 	}
 	
 	public void drawZombie(Zombie z)
 	{
-		int posX = z.getPos().x;
-		int posY = z.getPos().y;
+		float posX = startTileX + spaceBetweenTiles + (z.getPos().x * (tileSize + spaceBetweenTiles)) - tileSize/2;
+		float posY = startTileY + spaceBetweenTiles + (z.getPos().y * (tileSize + spaceBetweenTiles)) - tileSize/2;
 		
 		glColor3f(1.0f, 0.0f, 0.0f);
 		
-		drawCube(startTileX + 2 + (posX * (tileSize + 2)) - tileSize/2, startTileY + 2 + (posY * (tileSize + 2)) - tileSize/2, 1, -tileSize+2);
-		
-		//glVertex2f(startTileX + 1 + (posX * (tileSize + 1)) - tileSize/2, startTileY + 1 + (posY * (tileSize + 1)) - tileSize/2);
-		//glVertex2f(startTileX - 1 + (posX * (tileSize + 1)) + tileSize/2, startTileY + 1 + (posY * (tileSize + 1)) - tileSize/2);
-		//glVertex2f(startTileX - 1 + (posX * (tileSize + 1)) + tileSize/2, startTileY - 1 + (posY * (tileSize + 1)) + tileSize/2);
-		//glVertex2f(startTileX + 1 + (posX * (tileSize + 1)) - tileSize/2, startTileY - 1 + (posY * (tileSize + 1)) + tileSize/2);
+		drawBox(posX, posY, tileHeight, tileSize - 2, tileSize - 2, tileSize - 2);
 	}
 	
 	public void drawHouse(House h)
 	{
-		int posX = h.getPos().x;
-		int posY = h.getPos().y;
+		float posX = startTileX + spaceBetweenTiles + (h.getPos().x * (tileSize + spaceBetweenTiles)) - tileSize/2;
+		float posY = startTileY + spaceBetweenTiles + (h.getPos().y * (tileSize + spaceBetweenTiles)) - tileSize/2;
 		
 		glColor3f(1.0f, 0.0f, 0.0f);
 		
-		glVertex2f(startTileX + 1 + (posX * (tileSize + 1)) - tileSize/2, startTileY + 1 + (posY * (tileSize + 1)) - tileSize/2);
-		glVertex2f(startTileX - 1 + (posX * (tileSize + 1)) + tileSize/2, startTileY + 1 + (posY * (tileSize + 1)) - tileSize/2);
-		glVertex2f(startTileX - 1 + (posX * (tileSize + 1)) + tileSize/2, startTileY - 1 + (posY * (tileSize + 1)) + tileSize/2);
-		glVertex2f(startTileX + 1 + (posX * (tileSize + 1)) - tileSize/2, startTileY - 1 + (posY * (tileSize + 1)) + tileSize/2);
+		drawBox(posX, posY, tileHeight, tileSize - 2, tileSize - 2, tileSize - 2);
 	}
 	
 	public void drawGUI(GUIHandler guiHandler)
@@ -125,33 +159,6 @@ public class OpenGL {
 		return !Display.isCloseRequested();
 	}
 	
-	
-	
-	public void Initialize(int screenWidth, int screenHeight, int tileSize, int GUIWidth) throws LWJGLException
-	{	
-		screen_width = screenWidth;
-		screen_height = screenHeight;
-		
-		this.tileSize = tileSize;
-		
-		startTileX = GUIWidth + 25;
-		startTileY = 25;
-		
-		GUIX = GUIWidth;
-		
-		Display.setDisplayMode(new DisplayMode(screen_width, screen_height));
-		Display.create();
-		
-		Display.setTitle(title);
-		
-		initGL();
-		getDelta();
-		
-		last_fps = getTime();
-		
-		Keyboard.create();
-	}
-	
 	public void quitGL()
 	{
 		Display.destroy();
@@ -184,45 +191,51 @@ public class OpenGL {
 		fps++;
 	}
 	
-	public void drawCube(float x, float y, float z, float cubeSize)
+	public void Initialize(int screenWidth, int screenHeight, int tileSize, int GUIWidth) throws LWJGLException
 	{	
-		//s1
-		glVertex3f(x - cubeSize, y - cubeSize, z);
-		glVertex3f(x, y - cubeSize, z);
-		glVertex3f(x, y, z);
-		glVertex3f(x - cubeSize, y, z);
+		screen_width = screenWidth;
+		screen_height = screenHeight;
 		
-		//s2
-		glVertex3f(x, y - cubeSize, z - cubeSize);
-		glVertex3f(x -cubeSize, y - cubeSize, z - cubeSize);
-		glVertex3f(x - cubeSize, y, z - cubeSize);
-		glVertex3f(x, y, z - cubeSize);
+		this.tileSize = tileSize;
 		
-		//s3
-		glVertex3f(x - cubeSize, y, z);
-		glVertex3f(x, y, z);
-		glVertex3f(x, y, z - cubeSize);
-		glVertex3f(x - cubeSize, y, z - cubeSize);
+		startTileX = GUIWidth + 25;
+		startTileY = 25;
+		tileHeight = 5;
 		
-		//s4
-		glVertex3f(x, y - cubeSize, z);
-		glVertex3f(x - cubeSize, y - cubeSize, z);
-		glVertex3f(x - cubeSize, y - cubeSize, z - cubeSize);
-		glVertex3f(x, y - cubeSize, z - cubeSize);
+		posX = screenWidth/2;
+		posY = screenHeight/2;
+		posZ = 1000;
 		
-		//s5
-		glVertex3f(x, y - cubeSize, z);
-		glVertex3f(x, y - cubeSize, z - cubeSize);
-		glVertex3f(x, y, z - cubeSize);
-		glVertex3f(x, y, z);
+		rotationX = 0.0f;
+		rotationY = 0.0f;
+		rotationZ = 0.0f;
+		rotationAngle = 0.0f;
 		
-		//s6
-		glVertex3f(x - cubeSize, y - cubeSize, z - cubeSize);
-		glVertex3f(x - cubeSize, y - cubeSize, z);
-		glVertex3f(x - cubeSize, y, z);
-		glVertex3f(x - cubeSize, y, z - cubeSize);
+		spaceBetweenTiles = 5;
 		
+		GUIX = GUIWidth;
+		
+		Display.setDisplayMode(new DisplayMode(screen_width, screen_height));
+		Display.create();
+		
+		Display.setTitle(title);
+		
+		initGL();
+		getDelta();
+		
+		last_fps = getTime();
 	}
+	
+	public void moveForward(int x)
+	{
+		posY += 5*x; //Stämmer nog inte Får duga tills rotation införs
+	}
+	
+	public void moveSideways(int x)
+	{
+		posX += 5*x;
+	}
+	
 	
 	public void initGL()
 	{
@@ -231,9 +244,7 @@ public class OpenGL {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		
-		GLU.gluPerspective(45.0f, (float)screen_width/(float)screen_height, 1.0f, 1000.0f);
-		
-		System.out.println((float)screen_width/(float)screen_height);
+		GLU.gluPerspective(45.0f, (float)screen_width/(float)screen_height, 1.0f, 1900.0f);
 		
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -246,18 +257,19 @@ public class OpenGL {
 		glShadeModel(GL_SMOOTH);
 		
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-	
-		//glOrtho(0, screen_width, 0, screen_height, -1, 1);
-		//glMatrixMode(GL_MODELVIEW);
 	}
 	
 	
-	
-	public void update(int delta)
+	public void update(int delta, float rotX, float rotY, float rotZ)
 	{
-		rotation = 10;
+		rotationX = rotX;
+		rotationY = rotY;
+		rotationZ = rotY;
+		rotationAngle += 0.15f;
+		
 		updateFPS();
 	}
+	
 	
 	public void initDraw()
 	{
@@ -268,12 +280,13 @@ public class OpenGL {
 		
 		glLoadIdentity();
 		
-		glTranslatef(-400, -300, -750.0f);
+		glTranslatef(-posX, -posY, -posZ);
 		
-		glRotatef(rotation, 0f, 0f, 0f);//vinkel
+		glRotatef(rotationAngle, rotationX, rotationY, rotationZ);//vinkel
 		
 		glBegin(GL_QUADS);
 	}
+	
 	
 	public void endDraw()
 	{

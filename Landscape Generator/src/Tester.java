@@ -11,7 +11,13 @@ public class Tester {
 			System.exit(0);
 		}
 		GameManager gm = new GameManager();
-		gm.initialize(50, 50, 10);
+		try{
+			gm.initialize(50, 50, 10);
+		}
+		catch (Exception ex)
+		{
+			System.exit(0);
+		}
 		gm.run();
 	}
 }
