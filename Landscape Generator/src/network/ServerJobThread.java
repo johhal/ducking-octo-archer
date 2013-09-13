@@ -30,5 +30,12 @@ public class ServerJobThread extends JobThread {
     }
 
 
+	@Override
+	protected String handleError(ProtocolMessage pm) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }
 

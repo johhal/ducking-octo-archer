@@ -4,12 +4,7 @@ import com.google.gson.Gson;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Superclass to threads which will handle Jobs from the ReadQueues.
- *
- * @author Johan Hallberg
- * @author Carl Bjerggaard
- */
+
 public abstract class JobThread extends Thread {
 
     protected Job<String> job;
@@ -19,13 +14,7 @@ public abstract class JobThread extends Thread {
     protected Gson gson;
     private boolean isServerThread;
 
-    /**
-     * Constructor.
-     *
-     * @param readQueue the Queue from which the thread will fetch Jobs.
-     * @param writeQueue the Queue to which the thread may use to communicate
-     * with the JobThread on the other side.
-     */
+
     public JobThread(JobQueue readQueue, JobQueue writeQueue, boolean isServerThread) {
         this.readQueue = readQueue;
         this.writeQueue = writeQueue;
@@ -34,15 +23,10 @@ public abstract class JobThread extends Thread {
         gson = new Gson();
     }
 
-    @Override
-    /**
-     * Describes the workflow of all JobThreads; first it fetches the Job from
-     * the readqueue, then it parses the actual message, then it handels the
-     * corresponding type request.
-     */
     public void run() {
         while (running) {
             try {
+            	System.out.println("Waiting for data");
                 job = readQueue.get();
                 System.out.println("RECEIVED!!!");
                 System.out.println(job.getMessage());
@@ -83,11 +67,9 @@ public abstract class JobThread extends Thread {
 
     protected abstract void handleAnswer(String message);
 
-//    protected abstract String handleUpdate(ProtocolMessage pm);
-//
-//    protected abstract String handleSubmit(ProtocolMessage pm);
-//
-//    protected abstract String handleLoginLogout(ProtocolMessage pm);
-//
-//    protected abstract String handleError(ProtocolMessage pm);
+    protected abstract String handleUpdate(ProtocolMessage pm);
+
+    protected abstract String handleSubmit(ProtocolMessage pm);
+
+    protected abstract String handleError(ProtocolMessage pm);
 }

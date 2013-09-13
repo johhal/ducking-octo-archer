@@ -265,7 +265,7 @@ public class OpenGL {
 		rotationX = rotX;
 		rotationY = rotY;
 		rotationZ = rotY;
-		rotationAngle += 0.15f;
+//		rotationAngle += 0.15f;
 		
 		updateFPS();
 	}
