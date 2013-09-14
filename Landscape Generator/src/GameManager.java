@@ -52,14 +52,7 @@ public class GameManager {
 		humanoidManager.initialize(landscape, viewer);
 
 		inputManager = new InputManager();
-		try
-		{
-			inputManager.initilize();
-		}
-		catch(Exception ex)
-		{
-			
-		}
+		inputManager.initilize();
 		
 		guiHandler = new GUIHandler();
 		guiHandler.Initialize(3, 2);

@@ -1,6 +1,8 @@
 import java.awt.Color;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -14,70 +16,90 @@ import static org.lwjgl.opengl.GL11.*;
 
 
 public class OpenGL {
-	int screen_width;
-	int screen_height;
-	int tileHeight;
-	String title = "Ducking-Octo-Archer";
+	private int screen_width;
+	private int screen_height;
+	private int tileHeight;
+	private String title = "Ducking-Octo-Archer";
 	
-	int tileSize;
+	private int tileSize;
+	private int difTileObject;
 	
-	float posX;
-	float posY;
-	float posZ;
+	private float posX;
+	private float posY;
+	private float posZ;
 	
 	//Hur långt ifrån kanten nere och till vänster man börjar..typ
-	float startTileX;
-	float startTileY;
-	int spaceBetweenTiles;
+	private float startTileX;
+	private float startTileY;
+	private int spaceBetweenTiles;
 	
-	float GUIX;
+	private float GUIX;
 	
-	float rotationX;
-	float rotationY;
-	float rotationZ;
-	float rotationAngle;
+	private float rotationX;
+	private float rotationY;
+	private float rotationZ;
+	private float rotationAngle;
 	
-	long last_frame;
-	int fps;
-	long last_fps;
+	private long last_frame;
+	private int fps;
+	private long last_fps;
+	
+    public FloatBuffer floatBuffer(float a, float b, float c, float d)
+    {
+    float[] data = new float[]{a,b,c,d};
+    FloatBuffer fb = BufferUtils.createFloatBuffer(data.length);
+    fb.put(data);
+    fb.flip();
+    return fb;
+     }
 	
 	public void drawBox(float x, float y, float z, float boxSizeX, float boxSizeY, float boxSizeZ)
 	{	
-		//s1
-		glVertex3f(x + boxSizeX, y + boxSizeY, z);
-		glVertex3f(x, y + boxSizeY, z);
-		glVertex3f(x, y, z);
-		glVertex3f(x + boxSizeX, y, z);
-		
-		//s2
+		//front Face
+		glNormal3f(0, 0, 1.0f);
 		glVertex3f(x, y + boxSizeY, z + boxSizeZ);
 		glVertex3f(x + boxSizeX, y + boxSizeY, z + boxSizeZ);
 		glVertex3f(x + boxSizeX, y, z + boxSizeZ);
 		glVertex3f(x, y, z + boxSizeZ);
 		
-		//s3
+		//Left Face
+		glNormal3f(-1.0f, 0, 0);
+		glVertex3f(x + boxSizeX, y + boxSizeY, z + boxSizeZ);
+		glVertex3f(x + boxSizeX, y + boxSizeY, z);
+		glVertex3f(x + boxSizeX, y, z);
+		glVertex3f(x + boxSizeX, y, z + boxSizeZ);
+		
+		//Back Face
+		glNormal3f(0, 0, -1.0f);
+		glVertex3f(x + boxSizeX, y + boxSizeY, z);
+		glVertex3f(x, y + boxSizeY, z);
+		glVertex3f(x, y, z);
+		glVertex3f(x + boxSizeX, y, z);
+		
+		//Right Face
+		glNormal3f(1.0f, 0, 0);
+		glVertex3f(x, y + boxSizeY, z);
+		glVertex3f(x, y + boxSizeY, z + boxSizeZ);
+		glVertex3f(x, y, z + boxSizeZ);
+		glVertex3f(x, y, z);
+		
+		
+		//Top Face
+		glNormal3f(0, 1.0f, 0);
+		glVertex3f(x, y + boxSizeY, z);
+		glVertex3f(x + boxSizeX, y + boxSizeY, z);
+		glVertex3f(x + boxSizeX, y + boxSizeY, z + boxSizeZ);
+		glVertex3f(x, y + boxSizeY, z + boxSizeZ);
+			
+		//Bottom Face
+		glNormal3f(0, -1.0f, 0);
 		glVertex3f(x + boxSizeX, y, z);
 		glVertex3f(x, y, z);
 		glVertex3f(x, y, z + boxSizeZ);
 		glVertex3f(x + boxSizeX, y, z + boxSizeZ);
 		
-		//s4
-		glVertex3f(x, y + boxSizeY, z);
-		glVertex3f(x + boxSizeX, y + boxSizeY, z);
-		glVertex3f(x + boxSizeX, y + boxSizeY, z + boxSizeZ);
-		glVertex3f(x, y + boxSizeY, z + boxSizeZ);
 		
-		//s5
-		glVertex3f(x, y + boxSizeY, z);
-		glVertex3f(x, y + boxSizeY, z + boxSizeZ);
-		glVertex3f(x, y, z + boxSizeZ);
-		glVertex3f(x, y, z);
 		
-		//s6
-		glVertex3f(x + boxSizeX, y + boxSizeY, z + boxSizeZ);
-		glVertex3f(x + boxSizeX, y + boxSizeY, z);
-		glVertex3f(x + boxSizeX, y, z);
-		glVertex3f(x + boxSizeX, y, z + boxSizeZ);
 		
 	}
 	
@@ -94,32 +116,32 @@ public class OpenGL {
 	
 	public void drawHuman(Human h)
 	{
-		float posX = startTileX + spaceBetweenTiles + (h.getPos().x * (tileSize + spaceBetweenTiles)) - tileSize/2;
-		float posY = startTileY + spaceBetweenTiles + (h.getPos().y * (tileSize + spaceBetweenTiles)) - tileSize/2;
+		float posX = startTileX + (float)difTileObject/2 + (h.getPos().x * (tileSize + spaceBetweenTiles));
+		float posY = startTileY + (float)difTileObject/2 + (h.getPos().y * (tileSize + spaceBetweenTiles));
 		
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(1.0f, 1.0f, 1.0f);
 		
-		drawBox(posX, posY, tileHeight, tileSize - 2, tileSize - 2, tileSize - 2);
+		drawBox(posX, posY, tileHeight, tileSize - difTileObject, tileSize - difTileObject, tileSize - difTileObject);
 	}
 	
 	public void drawZombie(Zombie z)
 	{
-		float posX = startTileX + spaceBetweenTiles + (z.getPos().x * (tileSize + spaceBetweenTiles)) - tileSize/2;
-		float posY = startTileY + spaceBetweenTiles + (z.getPos().y * (tileSize + spaceBetweenTiles)) - tileSize/2;
+		float posX = startTileX + (float)difTileObject/2 + (z.getPos().x * (tileSize + spaceBetweenTiles));
+		float posY = startTileY + (float)difTileObject/2 + (z.getPos().y * (tileSize + spaceBetweenTiles));
 		
 		glColor3f(1.0f, 0.0f, 0.0f);
 		
-		drawBox(posX, posY, tileHeight, tileSize - 2, tileSize - 2, tileSize - 2);
+		drawBox(posX, posY, tileHeight, tileSize - difTileObject, tileSize - difTileObject, tileSize - difTileObject);
 	}
 	
 	public void drawHouse(House h)
 	{
-		float posX = startTileX + spaceBetweenTiles + (h.getPos().x * (tileSize + spaceBetweenTiles)) - tileSize/2;
-		float posY = startTileY + spaceBetweenTiles + (h.getPos().y * (tileSize + spaceBetweenTiles)) - tileSize/2;
+		float posX = startTileX + (float)difTileObject/2 + (h.getPos().x * (tileSize + spaceBetweenTiles));
+		float posY = startTileY + (float)difTileObject/2 + (h.getPos().y * (tileSize + spaceBetweenTiles));
 		
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(0.7f, 0.3f, 0.1f);
 		
-		drawBox(posX, posY, tileHeight, tileSize - 2, tileSize - 2, tileSize - 2);
+		drawBox(posX, posY, tileHeight, tileSize - difTileObject, tileSize - difTileObject, tileSize - difTileObject);
 	}
 	
 	public void drawGUI(GUIHandler guiHandler)
@@ -197,14 +219,15 @@ public class OpenGL {
 		screen_height = screenHeight;
 		
 		this.tileSize = tileSize;
+		difTileObject = 2;
 		
 		startTileX = GUIWidth + 25;
 		startTileY = 25;
 		tileHeight = 5;
 		
-		posX = screenWidth/2;
-		posY = screenHeight/2;
-		posZ = 1000;
+		posX = screen_height/2;
+		posY = screen_width/2;
+		posZ = 200;
 		
 		rotationX = 0.0f;
 		rotationY = 0.0f;
@@ -226,9 +249,9 @@ public class OpenGL {
 		last_fps = getTime();
 	}
 	
-	public void moveForward(int x)
+	public void moveForward(int y)
 	{
-		posY += 5*x; //Stämmer nog inte Får duga tills rotation införs
+		posY += 5*y; //Stämmer nog inte Får duga tills rotation införs
 	}
 	
 	public void moveSideways(int x)
@@ -236,18 +259,57 @@ public class OpenGL {
 		posX += 5*x;
 	}
 	
-	
-	public void initGL()
+	public void zoom(int zoom)
 	{
-		glViewport(0, 0, screen_width, screen_height);
-		
+		posZ += 3*zoom;
+	}
+	
+	private void setCamera(float angle)
+	{	
+		//cange to projectionmatrix
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		
-		GLU.gluPerspective(45.0f, (float)screen_width/(float)screen_height, 1.0f, 1900.0f);
+		//perspective
+		float widthHeigthRatio = (float)screen_width/(float)screen_height;
+		GLU.gluPerspective(angle, widthHeigthRatio, 1.0f, 5000.0f);
+		GLU.gluLookAt(0, 0, posZ, 0, 0, 0, 0, 1, 0);
 		
+		//Change back to model view matrix
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
+	}
+	
+	private void setLight(float xPos, float yPos, float zPos)
+	{
+		//ljusets position
+		glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, floatBuffer(xPos, yPos, zPos, 1));
+		
+		glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffer(1.0f, 1.0f, 1.0f, 1.0f));
+		glLight(GL_LIGHT0, GL_AMBIENT, floatBuffer(0.1f, 0.1f, 0.1f, 1.0f));
+		glLight(GL_LIGHT0, GL_SPECULAR, floatBuffer(1.0f, 1.0f, 1.0f, 1.0f));
+	}
+	
+	private void initLight(float xPos, float yPos, float zPos)
+	{
+		glEnable (GL_DEPTH_TEST);
+		glEnable (GL_LIGHTING);
+		glEnable (GL_LIGHT0);		
+		
+		glLightModeli(GL11.GL_LIGHT_MODEL_TWO_SIDE,GL11.GL_TRUE);
+		
+		setLight(xPos, yPos, zPos);
+	}
+	
+	public void initGL()
+	{ 
+		initLight(800, 600, -800);			
+		glEnable(GL_COLOR_MATERIAL);
+		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+
+		
+		glViewport(0, 0, screen_width, screen_height);
+		setCamera(45);
 		
 		glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 		glClearDepth(1.0f);
@@ -264,8 +326,10 @@ public class OpenGL {
 	{
 		rotationX = rotX;
 		rotationY = rotY;
-		rotationZ = rotY;
-		rotationAngle += 0.15f;
+		rotationZ = rotZ;
+		rotationAngle = 45;
+		
+		setCamera(rotationAngle);
 		
 		updateFPS();
 	}
@@ -285,6 +349,7 @@ public class OpenGL {
 		glRotatef(rotationAngle, rotationX, rotationY, rotationZ);//vinkel
 		
 		glBegin(GL_QUADS);
+		
 	}
 	
 	

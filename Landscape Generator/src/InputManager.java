@@ -138,12 +138,12 @@ public class InputManager implements MouseListener, ActionListener {
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_Q))
 		{
-			
-		}if(Keyboard.isKeyDown(Keyboard.KEY_E))
-		{
-			
+			gl.zoom(1);
 		}
-		
+		if(Keyboard.isKeyDown(Keyboard.KEY_E))
+		{
+			gl.zoom(-1);
+		}
 	}
 	
 	public void update(OpenGL gl)
