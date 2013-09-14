@@ -330,6 +330,8 @@ public class OpenGL {
 		rotationAngle = 45;
 		
 		setCamera(rotationAngle);
+		rotationZ = rotY;
+//		rotationAngle += 0.15f;
 		
 		updateFPS();
 	}
