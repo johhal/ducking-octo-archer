@@ -110,6 +110,7 @@ public class OpenGL {
 		Color c = tile.getRGBA();
 		glColor3f((float)(c.getRed())/255, (float)(c.getGreen())/255, (float)(c.getBlue())/255);
 		
+		GL11.glMaterial(GL11.GL_FRONT, GL11.GL_AMBIENT_AND_DIFFUSE, floatBuffer(1.0f, 0.0f, 0.0f, 1.0f));
 		
 		drawBox(posX, posY, 1, tileSize, tileSize, tileHeight);
 	}	
@@ -130,6 +131,7 @@ public class OpenGL {
 		float posY = startTileY + (float)difTileObject/2 + (z.getPos().y * (tileSize + spaceBetweenTiles));
 		
 		glColor3f(1.0f, 0.0f, 0.0f);
+		GL11.glMaterial(GL11.GL_FRONT, GL11.GL_EMISSION, floatBuffer(0.0f, 0.0f, 0.0f, 1.0f));
 		
 		drawBox(posX, posY, tileHeight, tileSize - difTileObject, tileSize - difTileObject, tileSize - difTileObject);
 	}
@@ -336,13 +338,18 @@ public class OpenGL {
 		updateFPS();
 	}
 	
-	
+	private int x = 0;
 	public void initDraw()
 	{
 		glViewport(0, 0, screen_width, screen_height);
 		
 		glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		if(x > 500)
+			x=-200;
+		else
+			x++;
+		setLight(x*6, 300, -800);
 		
 		glLoadIdentity();
 		
