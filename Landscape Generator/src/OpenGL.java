@@ -229,12 +229,12 @@ public class OpenGL {
 		
 		posX = screen_height/2;
 		posY = screen_width/2;
-		posZ = 200;
+		posZ = 600;
 		
 		rotationX = 0.0f;
 		rotationY = 0.0f;
 		rotationZ = 0.0f;
-		rotationAngle = 0.0f;
+		rotationAngle = 45.0f;
 		
 		spaceBetweenTiles = 5;
 		
@@ -263,7 +263,8 @@ public class OpenGL {
 	
 	public void zoom(int zoom)
 	{
-		posZ += 3*zoom;
+		//posZ += 3*zoom;
+		rotationAngle += zoom;
 	}
 	
 	private void setCamera(float angle)
@@ -329,7 +330,6 @@ public class OpenGL {
 		rotationX = rotX;
 		rotationY = rotY;
 		rotationZ = rotZ;
-		rotationAngle = 45;
 		
 		setCamera(rotationAngle);
 		rotationZ = rotY;
