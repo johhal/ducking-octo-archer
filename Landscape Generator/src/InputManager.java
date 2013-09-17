@@ -27,7 +27,7 @@ public class InputManager implements MouseListener, ActionListener {
 	private boolean prevRightBtn;
 
 	public void initilize() throws LWJGLException {
-		//Keyboard.create();
+		
 	}
 	
 	public void resetClickLocation()
@@ -152,6 +152,14 @@ public class InputManager implements MouseListener, ActionListener {
 		if(Keyboard.isKeyDown(Keyboard.KEY_E))
 		{
 			tmp += 1*mathExp(10, 5);
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_Z))
+		{
+			tmp += 1*mathExp(10, 6);
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_C))
+		{
+			tmp += 1*mathExp(10, 7);
 		}
 		return tmp;
 	}

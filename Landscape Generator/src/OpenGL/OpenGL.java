@@ -233,7 +233,7 @@ public class OpenGL {
 	//förflyttning
 	public void moveCamera(float ammount, float direction)
 	{
-		camera.move(ammount, direction);
+		camera.moveXY(ammount, direction);
 	}
 
 	//Ljus
@@ -275,31 +275,53 @@ public class OpenGL {
 	{
 		if(input != 0)
 		{
-			int maxExp = 6;
-			if(input/mathExp(10, maxExp-1) != 0)
+			if(input/mathExp(10, 7) != 0)
 			{
-				input -= mathExp(10, maxExp-1);
-				camera.move(0.01f, 1);
+				//C
+				input -= mathExp(10, 7);
+				camera.rotateY(-1f);
 			}
-			if(input % mathExp(10, maxExp-2) != 0)
+			if(input/mathExp(10, 6) != 0)
 			{
-				
+				//Z
+				input -= mathExp(10, 6);
+				camera.rotateY(1f);
 			}
-			if(input % mathExp(10, maxExp-3) != 0)
+			if(input/mathExp(10, 5) != 0)
 			{
-				
+				//E
+				input -= mathExp(10, 5);
+				camera.moveXZ(-1f, 1);
 			}
-			if(input % mathExp(10, maxExp-4) != 0)
+			if(input/mathExp(10, 4) != 0)
 			{
-				
+				//Q
+				input -= mathExp(10, 4);
+				camera.moveXZ(1f, 1);
 			}
-			if(input % mathExp(10, maxExp-5) != 0)
+			if(input/mathExp(10, 3) != 0)
 			{
-				
+				//S
+				input -= mathExp(10, 3);
+				camera.moveXY(1f, 1);
 			}
-			if(input % mathExp(10, maxExp-6) != 0)
+			if(input/mathExp(10, 2) != 0)
 			{
-				
+				//W
+				input -= mathExp(10, 2);
+				camera.moveXY(-1f, 1);
+			}
+			if(input/mathExp(10, 1) != 0)
+			{
+				//D
+				input -= mathExp(10, 1);
+				camera.moveXY(-1f, 0);
+			}
+			if(input/mathExp(10, 0) != 0)
+			{
+				//A
+				input -= mathExp(10, 0);
+				camera.moveXY(1f, 0);
 			}
 		}
 	}

@@ -15,7 +15,7 @@ public class Tester {
 		
 		GameManager gm = new GameManager();
 		try{
-			gm.initialize(50, 50, 10);
+			gm.initialize(50, 50, 2);
 		}
 		catch (Exception ex)
 		{

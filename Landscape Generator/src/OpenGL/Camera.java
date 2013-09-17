@@ -73,21 +73,17 @@ public class Camera {
 		rotZ += ammount;
 	}
 	
-	public void move(float ammount, float direction)
+	public void moveXY(float ammount, float direction)
 	{
-		posZ += ammount * Math.sin(Math.toRadians(rotY + 90 + direction));
-		posX += ammount * Math.cos(Math.toRadians(rotY + 90 + direction));
+		posY += ammount * Math.sin(Math.toRadians(rotY + 90 * direction));
+		posX += ammount * Math.cos(Math.toRadians(rotY + 90 * direction));
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public void moveXZ(float ammount, float direction)
+	{
+		posZ += ammount * Math.sin(Math.toRadians(rotY + 90 * direction));
+		posX += ammount * Math.cos(Math.toRadians(rotY + 90 * direction));
+	}
 	
 	public float getX()
 	{

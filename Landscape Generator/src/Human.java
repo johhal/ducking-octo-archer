@@ -103,7 +103,7 @@ public class Human extends Fighter {
 	}
 	
 	public DrawingObject draw() {
-		short nt = 1;
+		short nt = 1; //notTile, value 1 if not a tile.
 		float n = (float) getCurrentHitpoints() / (float) getMaxHitpoints();
 		return new DrawingObject(currentX, currentY, n, n, n, nt);
 	}
