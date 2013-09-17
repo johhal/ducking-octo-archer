@@ -1,17 +1,13 @@
-import java.awt.Color;
 import java.awt.Point;
-import java.awt.image.BufferedImage;
 
 public class Human extends Fighter {
 	private int currentX;
 	private int currentY;
 	private Landscape landscape;
 	private long remainingSleepTime;
-	private ImageViewer viewer;
 	private long lastEntered;
 
-	public Human(int currentX, int currentY, Landscape landscape,
-			ImageViewer imageViewer) {
+	public Human(int currentX, int currentY, Landscape landscape) {
 		super(4, 2, 4, 4, 15);
 		if (Math.random() < 0.2) {
 			setDamage(4);
@@ -23,7 +19,6 @@ public class Human extends Fighter {
 		this.currentX = currentX;
 		this.currentY = currentY;
 		this.landscape = landscape;
-		this.viewer = imageViewer;
 		generateSleepTime();
 		lastEntered = System.currentTimeMillis();
 		landscape.getTile(currentX, currentY).inhabited(true);
@@ -73,34 +68,6 @@ public class Human extends Fighter {
 		}
 	}
 
-	private BufferedImage getTileImage(int tileSize) {
-
-		BufferedImage image = new BufferedImage(tileSize, tileSize,
-				BufferedImage.TYPE_INT_ARGB);
-		for (int i = 0; i < tileSize; i++) {
-			for (int j = 0; j < tileSize; j++) {
-				if (i == 0) {
-					image.setRGB(i, j, Color.black.getRGB());
-				} else if (j == 0) {
-					image.setRGB(i, j, Color.black.getRGB());
-				} else if (i == (tileSize - 1)) {
-					image.setRGB(i, j, Color.black.getRGB());
-				} else if (j == (tileSize - 1)) {
-					image.setRGB(i, j, Color.black.getRGB());
-				} else {
-					image.setRGB(i, j, getRGBA());
-				}
-			}
-		}
-
-		return image;
-	}
-
-	public int getRGBA() {
-		int n = (int) (((double) getCurrentHitpoints() / (double) getMaxHitpoints()) * 255);
-		return new Color(n, n, n).getRGB();
-	}
-
 	public void update() {
 		if (remainingSleepTime <= 0) {
 			// Has slept enough!
@@ -120,11 +87,6 @@ public class Human extends Fighter {
 
 	}
 
-	public void draw(int tileSize, OpenGL gl) {
-		//viewer.addImage(currentX * tileSize, currentY * tileSize,
-		//		getTileImage(tileSize));
-		gl.drawHuman(this);
-	}
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Human");
@@ -139,5 +101,10 @@ public class Human extends Fighter {
 		return sb.toString();
 
 	}
-
+	
+	public DrawingObject draw() {
+		short nt = 1; //notTile, value 1 if not a tile.
+		float n = (float) getCurrentHitpoints() / (float) getMaxHitpoints();
+		return new DrawingObject(currentX, currentY, n, n, n, nt);
+	}
 }

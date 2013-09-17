@@ -1,22 +1,17 @@
 import java.awt.Point;
-import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
 
 public class Landscape {
 	private Tile[][] landscape;
 	private int sizeX;
 	private int sizeY;
-
-	private int tileSize;
-	private ImageViewer imageViewer;
-
-	public Landscape(Tile[][] Landscape, int tileSize, ImageViewer imageViewer) {
+	
+	public Landscape(Tile[][] Landscape) {
 		this.landscape = Landscape;
-		this.tileSize = tileSize;
 
 		sizeX = landscape.length;
 		sizeY = landscape[0].length;
-
-		this.imageViewer = imageViewer;
 	}
 
 	public Tile getTile(int x, int y) {
@@ -29,10 +24,6 @@ public class Landscape {
 	public Tile[][] getTiles()
 	{
 		return landscape;
-	}
-	
-	public int getTileSize() {
-		return tileSize;
 	}
 
 	public boolean canMoveZombie(int oldX, int oldY, int newX, int newY) {
@@ -77,20 +68,6 @@ public class Landscape {
 			return false;
 		}
 		return true;
-	}
-
-	public BufferedImage getLandscapeImg() {
-		int type = BufferedImage.TYPE_INT_ARGB;
-		BufferedImage image = new BufferedImage(tileSize * sizeX, tileSize
-				* sizeY, type);
-		for (int i = 0; i < sizeX; i++) {
-			for (int j = 0; j < sizeY; j++) {
-				image.createGraphics().drawImage(
-						getTile(i, j).getTileImage(tileSize, tileSize),
-						i * tileSize, j * tileSize, null);
-			}
-		}
-		return image;
 	}
 
 	public Point getNearbyAvailableLocation(int x, int y) {
@@ -153,10 +130,15 @@ public class Landscape {
 		return false;
 	}
 	
-	public void draw(int tileSize, OpenGL gl)
+	public ArrayList<DrawingObject> draw()
 	{
+		ArrayList<DrawingObject> dro = new ArrayList<DrawingObject>();
 		for(int i = 0; i < landscape.length; i++)
-			for(int j = 0; j < landscape[0].length; j++)
-				gl.drawTile(landscape[i][j], i, j);
+		{
+			for(int j = 0; j < landscape[0].length; j++){
+				dro.add(landscape[i][j].draw(i, j));
+			}
+		}
+		return dro;
 	}
 }

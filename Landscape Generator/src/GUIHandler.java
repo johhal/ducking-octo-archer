@@ -1,4 +1,3 @@
-
 public class GUIHandler {
 	private int nrOfTeams; // teamcolor
 	private int selectedTeam;
@@ -40,8 +39,8 @@ public class GUIHandler {
 		
 	}
 	
-	public void draw(OpenGL gl)
+	public void draw()
 	{
-		gl.drawGUI(this);
+		
 	}
 }

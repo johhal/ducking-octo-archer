@@ -4,22 +4,17 @@ import java.util.Arrays;
 public class LibraryLoader {
 	public static void loadNativeLibraries() throws Exception
 	{
-		System.out.println("LIBRARY LOADER");
 		if(System.getProperty("os.name").equals("Mac OS X"))
 		{
-			System.out.println("MAC");
 			addLibraryPath("natives/macosx");
 		}
 		else if (System.getProperty("os.name").equals("Linux"))
 		{
-			System.out.println("LINUX");
 			addLibraryPath("natives/linux");
-
 		}
 		else
 		{
 			addLibraryPath("natives/windows");
-			System.out.println("WINDOWS");
 			if(System.getProperty("os.arch").equals("amd64") || System.getProperty("os.arch").equals("x86_64"))
 			{
 				System.loadLibrary("OpenAL64");

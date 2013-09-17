@@ -175,4 +175,12 @@ public class Tile {
 	public void buildHouse(boolean b) {
 		hasHouse = b;
 	}
+	
+	public DrawingObject draw(int x, int y)
+	{
+		Color c = getRGBA();
+		short nt = 0;
+		DrawingObject dro = new DrawingObject(x, y, (float)c.getRed()/255, (float)c.getGreen()/255, (float)c.getBlue()/255, nt);
+		return dro;
+	}
 }

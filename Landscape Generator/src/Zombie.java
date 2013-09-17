@@ -1,6 +1,4 @@
-import java.awt.Color;
 import java.awt.Point;
-import java.awt.image.BufferedImage;
 
 public class Zombie extends Fighter {
 	private int currentX;
@@ -8,10 +6,8 @@ public class Zombie extends Fighter {
 	private Landscape landscape;
 	private long remainingSleepTime;
 	private long lastEntered;
-	private ImageViewer viewer;
 
-	public Zombie(int currentX, int currentY, Landscape landscape,
-			ImageViewer viewer) {
+	public Zombie(int currentX, int currentY, Landscape landscape) {
 		super(7, 4, 7, 6, 16);
 		this.currentX = currentX;
 		this.currentY = currentY;
@@ -19,7 +15,6 @@ public class Zombie extends Fighter {
 		generateSleepTime();
 		lastEntered = System.currentTimeMillis();
 		landscape.getTile(currentX, currentY).infest(true);
-		this.viewer = viewer;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -74,34 +69,6 @@ public class Zombie extends Fighter {
 		landscape.getTile(currentX, currentY).infest(false);
 	}
 
-	private BufferedImage getTileImage(int tileSize) {
-
-		BufferedImage image = new BufferedImage(tileSize, tileSize,
-				BufferedImage.TYPE_INT_ARGB);
-		for (int i = 0; i < tileSize; i++) {
-			for (int j = 0; j < tileSize; j++) {
-				if (i == 0) {
-					image.setRGB(i, j, Color.black.getRGB());
-				} else if (j == 0) {
-					image.setRGB(i, j, Color.black.getRGB());
-				} else if (i == (tileSize - 1)) {
-					image.setRGB(i, j, Color.black.getRGB());
-				} else if (j == (tileSize - 1)) {
-					image.setRGB(i, j, Color.black.getRGB());
-				} else {
-					image.setRGB(i, j, getRGBA());
-				}
-			}
-		}
-
-		return image;
-	}
-
-	public int getRGBA() {
-		int n = (int) (((double) getCurrentHitpoints() / (double) getMaxHitpoints()) * 255);
-		return new Color(n, 0, 0).getRGB();
-	}
-
 	public void update() {
 		if (remainingSleepTime <= 0) {
 			// Has slept enough!
@@ -135,10 +102,10 @@ public class Zombie extends Fighter {
 
 	}
 
-	public void draw(int tileSize, OpenGL gl) {
-		gl.drawZombie(this);
-		//viewer.addImage(currentX * tileSize, currentY * tileSize,
-			//	getTileImage(tileSize));
+	public DrawingObject draw() {
+		short sh = 1;
+		float n = (float) getCurrentHitpoints() / (float) getMaxHitpoints();
+		return new DrawingObject(currentX, currentY, n, 0, 0, sh);
 	}
 
 }
