@@ -3,9 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.security.Key;
 
-import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
@@ -29,7 +27,7 @@ public class InputManager implements MouseListener, ActionListener {
 	private boolean prevRightBtn;
 
 	public void initilize() throws LWJGLException {
-		Keyboard.create();
+		//Keyboard.create();
 	}
 	
 	public void resetClickLocation()
@@ -118,38 +116,48 @@ public class InputManager implements MouseListener, ActionListener {
 		}
 	}
 	
-	private void checkKeyboard(OpenGL gl)
+	private int mathExp(int base, int exp)
 	{
+		int tmp = base;
+		for(int i = 0; i < exp; i++)
+			tmp *= base;
+		if (exp == 0)
+			tmp = 1;
+		return tmp;
+	}
+	
+	private int checkKeyboard()
+	{
+		int tmp = 0;
 		if(Keyboard.isKeyDown(Keyboard.KEY_A))
 		{
-			gl.moveSideways(-1);
+			tmp += 1*mathExp(10, 0);
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_D))
 		{
-			gl.moveSideways(1);
+			tmp += 1*mathExp(10, 1);
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_W))
 		{
-			gl.moveForward(1);
+			tmp += 1*mathExp(10, 2);
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_S))
 		{
-			gl.moveForward(-1);
+			tmp += 1*mathExp(10, 3);
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_Q))
 		{
-			gl.zoom(1);
+			tmp += 1*mathExp(10, 4);
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_E))
 		{
-			gl.zoom(-1);
+			tmp += 1*mathExp(10, 5);
 		}
+		return tmp;
 	}
 	
-	public void update(OpenGL gl)
-	{
-		checkKeyboard(gl);
-		
+	public int update()
+	{		
 		if(Mouse.isButtonDown(0)){
 			prevLeftBtn=true;
 		}
@@ -168,5 +176,7 @@ public class InputManager implements MouseListener, ActionListener {
 			clickLocation = new Point(Mouse.getX(), Mouse.getY());
 			prevRightBtn = false;
 		}
+		
+		return checkKeyboard();
 	}
 }

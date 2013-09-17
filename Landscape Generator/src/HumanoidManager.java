@@ -7,11 +7,9 @@ public class HumanoidManager {
 	private ArrayList<Human> humans;
 	private ArrayList<House> houses;
 	private Landscape landscape;
-	private ImageViewer viewer;
 
-	public void initialize(Landscape _landscape, ImageViewer viewer) {
+	public void initialize(Landscape _landscape) {
 		this.landscape = _landscape;
-		this.viewer = viewer;
 		
 		//Initiera zombies + m�nniskor + hus
 		zombies = new ArrayList<Zombie>();
@@ -50,19 +48,19 @@ public class HumanoidManager {
 
 	public boolean addZombie(int xpos, int ypos) {
 		// S�tt ut zombies?
-		zombies.add(new Zombie(xpos, ypos, landscape, viewer));
+		zombies.add(new Zombie(xpos, ypos, landscape));
 		return true;
 	}
 
 	public boolean addHuman(int xpos, int ypos) {
 		//S�tt ut m�nniskor
-		humans.add(new Human(xpos, ypos, landscape, viewer));
+		humans.add(new Human(xpos, ypos, landscape));
 		return true;
 	}
 
 	public boolean addHouse(int xpos, int ypos) {
 		//s�tt ut hus
-		houses.add(new House(xpos, ypos, landscape, viewer));
+		houses.add(new House(xpos, ypos, landscape));
 		return true;
 	}
 
@@ -138,17 +136,18 @@ public class HumanoidManager {
 	}
 
 
-	public void draw(int tileSize, OpenGL gl) {
+	public ArrayList<DrawingObject> draw() {
+		ArrayList<DrawingObject> dro = new ArrayList<DrawingObject>();
 		for(Zombie z: zombies){
-			z.draw(tileSize, gl);
+			dro.add(z.draw());
 		}
 		for(Human h: humans){
-			h.draw(tileSize, gl);
+			dro.add(h.draw());
 		}
 		for(House h: houses){
-			h.draw(tileSize, gl);
+			dro.add(h.draw());
 		}
-		viewer.redrawImage();
+		return dro;
 	}
 
 	public String humanoidToString(Point p) {

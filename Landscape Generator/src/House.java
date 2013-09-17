@@ -1,7 +1,4 @@
-import java.awt.Color;
 import java.awt.Point;
-import java.awt.image.BufferedImage;
-
 
 public class House extends Fighter{
 	private int currentX;
@@ -10,14 +7,12 @@ public class House extends Fighter{
 	private long remainingSleepTime;
 	private long lastEntered;
 	private int fertility;
-	private ImageViewer viewer;
 	
-	public House(int currentX, int currentY, Landscape landscape, ImageViewer imageViewer) {
+	public House(int currentX, int currentY, Landscape landscape) {
 		super(10,2,4,4,18);
 		this.currentX = currentX;
 		this.currentY = currentY;
 		this.landscape = landscape;
-		this.viewer = imageViewer;
 		generateSleepTime();
 		lastEntered = System.currentTimeMillis();
 		landscape.getTile(currentX,currentY).buildHouse(true);
@@ -65,34 +60,6 @@ public class House extends Fighter{
 		fertility = i;
 	}
 	
-	private BufferedImage getTileImage(int tileSize) {
-
-		BufferedImage image = new BufferedImage(tileSize, tileSize,
-				BufferedImage.TYPE_INT_ARGB);
-		for (int i = 0; i < tileSize; i++) {
-			for (int j = 0; j < tileSize; j++) {
-				if (i == 0) {
-					image.setRGB(i, j, Color.black.getRGB());
-				} else if (j == 0) {
-					image.setRGB(i, j, Color.black.getRGB());
-				} else if (i == (tileSize - 1)) {
-					image.setRGB(i, j, Color.black.getRGB());
-				} else if (j == (tileSize - 1)) {
-					image.setRGB(i, j, Color.black.getRGB());
-				} else {
-					image.setRGB(i, j, getRGBA());
-				}
-			}
-		}
-
-		return image;
-	}
-	
-	public int getRGBA() {
-		int n = (int) (((double)getCurrentHitpoints() / (double)getMaxHitpoints()) * 100);
-		return new Color(n, n/2, 0).getRGB();
-	}
-	
 	public void update() {
 		if (remainingSleepTime <= 0) {
 			//Has slept enough!
@@ -111,11 +78,7 @@ public class House extends Fighter{
 		}
 		
 	}
-
-	public void draw(int tileSize, OpenGL gl) {
-		//viewer.addImage(currentX*tileSize, currentY*tileSize, getTileImage(tileSize));
-		gl.drawHouse(this);
-	}
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("House");
@@ -128,6 +91,11 @@ public class House extends Fighter{
 		sb.append("\n");
 		sb.append("Damage: " + getDamage());
 		return sb.toString();
-
+	}
+	
+	public DrawingObject draw() {
+		short sh = 1;
+		float n = (float)getCurrentHitpoints() / (float)getMaxHitpoints();
+		return new DrawingObject(currentX, currentY, n, n/2, 0, sh);
 	}
 }

@@ -4,6 +4,7 @@ import java.util.Arrays;
 public class LibraryLoader {
 	public static void loadNativeLibraries() throws Exception
 	{
+		
 		if(System.getProperty("os.name").equals("Mac OS X"))
 		{
 			addLibraryPath("natives/macosx");
@@ -11,7 +12,6 @@ public class LibraryLoader {
 		else if (System.getProperty("os.name").equals("Linux"))
 		{
 			addLibraryPath("natives/linux");
-
 		}
 		else
 		{

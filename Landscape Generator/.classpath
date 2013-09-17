@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry exported="true" kind="lib" path="libs/lwjgl_util.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/lwjgl.jar"/>
-	<classpathentry kind="lib" path="/home/pontus/Dokument/Git/ducking-octo-archer/Landscape Generator/libs/google-gson-2.2.2-release/google-gson-2.2.2/gson-2.2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/google-gson-2.2.2-release/google-gson-2.2.2/gson-2.2.2-javadoc.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/google-gson-2.2.2-release/google-gson-2.2.2/gson-2.2.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/google-gson-2.2.2-release/google-gson-2.2.2/gson-2.2.2.jar"/>

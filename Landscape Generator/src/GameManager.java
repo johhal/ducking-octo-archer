@@ -1,8 +1,10 @@
 import java.awt.Point;
-
-import javax.swing.JFrame;
+import java.util.ArrayList;
 
 import org.lwjgl.LWJGLException;
+
+import OpenGL.OpenGL;
+
 
 public class GameManager {
 	private int boardWidth;
@@ -19,8 +21,6 @@ public class GameManager {
 	private HumanoidManager humanoidManager;
 	public InputManager inputManager;
 
-	ImageViewer viewer;
-
 	Landscape landscape;
 	
 	private OpenGL gl = new OpenGL(); 
@@ -36,30 +36,32 @@ public class GameManager {
 		
 		GUIWidth = 200;
 		
-		// Skapa F�nster
-		viewer = new ImageViewer();
-
+		System.out.println("1");
 		// Skapa v�rlden och generera omr�den
 		LandscapeGenerator landGen = new LandscapeGenerator();
-		landscape = new Landscape(landGen.generate(boardWidth, boardHeight),
-				tileSize, viewer);
-		
-		// Sk�rmstuff
-		gl.Initialize(screenWidth, screenHeight, tileSize, GUIWidth);
+		landscape = new Landscape(landGen.generate(boardWidth, boardHeight));
 
+		System.out.println("2");
+		
 		// Skapa Varelser
 		humanoidManager = new HumanoidManager();
-		humanoidManager.initialize(landscape, viewer);
+		humanoidManager.initialize(landscape);
 
+		System.out.println("3");
+		
 		inputManager = new InputManager();
 		inputManager.initilize();
 		
+		System.out.println("4");
+		// Sk�rmstuff
+		gl.initialize(screenWidth, screenHeight, tileSize, GUIWidth);
+		
+
+		System.out.println("5");
+		
 		guiHandler = new GUIHandler();
 		guiHandler.Initialize(3, 2);
-		
-		// mer sk�rmstuff
-		viewer.setActionListener(inputManager);
-		viewer.setMouseListener(inputManager);
+		System.out.println("6");
 	}
 
 	public void run() 
@@ -81,13 +83,13 @@ public class GameManager {
 	}
 
 	public void update() {		
-		inputManager.update(gl);
+		int input = inputManager.update();
 		
 		humanoidManager.update();
 		
 		guiHandler.update();
 		
-		gl.update(gl.getDelta(), 0, 0, 0);
+		gl.update(gl.getDelta(), input);
 		
 		inputManager.resetClickLocation();	
 	}
@@ -95,11 +97,24 @@ public class GameManager {
 	public void draw() {
 		gl.initDraw();
 		
-		landscape.draw(tileSize, gl);
+		ArrayList<DrawingObject> otd = new ArrayList<DrawingObject>();
+		DrawingObject cd;
 		
-		humanoidManager.draw(tileSize, gl);
+		otd = landscape.draw();
+		for(int i=0; i<otd.size(); i++)
+		{
+			cd = otd.get(i);
+			gl.convertAndDraw(cd.posX, cd.posY, cd.cr, cd.cg, cd.cb, cd.notTile);
+		}
 		
-		guiHandler.draw(gl);
+		otd = humanoidManager.draw();
+		
+		for(int i=0; i<otd.size(); i++)
+		{
+			cd = otd.get(i);
+			gl.convertAndDraw(cd.posX, cd.posY, cd.cr, cd.cg, cd.cb, cd.notTile);
+		}
+		//guiHandler.draw();
 		
 		gl.endDraw();
 	}
