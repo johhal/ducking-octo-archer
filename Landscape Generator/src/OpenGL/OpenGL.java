@@ -1,14 +1,17 @@
 package OpenGL;
 
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
+import org.lwjgl.util.vector.Vector3f;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -187,8 +190,8 @@ public class OpenGL {
 		this.tileSize = tileSize;
 		difTileObject = 1;
 		
-		startTileX = GUIWidth + 25;
-		startTileY = 25;
+		startTileX = 0;
+		startTileY = 0;
 		tileHeight = 2;
 		
 		spaceBetweenTiles = 1;
@@ -199,7 +202,7 @@ public class OpenGL {
 		initGL();
 		
 		camera = new Camera();
-		camera.initialize(70, (float)screen_width/screen_height, 0.3f, 1000);
+		camera.initialize(70f, (float)screen_width/screen_height, 0.3f, 1000f);	//, posX, posY, posZ);
 		
 		getDelta();
 		
@@ -279,13 +282,13 @@ public class OpenGL {
 			{
 				//C
 				input -= mathExp(10, 7);
-				camera.rotateY(-1f);
+				camera.moveXY(-1f, 90);
 			}
 			if(input/mathExp(10, 6) != 0)
 			{
 				//Z
 				input -= mathExp(10, 6);
-				camera.rotateY(1f);
+				camera.moveXY(1f, 90);
 			}
 			if(input/mathExp(10, 5) != 0)
 			{
@@ -303,25 +306,25 @@ public class OpenGL {
 			{
 				//S
 				input -= mathExp(10, 3);
-				camera.moveXY(1f, 1);
+				camera.rotateX(1);
 			}
 			if(input/mathExp(10, 2) != 0)
 			{
 				//W
 				input -= mathExp(10, 2);
-				camera.moveXY(-1f, 1);
+				camera.rotateX(-1);
 			}
 			if(input/mathExp(10, 1) != 0)
 			{
 				//D
 				input -= mathExp(10, 1);
-				camera.moveXY(-1f, 0);
+				camera.rotateY(1f);
 			}
 			if(input/mathExp(10, 0) != 0)
 			{
 				//A
 				input -= mathExp(10, 0);
-				camera.moveXY(1f, 0);
+				camera.rotateY(-1f);
 			}
 		}
 	}
@@ -330,6 +333,13 @@ public class OpenGL {
 	public void update(int delta, int input)
 	{
 		translateInput(input);
+		if(Mouse.isButtonDown(1))
+		{
+			Vector3f v = getMousePositionIn3dCoords(Mouse.getX(), Mouse.getY());
+			int tileX = (int)v.x/3;
+			int tileY = (int)v.y/3;
+			System.out.println("x: " + tileX + " y: " + tileY);
+		}
 		updateFPS();
 	}
 	
@@ -364,4 +374,50 @@ public class OpenGL {
 		//Sätter fpsen till 60
 		//Display.sync(60);
 	}
+
+
+	static IntBuffer viewport = BufferUtils.createIntBuffer(16);
+	static FloatBuffer modelview = BufferUtils.createFloatBuffer(16);
+	static FloatBuffer projection = BufferUtils.createFloatBuffer(16);
+	static FloatBuffer winZ = BufferUtils.createFloatBuffer(20);
+	static FloatBuffer position = BufferUtils.createFloatBuffer(3);
+	   
+	static public Vector3f getMousePositionIn3dCoords(int mouseX, int mouseY)
+	{
+
+		viewport.clear();
+		modelview.clear();
+		projection.clear();
+		winZ.clear();;
+		position.clear();
+	    float winX, winY;
+
+
+	    GL11.glGetFloat( GL11.GL_MODELVIEW_MATRIX, modelview );
+	    GL11.glGetFloat( GL11.GL_PROJECTION_MATRIX, projection );
+	    GL11.glGetInteger( GL11.GL_VIEWPORT, viewport );
+	    
+	    winX = (float)mouseX;
+	    winY = /* (float)viewport.get(3) -  */  //Uncomment this if you invert Y
+	         (float)mouseY;
+
+	    GL11.glReadPixels(mouseX, (int)winY, 1, 1, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, winZ);
+
+	    float zz = winZ.get();
+
+	    GLU.gluUnProject(winX, winY, zz, modelview, projection, viewport, position);
+
+
+
+	    Vector3f v = new Vector3f (position.get(0),position.get(1),position.get(2));
+
+
+	    return v; 
+	    }
+
+
+
 }
+
+
+

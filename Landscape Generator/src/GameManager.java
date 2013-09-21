@@ -53,9 +53,9 @@ public class GameManager {
 		inputManager.initilize();
 		
 		System.out.println("4");
-		// Sk�rmstuff
-		gl.initialize(screenWidth, screenHeight, tileSize, GUIWidth);
 		
+		gl.initialize(screenWidth, screenHeight,
+				tileSize, GUIWidth);		
 
 		System.out.println("5");
 		
