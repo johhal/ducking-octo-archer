@@ -84,12 +84,15 @@ public class GameManager {
 
 	public void update() {		
 		int input = inputManager.update();
-		
+			
 		humanoidManager.update();
 		
 		guiHandler.update();
+		Point mi = inputManager.getClickLocation();
+		Point p = gl.update(gl.getDelta(), input, mi);
 		
-		gl.update(gl.getDelta(), input);
+		if((p.x != mi.x || p.y != mi.y) && p.x < boardWidth && p.y < boardHeight && p.x >= 0 && p.y >= 0)
+			humanoidManager.addHouse(p.x, p.y);
 		
 		inputManager.resetClickLocation();	
 	}

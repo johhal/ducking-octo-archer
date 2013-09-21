@@ -1,5 +1,6 @@
 package OpenGL;
 
+import java.awt.Point;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
@@ -330,17 +331,18 @@ public class OpenGL {
 	}
 	
 	//Updatera
-	public void update(int delta, int input)
+	public Point update(int delta, int input, Point p)
 	{
+		Point p2 = new Point(p.x, p.y);
 		translateInput(input);
-		if(Mouse.isButtonDown(1))
+		if(p2.x != 0 || p2.y != 0)
 		{
-			Vector3f v = getMousePositionIn3dCoords(Mouse.getX(), Mouse.getY());
-			int tileX = (int)v.x/3;
-			int tileY = (int)v.y/3;
-			System.out.println("x: " + tileX + " y: " + tileY);
+			Vector3f v = getMousePositionIn3dCoords(p2.x, p2.y);
+			p2.x = (int)v.x/ (tileSize + spaceBetweenTiles);
+			p2.y = (int)v.y/ (tileSize + spaceBetweenTiles);
 		}
 		updateFPS();
+		return p2;
 	}
 	
 	//Rita

@@ -34,7 +34,7 @@ public class LibraryLoader {
 		
 		final String[] paths = (String[]) usr_paths_field.get(null);
 		
-		for(String path : paths)
+  		for(String path : paths)
 		{
 			if (path.equals(s))
 			{

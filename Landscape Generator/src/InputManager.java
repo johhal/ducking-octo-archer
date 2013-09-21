@@ -33,7 +33,6 @@ public class InputManager implements MouseListener, ActionListener {
 	public void resetClickLocation()
 	{
 		clickLocation = new Point(0,0);
-		leftMouseClicked = false;
 	}
 	
 	public boolean spawnZombieSelected() {
