@@ -1,3 +1,5 @@
+package Server;
+
 import java.awt.Point;
 
 public class Zombie extends Fighter {
@@ -102,10 +104,10 @@ public class Zombie extends Fighter {
 
 	}
 
-	public DrawingObject draw() {
-		short sh = 1;
-		float n = (float) getCurrentHitpoints() / (float) getMaxHitpoints();
-		return new DrawingObject(currentX, currentY, n, 0, 0, sh);
-	}
+//	public DrawingObject draw() {
+//		short sh = 1;
+//		float n = (float) getCurrentHitpoints() / (float) getMaxHitpoints();
+//		return new DrawingObject(currentX, currentY, n, 0, 0, sh);
+//	}
 
 }

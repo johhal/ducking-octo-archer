@@ -1,3 +1,4 @@
+package Server;
 public class Fighter {
 	private int currentHitPoints;
 	private int maxHitPoints;

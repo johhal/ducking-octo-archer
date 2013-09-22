@@ -8,10 +8,12 @@ public class ProtocolEnum {
     }
 
     public enum EVENT {
+		MAP
     }
 
 
 
     public enum PARAMETER_TYPE {
+    	HOUSES, ZOMBIES, HUMANS, TILES
     }
 }

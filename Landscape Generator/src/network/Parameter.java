@@ -1,33 +1,29 @@
 package network;
 
-import java.util.HashMap;
-
 
 public class Parameter {
 
-    private String parameterType;
-    private HashMap<String, String> parameterValueHashMap;
+    private ProtocolEnum.PARAMETER_TYPE parameterType;
+    private Object data;
 
-    public Parameter(String parameterType) {
+    public Parameter(ProtocolEnum.PARAMETER_TYPE parameterType) {
         this.parameterType = parameterType;
-        parameterValueHashMap = new HashMap<String, String>();
     }
 
-    public String getParameterType() {
+    public ProtocolEnum.PARAMETER_TYPE getParameterType() {
         return parameterType;
     }
 
-    public HashMap<String, String> getParameterValueHashMap() {
-        return parameterValueHashMap;
+    public Object getParameterValueHashMap() {
+        return data;
     }
 
-    public Parameter addValue(String key, String value) {
-        parameterValueHashMap.put(key, value);
-        return this;
+    public void setData(Object data) {
+        this.data = data;
     }
 
-    public String getValue(String key) {
-        return parameterValueHashMap.get(key);
+    public Object getData() {
+        return data;
     }
 }
 

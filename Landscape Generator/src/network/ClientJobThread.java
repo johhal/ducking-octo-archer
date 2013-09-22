@@ -1,45 +1,46 @@
 package network;
 
-import java.util.ArrayList;
+import Client.GUIModel;
 import network.JobThread;
 import network.JobQueue;
 
 public class ClientJobThread extends JobThread {
+	
+	private GUIModel guiModel;
+	private Session session;
 
-    private Session session;
+	public ClientJobThread(JobQueue readQueue,
+			Session session, GUIModel guiModel) {
+		super(readQueue, false);
+		
+		this.guiModel = guiModel;
+		this.session = session;
+	}
 
-    public ClientJobThread(JobQueue readQueue, JobQueue writeQueue, Session session) {
-        super(readQueue, writeQueue, false);
+	protected void handleUpdate(ProtocolMessage pm) {
+		if(pm != null)
+		{
+			switch (pm.getEvent()){
+			case MAP:
+				guiModel.update(pm);
+				break;
+			}
+		}
+	}
 
-        this.session = session;
-    }
+	protected void handleSubmit(ProtocolMessage pm) {
+		switch (pm.getEvent()) {
 
+		}
+	}
 
-    protected String handleUpdate(ProtocolMessage pm) {
-        return gson.toJson(pm);
-    }
+	protected void handleLoginLogout(ProtocolMessage pm) {
+		switch (pm.getEvent()) {
 
+		}
 
-    protected String handleSubmit(ProtocolMessage pm) {
-        switch (pm.getEvent()) {
-            
-        }
-        return null;
-    }
+	}
 
-    protected String handleLoginLogout(ProtocolMessage pm) {
-        switch (pm.getEvent()) {
-            
-        }
-        return null;
-
-    }
-
-    protected void handleAnswer(String message) {
-    }
-
-
-    protected String handleError(ProtocolMessage pm) {
-        return null;
-    }
+	protected void handleError(ProtocolMessage pm) {
+	}
 }

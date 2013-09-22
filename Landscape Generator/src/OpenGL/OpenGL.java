@@ -210,7 +210,7 @@ public class OpenGL {
 		last_fps = getTime();
 	}
 	
-	public void initDisplay() throws LWJGLException
+	private void initDisplay() throws LWJGLException
 	{
 		Display.setDisplayMode(new DisplayMode(screen_width, screen_height));
 		Display.create();
@@ -218,7 +218,7 @@ public class OpenGL {
 		Display.setTitle(title);
 	}
 
-	public void initGL()
+	private void initGL()
 	{ 
 		initLight(-400, -300, -800);			
 		

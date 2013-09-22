@@ -1,3 +1,5 @@
+package Server;
+
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -130,15 +132,15 @@ public class Landscape {
 		return false;
 	}
 	
-	public ArrayList<DrawingObject> draw()
-	{
-		ArrayList<DrawingObject> dro = new ArrayList<DrawingObject>();
-		for(int i = 0; i < landscape.length; i++)
-		{
-			for(int j = 0; j < landscape[0].length; j++){
-				dro.add(landscape[i][j].draw(i, j));
-			}
-		}
-		return dro;
-	}
+//	public ArrayList<DrawingObject> draw()
+//	{
+//		ArrayList<DrawingObject> dro = new ArrayList<DrawingObject>();
+//		for(int i = 0; i < landscape.length; i++)
+//		{
+//			for(int j = 0; j < landscape[0].length; j++){
+//				dro.add(landscape[i][j].draw(i, j));
+//			}
+//		}
+//		return dro;
+//	}
 }

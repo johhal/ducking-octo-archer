@@ -1,39 +1,36 @@
 package network;
 
-import java.util.ArrayList;
+import Server.ServerInputManager;
+
 
 
 public class ServerJobThread extends JobThread {
-
-    private ArrayList<Parameter> parameterList;
-
-    public ServerJobThread(JobQueue readQueue, JobQueue writeQueue) {
-        super(readQueue, writeQueue, true);
+    
+	private ServerInputManager inputManager;
+    public ServerJobThread(JobQueue readQueue, ServerInputManager inputManager) {
+        super(readQueue, true);
+        this.inputManager = inputManager;
     }
 
   
-    protected String handleUpdate(ProtocolMessage pm) {
-       return null;
+    protected void handleUpdate(ProtocolMessage pm) {
+    	ProtocolEnum.EVENT event = pm.getEvent();
+    	if(event != null){
+    		switch (event){
+    		case MAP:
+    			
+    			break;
+    		}
+    	}
     }
 
     
-    protected String handleSubmit(ProtocolMessage pm) {
-        return null;
+    protected void handleSubmit(ProtocolMessage pm) {
+    	
     }
-
-    @Override
-
-    protected void handleAnswer(String message) {
-        if (message != null) {
-            writeQueue.put(new Job(job.getSession(), message));
-        }
-    }
-
 
 	@Override
-	protected String handleError(ProtocolMessage pm) {
-		// TODO Auto-generated method stub
-		return null;
+	protected void handleError(ProtocolMessage pm) {
 	}
 
 

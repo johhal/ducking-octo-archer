@@ -1,3 +1,4 @@
+package Client;
 public class GUIHandler {
 	private int nrOfTeams; // teamcolor
 	private int selectedTeam;
