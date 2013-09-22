@@ -12,7 +12,7 @@ public class Tester {
 			System.out.println("sry bro..");
 			System.exit(0);
 		}
-		
+		//hidden comment crouching dragon
 		GameManager gm = new GameManager();
 		try{
 			gm.initialize(50, 50, 2);
