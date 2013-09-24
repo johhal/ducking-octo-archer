@@ -97,12 +97,12 @@ public class OpenGL {
 		
 	}
 	
-	public void convertAndDraw(int pX, int pY, float CR, float CG, float CB, short notTile)
+	public void convertAndDraw(int pX, int pY, float ColR, float ColG, float ColB, short notTile)
 	{
 		float posX = startTileX + notTile*(float)difTileObject/2 + (pX * (tileSize + spaceBetweenTiles));
 		float posY = startTileY + notTile*(float)difTileObject/2 + (pY * (tileSize + spaceBetweenTiles));
 		
-		glColor3f(CR, CG, CB);
+		glColor3f(ColR, ColG, ColB);
 		
 		drawBox(posX, posY, tileHeight + tileHeight*notTile, tileSize - notTile*difTileObject, tileSize - notTile*difTileObject, tileSize - notTile*difTileObject);
 	}
@@ -198,13 +198,14 @@ public class OpenGL {
 		spaceBetweenTiles = 1;
 		
 		GUIX = GUIWidth;
-		
+
 		initDisplay();
+
 		initGL();
-		
+
 		camera = new Camera();
 		camera.initialize(70f, (float)screen_width/screen_height, 0.3f, 1000f);	//, posX, posY, posZ);
-		
+		System.out.println("3");
 		getDelta();
 		
 		last_fps = getTime();

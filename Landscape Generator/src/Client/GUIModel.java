@@ -47,19 +47,19 @@ public class GUIModel {
 		this.tiles = tiles;
 	}
 	
-	private ArrayList<Zombie> getZombies() {
+	public ArrayList<Zombie> getZombies() {
 		return zombies;
 	}
 
-	private ArrayList<House> getHouses() {
+	public ArrayList<House> getHouses() {
 		return houses;
 	}
 
-	private ArrayList<Human> getHumans() {
+	public ArrayList<Human> getHumans() {
 		return humans;
 	}
 
-	private Tile[][] getTiles() {
+	public Tile[][] getTiles() {
 		return tiles;
 	}
 	

@@ -95,9 +95,9 @@ public class House extends Fighter{
 		return sb.toString();
 	}
 	
-//	public DrawingObject draw() {
-//		short sh = 1;
-//		float n = (float)getCurrentHitpoints() / (float)getMaxHitpoints();
-//		return new DrawingObject(currentX, currentY, n, n/2, 0, sh);
-//	}
+	public DrawingObject draw() {
+		short sh = 1;
+		float n = (float)getCurrentHitpoints() / (float)getMaxHitpoints();
+		return new DrawingObject(currentX, currentY, n, n/2, 0, sh);
+	}
 }

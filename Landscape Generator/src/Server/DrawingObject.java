@@ -1,4 +1,4 @@
-package Client;
+package Server;
 
 public class DrawingObject {
 	public int posX;

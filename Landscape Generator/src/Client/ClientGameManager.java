@@ -7,8 +7,11 @@ import java.net.UnknownHostException;
 import org.lwjgl.LWJGLException;
 
 import OpenGL.OpenGL;
-
-
+import Server.DrawingObject;
+import Server.House;
+import Server.Human;
+import Server.Tile;
+import Server.Zombie;
 import network.*;
 
 public class ClientGameManager {
@@ -35,8 +38,8 @@ public class ClientGameManager {
 		guiModel = new GUIModel();
 		initNetwork();
 		
-		//gl = new OpenGL();
-		//gl.initialize(800, 600, 2, 0);		
+		gl = new OpenGL();
+		gl.initialize(800, 600, 2, 0);		
 	}
 
 	private void initNetwork() throws UnknownHostException, IOException {
@@ -51,24 +54,42 @@ public class ClientGameManager {
 	
 	 public void draw() {
 		 gl.initDraw();
-		
-		 // ArrayList<DrawingObject> otd = new ArrayList<DrawingObject>();
-		 // DrawingObject cd;
 		 
-//		 otd = landscape.draw();
-//		 for(int i=0; i<otd.size(); i++)
-//		 {
-//		 cd = otd.get(i);
-//		 gl.convertAndDraw(cd.posX, cd.posY, cd.cr, cd.cg, cd.cb, cd.notTile);
-//		 }
-//		
-//		 otd = humanoidManager.draw();
-//		
-//		 for(int i=0; i<otd.size(); i++)
-//		 {
-//		 cd = otd.get(i);
-//		 gl.convertAndDraw(cd.posX, cd.posY, cd.cr, cd.cg, cd.cb, cd.notTile);
-//		 }
+		 float n;
+		 short nt;
+		 DrawingObject cd;
+		 int i = 0;
+		 int j = 0;
+		 Tile[][] board = guiModel.getTiles();
+		 for(Tile[] ta: board)
+		 {
+			if(i<board.length)
+				 i++;
+			 else
+				 i = 0;
+			 nt = 0;
+			 for(Tile t : ta)
+			 {
+				 if(j < ta.length)
+				 otd = t.draw(i, j);
+			 }
+		 }
+		 for(Human h:  guiModel.getHumans())
+		 {
+			 cd = h.draw();
+			 gl.convertAndDraw(cd.posX, cd.posY, cd.cr, cd.cg, cd.cb, cd.notTile);
+		 }
+		 for(Zombie z:  guiModel.getZombies())
+		 {
+		 	cd = z.draw();
+		 	gl.convertAndDraw(cd.posX, cd.posY, cd.cr, cd.cg, cd.cb, cd.notTile);
+		 }
+		
+		 for(House h: guiModel.getHouses())
+		 {
+			 cd = h.draw();
+			 gl.convertAndDraw(cd.posX, cd.posY, cd.cr, cd.cg, cd.cb, cd.notTile);
+		 }
 		 //guiHandler.draw();
 		
 		 gl.endDraw();
