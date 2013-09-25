@@ -15,6 +15,14 @@ public class Landscape {
 		sizeX = landscape.length;
 		sizeY = landscape[0].length;
 	}
+	public Landscape(ArrayList<Tile> tiles, int sizeX, int sizeY){
+		landscape = new Tile[sizeX][sizeY];
+		for(int x = 0; x<sizeX; x++){
+			for(int y = 0; y<sizeY; y++){
+				landscape[x][y] = tiles.get(x+ x*y);
+			}
+		}
+	}
 
 	public Tile getTile(int x, int y) {
 		if (x >= 0 && x < sizeX && y >= 0 && y < sizeY) {
@@ -26,6 +34,9 @@ public class Landscape {
 	public Tile[][] getTiles()
 	{
 		return landscape;
+	}
+	public void setTiles(Tile[][] tiles){
+		this.landscape = tiles;
 	}
 
 	public boolean canMoveZombie(int oldX, int oldY, int newX, int newY) {

@@ -1,6 +1,5 @@
 package Server;
 
-import java.awt.Point;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -23,10 +22,6 @@ import OpenGL.OpenGL;
 public class ServerGameManager {
 	private int boardWidth;
 	private int boardHeight;
-	private int tileSize;
-
-	private int screenWidth;
-	private int screenHeight;
 
 	private JobQueue writeQueue;
 	private JobQueue readQueue;
@@ -36,9 +31,6 @@ public class ServerGameManager {
 	private ServerInputManager inputManager;
 
 	private ServerSocket serverSocket;
-	private Session session;
-
-	private int GUIWidth;
 
 	private Gson gson;
 
@@ -49,8 +41,6 @@ public class ServerGameManager {
 
 	Landscape landscape;
 
-	private OpenGL gl = new OpenGL();
-
 	public void initialize(int _boardWidth, int _boardHeight, int _tileSize)
 			throws LWJGLException {
 		initNetwork();
@@ -59,12 +49,6 @@ public class ServerGameManager {
 		// Storlek p� omr�den och antal omr�den
 		boardWidth = _boardWidth;
 		boardHeight = _boardHeight;
-		tileSize = _tileSize;
-
-		screenWidth = 800;
-		screenHeight = 600;
-
-		GUIWidth = 200;
 
 		System.out.println("1");
 		// Skapa v�rlden och generera omr�den
@@ -98,9 +82,11 @@ public class ServerGameManager {
 			Socket socket = (Socket) serverSocket.accept();
 			System.out.println("Server Connected");
 			Session s = new Session(socket);
+			outputManager.addSession(s);
 			TCPReadThread serverReadThread = new TCPReadThread(s, readQueue,
 					true);
 			serverReadThread.start();
+			run();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -124,40 +110,63 @@ public class ServerGameManager {
 
 	public void run() {
 		// Spela!!
-		while (gl.isRunning()) {
+//		while (true) {
 			update();
 			// draw();
-		}
-		gl.quitGL();
+//		}
 	}
 
-	private String tileToString(int x, int y) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(landscape.getTile(x, y).toString());
-		sb.append("\n");
-		sb.append(humanoidManager.humanoidToString(new Point(x, y)));
-		return sb.toString();
-	}
+//	private String tileToString(int x, int y) {
+//		StringBuilder sb = new StringBuilder();
+//		sb.append(landscape.getTile(x, y).toString());
+//		sb.append("\n");
+//		sb.append(humanoidManager.humanoidToString(new Point(x, y)));
+//		return sb.toString();
+//	}
 
 	public void update() {
 		// int input = inputManager.update();
 
 		humanoidManager.update();
+		System.out.println("Updated");
+		
 		ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
 				ProtocolEnum.EVENT.MAP);
-		Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.HOUSES);
-		p.setData(humanoidManager.getHouses());
-		pm.addParameter(p);
-		p = new Parameter(ProtocolEnum.PARAMETER_TYPE.HUMANS);
-		p.setData(humanoidManager.getHumans());
-		pm.addParameter(p);
-		p = new Parameter(ProtocolEnum.PARAMETER_TYPE.ZOMBIES);
-		p.setData(humanoidManager.getZombies());
-		pm.addParameter(p);
-		p = new Parameter(ProtocolEnum.PARAMETER_TYPE.TILES);
+		Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.TILES);
 		p.setData(landscape.getTiles());
 		pm.addParameter(p);
 		outputManager.sendToAll(gson.toJson(pm));
+		
+		pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
+				ProtocolEnum.EVENT.MAP);
+		p = new Parameter(ProtocolEnum.PARAMETER_TYPE.DIMENSIONS);
+		p.setData(new int[] {landscape.getBoardWidth(), landscape.getBoardHeight()});
+		pm.addParameter(p);
+		outputManager.sendToAll(gson.toJson(pm));
+		
+		
+		pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
+				ProtocolEnum.EVENT.MAP);
+		p = new Parameter(ProtocolEnum.PARAMETER_TYPE.HOUSES);
+		p.setData(humanoidManager.getHouses());
+		pm.addParameter(p);
+		outputManager.sendToAll(gson.toJson(pm));
+		
+		pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
+				ProtocolEnum.EVENT.MAP);
+		p = new Parameter(ProtocolEnum.PARAMETER_TYPE.HUMANS);
+		p.setData(humanoidManager.getHumans());
+		pm.addParameter(p);
+		outputManager.sendToAll(gson.toJson(pm));
+		
+		pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
+				ProtocolEnum.EVENT.MAP);
+		p = new Parameter(ProtocolEnum.PARAMETER_TYPE.ZOMBIES);
+		p.setData(humanoidManager.getZombies());
+		pm.addParameter(p);
+		outputManager.sendToAll(gson.toJson(pm));
+		
+		System.out.println("Sent");
 
 		// guiHandler.update();
 		// Point mi = inputManager.getClickLocation();

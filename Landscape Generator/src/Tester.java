@@ -34,5 +34,6 @@ public class Tester {
 		ServerGameManager server = new ServerGameManager();
 		server.initialize(50, 50, 2);
 		
+		
 	}
 }

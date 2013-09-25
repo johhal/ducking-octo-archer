@@ -1,5 +1,7 @@
 package Client;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import network.Parameter;
@@ -8,6 +10,7 @@ import network.ProtocolMessage;
 
 import Server.House;
 import Server.Human;
+import Server.Landscape;
 import Server.Tile;
 import Server.Zombie;
 
@@ -15,7 +18,10 @@ public class GUIModel {
 	private ArrayList<Zombie> zombies;
 	private ArrayList<House> houses;
 	private ArrayList<Human> humans;
-	private Tile[][] tiles;
+	private int sizeX, sizeY = 0;
+	private ArrayList<ArrayList<Tile>> tiles;
+	private ActionListener listener;
+	
 
 	public void update(ProtocolMessage pm) {
 		ArrayList<Parameter> pmList = pm.getParameterList();
@@ -26,9 +32,17 @@ public class GUIModel {
 				setHouses((ArrayList<House>)p.getData());
 			if(p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.HUMANS)
 				setHumans((ArrayList<Human>)p.getData());
-			if(p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.TILES)
-				setTiles((Tile[][])p.getData());	
-		}	
+			if(p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.TILES){
+				tiles = (ArrayList<ArrayList<Tile>>)p.getData();
+			}
+		}
+		if(listener != null){
+			listener.actionPerformed(new ActionEvent(this, 0, "DRAW"));
+		}
+	}
+	
+	public void addActionListener(ActionListener listener){
+		this.listener = listener;
 	}
 	
 	private void setZombies(ArrayList<Zombie> zombies) {
@@ -41,10 +55,6 @@ public class GUIModel {
 
 	private void setHumans(ArrayList<Human> humans) {
 		this.humans = humans;
-	}
-
-	private void setTiles(Tile[][] tiles) {
-		this.tiles = tiles;
 	}
 	
 	public ArrayList<Zombie> getZombies() {
@@ -60,7 +70,28 @@ public class GUIModel {
 	}
 
 	public Tile[][] getTiles() {
-		return tiles;
+		Tile[][] tileList = new Tile[tiles.size()][tiles.get(0).size()];
+		for(int i = 0; i < tiles.size(); i++){
+			for(int j = 0; j< tiles.size(); j++){
+				tileList[i][j] = tiles.get(i).get(j);
+			}
+		}
+		return tileList;
 	}
 	
+	public int getSizeX() {
+		return sizeX;
+	}
+
+	public void setSizeX(int sizeX) {
+		this.sizeX = sizeX;
+	}
+
+	public int getSizeY() {
+		return sizeY;
+	}
+
+	public void setSizeY(int sizeY) {
+		this.sizeY = sizeY;
+	}
 }

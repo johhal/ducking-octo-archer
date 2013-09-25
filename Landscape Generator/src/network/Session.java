@@ -36,5 +36,9 @@ public class Session {
        
         return playerName.equals(s.getPlayerName()) && socket.equals(s.getSocket());
     }
+    
+      public String toString(){
+    	  return socket.toString();
+      }
 }
 

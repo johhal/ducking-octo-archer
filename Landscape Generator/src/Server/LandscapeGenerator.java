@@ -16,13 +16,15 @@ public class LandscapeGenerator {
 	}
 	private Tile randomTile(Tile[][] landscape, int tilePosX, int tilePosY) {
 		Tile tile = new Tile();
+		Tile westTile = null;
+		Tile northTile = null;
 		if(tilePosX>1){
-			tile.setWestTile(landscape[tilePosX-1][tilePosY]);
+			westTile = landscape[tilePosX-1][tilePosY];
 		}
 		if(tilePosY>1){
-			tile.setNorthTile(landscape[tilePosX][tilePosY-1]);
+			northTile = landscape[tilePosX][tilePosY-1];
 		}
-		tile.randomizeType();
+		tile.randomizeType(westTile, northTile);
 		return tile;
 	}
 }

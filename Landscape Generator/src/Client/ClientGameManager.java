@@ -1,5 +1,7 @@
 package Client;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -14,7 +16,7 @@ import Server.Tile;
 import Server.Zombie;
 import network.*;
 
-public class ClientGameManager {
+public class ClientGameManager implements ActionListener{
 	private String address;
 	private int port;
 	
@@ -36,6 +38,7 @@ public class ClientGameManager {
 	
 	public void init() throws UnknownHostException, IOException, LWJGLException{
 		guiModel = new GUIModel();
+		guiModel.addActionListener(this);
 		initNetwork();
 		
 		gl = new OpenGL();
@@ -50,6 +53,8 @@ public class ClientGameManager {
 		writeThread = new TCPWriteThread(writeQueue, false);
 		clientJobThread = new ClientJobThread(readQueue, session, guiModel);	
 		readThread = new TCPReadThread(session, readQueue, false);
+		clientJobThread.start();
+		readThread.start();
 	}
 	
 	 public void draw() {
@@ -94,5 +99,10 @@ public class ClientGameManager {
 		
 		 gl.endDraw();
 		 }
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		draw();
+	}
 
 }

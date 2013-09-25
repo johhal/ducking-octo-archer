@@ -14,6 +14,6 @@ public class ProtocolEnum {
 
 
     public enum PARAMETER_TYPE {
-    	HOUSES, ZOMBIES, HUMANS, TILES
+    	HOUSES, ZOMBIES, HUMANS, TILES, LANDSCAPE, DIMENSIONS
     }
 }

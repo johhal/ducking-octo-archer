@@ -5,8 +5,6 @@ import java.awt.image.BufferedImage;
 
 public class Tile {
 	private TypeEnum type = null;
-	private Tile northTile = null;
-	private Tile westTile = null;
 	private double forrestChance = 1;
 	private double waterChance = 1;
 	private double plainChance = 1;
@@ -26,7 +24,7 @@ public class Tile {
 	public Tile() {
 	}
 
-	public void randomizeType() {
+	public void randomizeType(Tile westTile, Tile northTile) {
 		if (northTile != null) {
 			switch (northTile.getType()) {
 			case FORREST:
@@ -129,14 +127,6 @@ public class Tile {
 		}
 
 		return image;
-	}
-
-	public void setNorthTile(Tile tile) {
-		northTile = tile;
-	}
-
-	public void setWestTile(Tile tile) {
-		westTile = tile;
 	}
 
 	public TypeEnum getType() {
