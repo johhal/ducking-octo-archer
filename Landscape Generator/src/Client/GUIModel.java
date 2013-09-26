@@ -4,13 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import com.google.gson.internal.StringMap;
+
 import network.Parameter;
 import network.ProtocolEnum;
 import network.ProtocolMessage;
 
 import Server.House;
 import Server.Human;
-import Server.Landscape;
 import Server.Tile;
 import Server.Zombie;
 
@@ -32,7 +33,16 @@ public class GUIModel {
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.HUMANS)
 				setHumans((ArrayList<Human>) p.getData());
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.TILES) {
-				tiles = (ArrayList<ArrayList<Tile>>) p.getData();
+				ArrayList<ArrayList<StringMap>> temp = (ArrayList<ArrayList<StringMap>>) p.getData();
+				tiles = new ArrayList<ArrayList<Tile>>();
+				int i = 0;
+				for(ArrayList<StringMap> al: temp){
+					tiles.add(new ArrayList<Tile>());
+					for(StringMap m: al){
+						tiles.get(i).add(new Tile(m));
+					}
+					i++;
+				}
 			}
 		}
 		/*

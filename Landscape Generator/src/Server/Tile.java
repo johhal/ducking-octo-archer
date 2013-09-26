@@ -3,6 +3,8 @@ package Server;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+import com.google.gson.internal.StringMap;
+
 public class Tile {
 	private TypeEnum type = null;
 	private double forrestChance = 1;
@@ -19,6 +21,38 @@ public class Tile {
 
 	public Tile(TypeEnum type) {
 		this.type = type;
+	}
+
+	public Tile(StringMap sm){
+		type = stringToType((String)sm.get("type"));
+		forrestChance = ((Double)sm.get("forrestChance")).doubleValue();
+		mountainChance = ((Double)sm.get("mountainChance")).doubleValue();
+		waterChance = ((Double)sm.get("waterChance")).doubleValue();
+		plainChance = ((Double)sm.get("plainChance")).doubleValue();
+		
+		forrestThreshold = ((Double)sm.get("forrestThreshold")).doubleValue();
+		waterThreshold = ((Double)sm.get("waterThreshold")).doubleValue();
+		plainThreshold = ((Double)sm.get("plainThreshold")).doubleValue();
+		mountainThreshold = ((Double)sm.get("mountainThreshold")).doubleValue();
+		
+		containsZombies = ((Boolean)sm.get("containsZombies"));
+		inhabited = ((Boolean)sm.get("inhabited"));
+		hasHouse = ((Boolean)sm.get("hasHouse"));
+	}
+	private TypeEnum stringToType(String s) {
+		if(s.equals(TypeEnum.FORREST.toString())){
+			return TypeEnum.FORREST;
+		}
+		if(s.equals(TypeEnum.PLAIN.toString())){
+			return TypeEnum.PLAIN;
+		}
+		if(s.equals(TypeEnum.WATER.toString())){
+			return TypeEnum.WATER;
+		}
+		if(s.equals(TypeEnum.MOUNTAIN.toString())){
+			return TypeEnum.MOUNTAIN;
+		}
+		return TypeEnum.MOUNTAIN;
 	}
 
 	public Tile() {
