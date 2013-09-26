@@ -38,11 +38,10 @@ public class ClientGameManager implements ActionListener{
 	
 	public void init() throws UnknownHostException, IOException, LWJGLException{
 		guiModel = new GUIModel();
-		guiModel.addActionListener(this);
-		initNetwork();
-		
+		initNetwork();		
 		gl = new OpenGL();
 		gl.initialize(800, 600, 2, 0);		
+		guiModel.addActionListener(this);
 	}
 
 	private void initNetwork() throws UnknownHostException, IOException {
