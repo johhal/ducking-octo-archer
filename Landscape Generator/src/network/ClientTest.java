@@ -38,6 +38,7 @@ public class ClientTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		client.run();
 	}
 
 }

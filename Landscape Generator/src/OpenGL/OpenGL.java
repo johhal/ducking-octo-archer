@@ -46,6 +46,11 @@ public class OpenGL {
     	fb.flip();
     	return fb;
      }
+    
+    public boolean isCloseRequested()
+    {
+    	return Display.isCloseRequested();
+    }
 	
 	public void drawBox(float x, float y, float z, float boxSizeX, float boxSizeY, float boxSizeZ)
 	{	

@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import org.lwjgl.LWJGLException;
 
@@ -63,20 +64,17 @@ public class ClientGameManager implements ActionListener{
 		 float n;
 		 short nt;
 		 DrawingObject cd;
-		 int i = 0;
-		 int j = 0;
-		 Tile[][] board = guiModel.getTiles();
-		 for(Tile[] ta: board)
+		 ArrayList<ArrayList<Tile>> board = guiModel.getTiles();
+		 for(int i = 0; i < board.size(); i++)
 		 {
-			if(i<board.length)
+			if(i<board.size())
 				 i++;
 			 else
 				 i = 0;
 			 nt = 0;
-			 for(Tile t : ta)
+			 for(int j = 0; j < board.get(0).size(); j++)
 			 {
-				 if(j < ta.length)
-				 otd = t.draw(i, j);
+				 otd = board.get(i).get(j).draw(i, j);
 			 }
 		 }
 		 for(Human h:  guiModel.getHumans())
@@ -99,6 +97,14 @@ public class ClientGameManager implements ActionListener{
 		
 		 gl.endDraw();
 		 }
+	 
+	 	public void run()
+	 	{
+	 		while(!gl.isCloseRequested())
+	 		{
+	 			draw();
+	 		}
+	 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
