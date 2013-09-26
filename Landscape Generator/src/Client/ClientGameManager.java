@@ -1,5 +1,6 @@
 package Client;
 
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -101,7 +102,13 @@ public class ClientGameManager implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		draw();
+		Runnable r = new Runnable(){
+			@Override
+			public void run() {
+				ClientGameManager.this.draw();
+				
+			}};
+			EventQueue.invokeLater(r);
 	}
 
 }
