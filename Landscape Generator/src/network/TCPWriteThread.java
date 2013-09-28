@@ -35,17 +35,11 @@ public class TCPWriteThread extends Thread {
     public void run() {
         while (running) {
             try {
-            	if(isServerThread){
-            		System.out.println("TCPWriteThread: Getting from queue");
-            	}
                 job = writeQueue.get();
                 bufferedWriter = new BufferedWriter(new OutputStreamWriter(job.getSession().getSocket().getOutputStream()));
                 bufferedWriter.write(job.getMessage(), 0, job.getMessage().length());
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
-                if(isServerThread){
-					System.out.println("TCPWriteThread: Sent data");
-				}
             } catch (Exception e) {
                 e.printStackTrace();
             }

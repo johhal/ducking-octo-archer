@@ -23,29 +23,24 @@ public abstract class JobThread extends Thread {
 		while (running) {
 			try {
 				if(!isServerThread){
-					System.out.println("Getting data");
 				}
 				job = readQueue.get();
 				if(!isServerThread){
-					System.out.println("Converting to object");
 				}
 				ProtocolMessage pm = gson.fromJson(job.getMessage(),
 						ProtocolMessage.class);
 				if(!isServerThread){
-					System.out.println("Determing type");
 				}
 				// String answer = null;
 				if (pm != null) {
 					switch (pm.getType()) {
 					case UPDATE:
 						if(!isServerThread){
-							System.out.println("UPDATE");
 						}
 						handleUpdate(pm);
 						break;
 					case SUBMIT:
 						if(!isServerThread){
-							System.out.println("SUBMIT");
 						}
 						handleSubmit(pm);
 						break;

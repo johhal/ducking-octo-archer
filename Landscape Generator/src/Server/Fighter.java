@@ -1,4 +1,7 @@
 package Server;
+
+import com.google.gson.internal.StringMap;
+
 public class Fighter {
 	private int currentHitPoints;
 	private int maxHitPoints;
@@ -15,6 +18,14 @@ public class Fighter {
 		this.initiative = initiative;
 		this.attack = attack;
 		this.armor = armor;
+	}
+	public Fighter(StringMap sm){
+		currentHitPoints =((Double)sm.get("currentHitPoints")).intValue();
+		maxHitPoints = ((Double)sm.get("maxHitPoints")).intValue();
+		damage = ((Double)sm.get("damage")).intValue();
+		attack = ((Double)sm.get("attack")).intValue();
+		armor = ((Double)sm.get("armor")).intValue();
+		initiative =((Double)sm.get("initiative")).intValue();
 	}
 
 	public int getAttack() {

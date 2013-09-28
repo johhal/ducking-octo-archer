@@ -57,6 +57,7 @@ public class HumanoidManager {
 	public boolean addHuman(int xpos, int ypos) {
 		//S�tt ut m�nniskor
 		humans.add(new Human(xpos, ypos, landscape));
+		System.out.println("Human added!!!");
 		return true;
 	}
 
@@ -120,6 +121,14 @@ public class HumanoidManager {
 		//Uppdatera M�nniskor
 		for(Human h: humans){
 			h.update();
+			int newX = h.getNewX();
+			int newY = h.getNewY();
+			if(newX!=h.getCurrentX() || newY!=h.getCurrentY()){
+				if(landscape.canMoveHuman(h.getCurrentX(), h.getCurrentY(), newX, newY)){
+					h.setCurrentX(newX);
+					h.setCurrentY(newY);
+				}
+			}
 		}
 		
 		//Uppdatera Hus
@@ -132,7 +141,7 @@ public class HumanoidManager {
 				if (pos != null) {
 					addHuman(pos.x, pos.y);
 				}
-				houses.get(i).setFertility(-100);
+				houses.get(i).setFertility(0);
 			}
 		}
 	}

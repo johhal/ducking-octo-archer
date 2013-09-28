@@ -26,12 +26,12 @@ public class House extends Fighter{
 	public House(StringMap sm) {
 		super(10,2,4,4,18);
 		
-		currentX = (int) ((Double)sm.get("currentX")).intValue();
-		currentY = (int) ((Double)sm.get("currentY")).intValue();
+		currentX =  ((Double)sm.get("currentX")).intValue();
+		currentY =  ((Double)sm.get("currentY")).intValue();
 		//landscape = ;
-		remainingSleepTime = (long)((Double)sm.get("remainingSleepTime")).longValue();
-		lastEntered = (long)((Double)sm.get("lastEntered")).longValue();
-		fertility = (int)((Double)sm.get("fertility")).intValue();
+		remainingSleepTime = ((Double)sm.get("remainingSleepTime")).longValue();
+		lastEntered = ((Double)sm.get("lastEntered")).longValue();
+		fertility = ((Double)sm.get("fertility")).intValue();
 		
 		//((Double)sm.get("forrestChance")).doubleValue();
 	
@@ -55,6 +55,8 @@ public class House extends Fighter{
 	}
 
 	private void generateFertility() {
+		fertility +=10;
+		System.out.println("Fertility: "+fertility);
 //		switch (landscape.getTile(currentX, currentY).getType()) {
 //		case WATER:
 //			//atm

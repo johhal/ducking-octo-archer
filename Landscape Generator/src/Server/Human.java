@@ -2,13 +2,18 @@ package Server;
 
 import java.awt.Point;
 
+import com.google.gson.internal.StringMap;
+
 public class Human extends Fighter {
 	private int currentX;
 	private int currentY;
+	private int newX;
+	private int newY;
 //	private Landscape landscape;
 	private long remainingSleepTime;
 	private long lastEntered;
 
+	
 	public Human(int currentX, int currentY, Landscape landscape) {
 		super(4, 2, 4, 4, 15);
 		if (Math.random() < 0.2) {
@@ -25,6 +30,16 @@ public class Human extends Fighter {
 		lastEntered = System.currentTimeMillis();
 		landscape.getTile(currentX, currentY).inhabited(true);
 	}
+	public Human(StringMap sm){
+		super(sm);
+		currentX = ((Double)sm.get("currentX")).intValue();
+		currentY = ((Double)sm.get("currentY")).intValue();
+		newX = ((Double)sm.get("newX")).intValue();
+		newY = ((Double)sm.get("newY")).intValue();
+		remainingSleepTime = ((Double)sm.get("remainingSleepTime")).intValue();
+		lastEntered = ((Double)sm.get("lastEntered")).intValue();
+	}
+	
 
 	private void generateSleepTime() {
 		remainingSleepTime = 1000;
@@ -44,10 +59,14 @@ public class Human extends Fighter {
 		//landscape.getTile(currentX, currentY).inhabited(false);
 	}
 
+	public void setNewY(int newY) {
+		this.newY = newY;
+	}
+
 	private void move() {
 		int rnd = (int) (Math.random() * 4);
-		int newX = currentX;
-		int newY = currentY;
+		newX = currentX;
+		newY = currentY;
 		switch (rnd) {
 		case 0:
 			newX = currentX + 1;
@@ -108,5 +127,32 @@ public class Human extends Fighter {
 		short nt = 1; //notTile, value 1 if not a tile.
 		float n = (float) getCurrentHitpoints() / (float) getMaxHitpoints();
 		return new DrawingObject(currentX, currentY, n, n, n, nt);
+	}
+	public int getCurrentX() {
+		return currentX;
+	}
+
+	public void setCurrentX(int currentX) {
+		this.currentX = currentX;
+	}
+
+	public int getCurrentY() {
+		return currentY;
+	}
+
+	public void setCurrentY(int currentY) {
+		this.currentY = currentY;
+	}
+
+	public int getNewX() {
+		return newX;
+	}
+
+	public void setNewX(int newX) {
+		this.newX = newX;
+	}
+
+	public int getNewY() {
+		return newY;
 	}
 }

@@ -50,37 +50,29 @@ public class ServerGameManager {
 		boardWidth = _boardWidth;
 		boardHeight = _boardHeight;
 
-		System.out.println("1");
 		// Skapa v�rlden och generera omr�den
 		LandscapeGenerator landGen = new LandscapeGenerator();
 		landscape = new Landscape(landGen.generate(boardWidth, boardHeight));
 
-		System.out.println("2");
 
 		// Skapa Varelser
 		humanoidManager = new HumanoidManager();
 		humanoidManager.initialize(landscape);
 
-		System.out.println("3");
 
 		// inputManager = new InputManager();
 		// inputManager.initilize();
 
-		System.out.println("4");
 
 		//gl.initialize(screenWidth, screenHeight, tileSize, GUIWidth);
 
-		System.out.println("5");
 
 		// guiHandler = new GUIHandler();
 		// guiHandler.Initialize(3, 2);
-		System.out.println("6");
 
 		try {
 			serverSocket = new ServerSocket(12345);
-			System.out.println("Waiting for connection");
 			Socket socket = (Socket) serverSocket.accept();
-			System.out.println("Server Connected");
 			Session s = new Session(socket);
 			outputManager.addSession(s);
 			TCPReadThread serverReadThread = new TCPReadThread(s, readQueue,
@@ -110,10 +102,10 @@ public class ServerGameManager {
 
 	public void run() {
 		// Spela!!
-//		while (true) {
+		while (true) {
 			update();
 			// draw();
-//		}
+		}
 	}
 
 //	private String tileToString(int x, int y) {
@@ -128,7 +120,6 @@ public class ServerGameManager {
 		// int input = inputManager.update();
 
 		humanoidManager.update();
-		System.out.println("Updated");
 		
 		ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
 				ProtocolEnum.EVENT.MAP);
@@ -166,7 +157,6 @@ public class ServerGameManager {
 		pm.addParameter(p);
 		outputManager.sendToAll(gson.toJson(pm));
 		
-		System.out.println("Sent");
 
 		// guiHandler.update();
 		// Point mi = inputManager.getClickLocation();

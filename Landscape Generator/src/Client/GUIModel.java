@@ -22,51 +22,69 @@ public class GUIModel {
 	private int sizeX, sizeY = 0;
 	private ArrayList<ArrayList<Tile>> tiles;
 	private ActionListener listener;
+	private boolean locked = false;
 
-	public void update(ProtocolMessage pm) {
+	public synchronized void update(ProtocolMessage pm) {
+		while(locked){
+			try{
+				wait();
+			} catch(InterruptedException e){
+				e.printStackTrace();
+			}
+		}
+		locked = true;
 		ArrayList<Parameter> pmList = pm.getParameterList();
 		for (Parameter p : pmList) {
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.ZOMBIES)
 				setZombies((ArrayList<Zombie>) p.getData());
-			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.HOUSES)
-			{
-				ArrayList<StringMap> temp = (ArrayList<StringMap>) p.getData();
+			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.HOUSES) {
+				ArrayList<StringMap> tempHouses = (ArrayList<StringMap>) p
+						.getData();
 				houses = new ArrayList<House>();
-				
-				for(StringMap al: temp)
+
+				for (StringMap al : tempHouses)
 					houses.add(new House(al));
-				//setHouses((ArrayList<House>) p.getData());
 			}
-			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.HUMANS)
-				setHumans((ArrayList<Human>) p.getData());
+			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.HUMANS) {
+				ArrayList<StringMap> tempHumans = (ArrayList<StringMap>) p
+						.getData();
+				humans = new ArrayList<Human>();
+				for (StringMap sm : tempHumans) {
+					humans.add(new Human(sm));
+				}
+			}
+
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.TILES) {
-				ArrayList<ArrayList<StringMap>> temp = (ArrayList<ArrayList<StringMap>>) p.getData();
+				ArrayList<ArrayList<StringMap>> temp = (ArrayList<ArrayList<StringMap>>) p
+						.getData();
 				tiles = new ArrayList<ArrayList<Tile>>();
 				int i = 0;
-				for(ArrayList<StringMap> al: temp){
+				for (ArrayList<StringMap> al : temp) {
 					tiles.add(new ArrayList<Tile>());
-					for(StringMap m: al){
+					for (StringMap m : al) {
 						tiles.get(i).add(new Tile(m));
 					}
 					i++;
 				}
 			}
+			locked = false;
+			notifyAll();
 		}
+
 		/*
 		 * if(listener != null){ listener.actionPerformed(new ActionEvent(this,
 		 * 0, "DRAW")); }
 		 */
 	}
 
-	public GUIModel()
-	{
+	public GUIModel() {
 		zombies = new ArrayList<Zombie>();
 		houses = new ArrayList<House>();
 		humans = new ArrayList<Human>();
 		tiles = new ArrayList<ArrayList<Tile>>();
-		//listener = new ActionListener();
+		// listener = new ActionListener();
 	}
-	
+
 	public void addActionListener(ActionListener listener) {
 		this.listener = listener;
 	}
@@ -83,19 +101,47 @@ public class GUIModel {
 		this.humans = humans;
 	}
 
-	public ArrayList<Zombie> getZombies() {
+	public synchronized ArrayList<Zombie> getZombies() {
+		while(locked){
+			try{
+				wait();
+			} catch(InterruptedException e){
+				e.printStackTrace();
+			}
+		}
 		return zombies;
 	}
 
-	public ArrayList<House> getHouses() {
+	public synchronized ArrayList<House> getHouses() {
+		while(locked){
+			try{
+				wait();
+			} catch(InterruptedException e){
+				e.printStackTrace();
+			}
+		}
 		return houses;
 	}
 
-	public ArrayList<Human> getHumans() {
+	public synchronized ArrayList<Human> getHumans() {
+		while(locked){
+			try{
+				wait();
+			} catch(InterruptedException e){
+				e.printStackTrace();
+			}
+		}
 		return humans;
 	}
 
-	public ArrayList<ArrayList<Tile>> getTiles() {
+	public synchronized ArrayList<ArrayList<Tile>> getTiles() {
+		while(locked){
+			try{
+				wait();
+			} catch(InterruptedException e){
+				e.printStackTrace();
+			}
+		}
 		return tiles;
 	}
 

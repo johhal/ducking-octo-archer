@@ -24,7 +24,6 @@ public class JobQueue {
                 wait();
         }
         Job j = jobList.remove(0);
-        System.out.println("Getting from queue");
         notify();
         return j;
     }

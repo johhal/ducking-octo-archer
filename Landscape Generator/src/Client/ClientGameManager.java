@@ -52,7 +52,6 @@ public class ClientGameManager implements ActionListener {
 
 	private void initNetwork() throws UnknownHostException, IOException {
 		session = new Session(new Socket(address, port));
-		System.out.println("Client Connected!");
 		readQueue = new JobQueue();
 		writeQueue = new JobQueue();
 		writeThread = new TCPWriteThread(writeQueue, false);

@@ -136,9 +136,7 @@ public class Landscape {
 
 	public boolean canMoveHuman(int oldX, int oldY, int newX, int newY) {
 		if (validateMove(oldX, oldY, newX, newY) && !isWater(newX, newY)) {
-			if (!landscape[newX][newY].isInfested()) {
-				return true;
-			}
+			return true;
 		}
 		return false;
 	}
