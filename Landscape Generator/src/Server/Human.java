@@ -5,7 +5,7 @@ import java.awt.Point;
 public class Human extends Fighter {
 	private int currentX;
 	private int currentY;
-	private Landscape landscape;
+//	private Landscape landscape;
 	private long remainingSleepTime;
 	private long lastEntered;
 
@@ -20,7 +20,7 @@ public class Human extends Fighter {
 		}
 		this.currentX = currentX;
 		this.currentY = currentY;
-		this.landscape = landscape;
+	//	this.landscape = landscape;
 		generateSleepTime();
 		lastEntered = System.currentTimeMillis();
 		landscape.getTile(currentX, currentY).inhabited(true);
@@ -41,7 +41,7 @@ public class Human extends Fighter {
 	}
 
 	public void kill() {
-		landscape.getTile(currentX, currentY).inhabited(false);
+		//landscape.getTile(currentX, currentY).inhabited(false);
 	}
 
 	private void move() {
@@ -62,12 +62,12 @@ public class Human extends Fighter {
 			newY = currentY - 1;
 			break;
 		}
-		if (landscape.canMoveHuman(currentX, currentY, newX, newY)) {
-			landscape.getTile(currentX, currentY).inhabited(false);
-			currentX = newX;
-			currentY = newY;
-			landscape.getTile(currentX, currentY).inhabited(true);
-		}
+//		if (landscape.canMoveHuman(currentX, currentY, newX, newY)) {
+//			landscape.getTile(currentX, currentY).inhabited(false);
+//			currentX = newX;
+//			currentY = newY;
+//			landscape.getTile(currentX, currentY).inhabited(true);
+//		}
 	}
 
 	public void update() {

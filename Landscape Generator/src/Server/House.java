@@ -2,10 +2,12 @@ package Server;
 
 import java.awt.Point;
 
+import com.google.gson.internal.StringMap;
+
 public class House extends Fighter{
 	private int currentX;
 	private int currentY;
-	private Landscape landscape;
+	//private Landscape landscape;
 	private long remainingSleepTime;
 	private long lastEntered;
 	private int fertility;
@@ -14,11 +16,25 @@ public class House extends Fighter{
 		super(10,2,4,4,18);
 		this.currentX = currentX;
 		this.currentY = currentY;
-		this.landscape = landscape;
+		//this.landscape = landscape;
 		generateSleepTime();
 		lastEntered = System.currentTimeMillis();
 		landscape.getTile(currentX,currentY).buildHouse(true);
 		fertility = 0;
+	}
+
+	public House(StringMap sm) {
+		super(10,2,4,4,18);
+		
+		currentX = (int) ((Double)sm.get("currentX")).intValue();
+		currentY = (int) ((Double)sm.get("currentY")).intValue();
+		//landscape = ;
+		remainingSleepTime = (long)((Double)sm.get("remainingSleepTime")).longValue();
+		lastEntered = (long)((Double)sm.get("lastEntered")).longValue();
+		fertility = (int)((Double)sm.get("fertility")).intValue();
+		
+		//((Double)sm.get("forrestChance")).doubleValue();
+	
 	}
 
 	private void generateSleepTime() {
@@ -35,24 +51,24 @@ public class House extends Fighter{
 		return new Point(currentX,currentY);
 	}
 	public void kill(){
-		landscape.getTile(currentX, currentY).inhabited(false);
+		//landscape.getTile(currentX, currentY).inhabited(false);
 	}
 
 	private void generateFertility() {
-		switch (landscape.getTile(currentX, currentY).getType()) {
-		case WATER:
-			//atm
-			break;
-		case FORREST:
-			fertility += (int) (Math.random()*10);
-			break;
-		case PLAIN:
-			fertility += (int) (Math.random()*20);
-			break;
-		case MOUNTAIN:
-			fertility += (int) (Math.random()*5);
-			break;
-		}
+//		switch (landscape.getTile(currentX, currentY).getType()) {
+//		case WATER:
+//			//atm
+//			break;
+//		case FORREST:
+//			fertility += (int) (Math.random()*10);
+//			break;
+//		case PLAIN:
+//			fertility += (int) (Math.random()*20);
+//			break;
+//		case MOUNTAIN:
+//			fertility += (int) (Math.random()*5);
+//			break;
+//		}
 	}
 	public int getFertility(){
 		return fertility;
