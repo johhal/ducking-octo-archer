@@ -31,7 +31,6 @@ public class ClientGameManager implements ActionListener {
 	private GUIModel guiModel;
 
 	private OpenGL gl;
-	private DrawingObject otd;
 
 	public ClientGameManager(String address, int port) {
 		this.address = address;
