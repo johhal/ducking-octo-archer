@@ -25,10 +25,12 @@ public class Human extends Fighter {
 		}
 		this.currentX = currentX;
 		this.currentY = currentY;
+		newX = currentX;
+		newY = currentY;
 	//	this.landscape = landscape;
 		generateSleepTime();
 		lastEntered = System.currentTimeMillis();
-		landscape.getTile(currentX, currentY).inhabited(true);
+	//	landscape.getTile(currentX, currentY).inhabited(true);
 	}
 	public Human(StringMap sm){
 		super(sm);
