@@ -29,7 +29,14 @@ public class GUIModel {
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.ZOMBIES)
 				setZombies((ArrayList<Zombie>) p.getData());
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.HOUSES)
-				setHouses((ArrayList<House>) p.getData());
+			{
+				ArrayList<StringMap> temp = (ArrayList<StringMap>) p.getData();
+				houses = new ArrayList<House>();
+				
+				for(StringMap al: temp)
+					houses.add(new House(al));
+				//setHouses((ArrayList<House>) p.getData());
+			}
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.HUMANS)
 				setHumans((ArrayList<Human>) p.getData());
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.TILES) {

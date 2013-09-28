@@ -1,6 +1,7 @@
 package Client;
 
 import java.awt.EventQueue;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -30,9 +31,12 @@ public class ClientGameManager implements ActionListener {
 	private Session session;
 	private GUIModel guiModel;
 
+	private InputManager inputManager;
+	
 	private OpenGL gl;
 	private DrawingObject otd;
-
+	
+		
 	public ClientGameManager(String address, int port) {
 		this.address = address;
 		this.port = port;
@@ -41,6 +45,7 @@ public class ClientGameManager implements ActionListener {
 	public void init() throws UnknownHostException, IOException, LWJGLException {
 		guiModel = new GUIModel();
 		initNetwork();
+		inputManager = new InputManager();
 		gl = new OpenGL();
 		gl.initialize(800, 600, 2, 0);
 		guiModel.addActionListener(this);
@@ -58,6 +63,25 @@ public class ClientGameManager implements ActionListener {
 		readThread.start();
 	}
 
+	public void run() {
+		while (!gl.isCloseRequested()) {
+			draw();
+			update();
+		}
+	}
+	
+	public void update()
+	{
+		 int input = inputManager.update();
+		
+		 //guiHandler.update();
+		
+		 Point mi = inputManager.getClickLocation();
+		 Point p = gl.update(gl.getDelta(), input, mi);
+		 		
+		 inputManager.resetClickLocation();
+	}
+	
 	public void draw() {
 		gl.initDraw();
 
@@ -78,37 +102,30 @@ public class ClientGameManager implements ActionListener {
 
 			}
 		}
-		for (int i = 0; i < otd.size(); i++) {
+		 for(Human h: guiModel.getHumans())
+		 {
+			 otd.add(h.draw());
+		 }
+		// for(Zombie z: guiModel.getZombies())
+		 //{
+			// otd.add(z.draw());
+		// }
+		
+		 for(House h: guiModel.getHouses())
+		 {
+			 otd.add(h.draw());
+		 }
+		 //guiHandler.draw();
+		
+		 for (int i = 0; i < otd.size(); i++) {
 			cd = otd.get(i);
 			gl.convertAndDraw(cd.posX, cd.posY, cd.cr, cd.cg, cd.cb, cd.notTile);
 		}
-		// for(Human h: guiModel.getHumans())
-		// {
-		// cd = h.draw();
-		// gl.convertAndDraw(cd.posX, cd.posY, cd.cr, cd.cg, cd.cb, cd.notTile);
-		// }
-		// for(Zombie z: guiModel.getZombies())
-		// {
-		// cd = z.draw();
-		// gl.convertAndDraw(cd.posX, cd.posY, cd.cr, cd.cg, cd.cb, cd.notTile);
-		// }
-		//
-		// for(House h: guiModel.getHouses())
-		// {
-		// cd = h.draw();
-		// gl.convertAndDraw(cd.posX, cd.posY, cd.cr, cd.cg, cd.cb, cd.notTile);
-		// }
-		// guiHandler.draw();
+
 
 		gl.endDraw();
 	}
-
-	public void run() {
-		while (!gl.isCloseRequested()) {
-			draw();
-		}
-	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Runnable r = new Runnable() {
