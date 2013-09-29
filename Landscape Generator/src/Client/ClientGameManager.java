@@ -102,10 +102,11 @@ public class ClientGameManager implements ActionListener {
 		 {
 			 otd.add(h.draw());
 		 }
-		// for(Zombie z: guiModel.getZombies())
-		 //{
-			// otd.add(z.draw());
-		// }
+		 
+		 for(Zombie z: guiModel.getZombies())
+		 {
+			 otd.add(z.draw());
+		 }
 		
 		 for(House h: guiModel.getHouses())
 		 {

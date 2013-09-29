@@ -2,9 +2,13 @@ package Server;
 
 import java.awt.Point;
 
+import com.google.gson.internal.StringMap;
+
 public class Zombie extends Fighter {
 	private int currentX;
 	private int currentY;
+	private int newX;
+	private int newY;
 //	private Landscape landscape;
 	private long remainingSleepTime;
 	private long lastEntered;
@@ -13,11 +17,24 @@ public class Zombie extends Fighter {
 		super(7, 4, 7, 6, 16);
 		this.currentX = currentX;
 		this.currentY = currentY;
+		
+		newX = currentX;
+		newY = currentY;
 	//	this.landscape = landscape;
 		generateSleepTime();
 		lastEntered = System.currentTimeMillis();
 		landscape.getTile(currentX, currentY).infest(true);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Zombie(StringMap sm){
+		super(sm);
+		currentX = ((Double)sm.get("currentX")).intValue();
+		currentY = ((Double)sm.get("currentY")).intValue();
+		newX = ((Double)sm.get("newX")).intValue();
+		newY = ((Double)sm.get("newY")).intValue();
+		remainingSleepTime = ((Double)sm.get("remainingSleepTime")).intValue();
+		lastEntered = ((Double)sm.get("lastEntered")).intValue();
 	}
 
 	public Point getPos() {

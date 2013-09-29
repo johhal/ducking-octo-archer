@@ -53,6 +53,15 @@ public class GUIModel {
 					humans.add(new Human(sm));
 				}
 			}
+			
+			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.ZOMBIES) {
+				ArrayList<StringMap> tempZombies = (ArrayList<StringMap>) p
+						.getData();
+				zombies = new ArrayList<Zombie>();
+				for (StringMap sm : tempZombies) {
+					zombies.add(new Zombie(sm));
+				}
+			}
 
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.TILES) {
 				ArrayList<ArrayList<StringMap>> temp = (ArrayList<ArrayList<StringMap>>) p
