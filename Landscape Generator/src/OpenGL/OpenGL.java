@@ -1,18 +1,21 @@
 package OpenGL;
 
 import java.awt.Point;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector3f;
+import org.newdawn.slick.opengl.Texture;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -30,11 +33,17 @@ public class OpenGL {
 	private float startTileY;
 	private int spaceBetweenTiles;
 	
+	ArrayList<Texture> textures;
+	Resourceloader resourceLoader;
+	
 	private float GUIX;
 	
 	private long last_frame;
 	private int fps;
 	private long last_fps;
+	
+	ArrayList<Abstract3dModel> models;
+
 	
 	private Camera camera;
 	
@@ -56,60 +65,85 @@ public class OpenGL {
 	{	
 		//front Face
 		glNormal3f(0, 0, 1.0f);
+		GL11.glTexCoord2f(0, 1);
 		glVertex3f(x, y + boxSizeY, z + boxSizeZ);
+		GL11.glTexCoord2f(0, 0);
 		glVertex3f(x + boxSizeX, y + boxSizeY, z + boxSizeZ);
+		GL11.glTexCoord2f(1, 0);
 		glVertex3f(x + boxSizeX, y, z + boxSizeZ);
+		GL11.glTexCoord2f(1, 1);
 		glVertex3f(x, y, z + boxSizeZ);
 		
-		//Left Face
+		//Right Face
 		glNormal3f(-1.0f, 0, 0);
+		GL11.glTexCoord2f(1, 0);
 		glVertex3f(x + boxSizeX, y + boxSizeY, z + boxSizeZ);
+		GL11.glTexCoord2f(1, 1);
 		glVertex3f(x + boxSizeX, y + boxSizeY, z);
+		GL11.glTexCoord2f(0, 1);
 		glVertex3f(x + boxSizeX, y, z);
+		GL11.glTexCoord2f(0, 0);
 		glVertex3f(x + boxSizeX, y, z + boxSizeZ);
 		
 		//Back Face
 		glNormal3f(0, 0, -1.0f);
+		GL11.glTexCoord2f(0, 1);
+		glVertex3f(x, y + boxSizeY, z);
+		GL11.glTexCoord2f(0, 0);
 		glVertex3f(x + boxSizeX, y + boxSizeY, z);
-		glVertex3f(x, y + boxSizeY, z);
-		glVertex3f(x, y, z);
+		GL11.glTexCoord2f(1, 0);
 		glVertex3f(x + boxSizeX, y, z);
-		
-		//Right Face
-		glNormal3f(1.0f, 0, 0);
-		glVertex3f(x, y + boxSizeY, z);
-		glVertex3f(x, y + boxSizeY, z + boxSizeZ);
-		glVertex3f(x, y, z + boxSizeZ);
+		GL11.glTexCoord2f(1, 1);
 		glVertex3f(x, y, z);
 		
+		//Left Face
+		glNormal3f(1.0f, 0, 0);
+		GL11.glTexCoord2f(1, 0);
+		glVertex3f(x, y + boxSizeY, z + boxSizeZ);
+		GL11.glTexCoord2f(1, 1);
+		glVertex3f(x, y + boxSizeY, z);
+		GL11.glTexCoord2f(0, 1);
+		glVertex3f(x, y, z);
+		GL11.glTexCoord2f(0, 0);
+		glVertex3f(x, y, z + boxSizeZ);
 		
 		//Top Face
 		glNormal3f(0, 1.0f, 0);
-		glVertex3f(x, y + boxSizeY, z);
+		GL11.glTexCoord2f(0, 1);
 		glVertex3f(x + boxSizeX, y + boxSizeY, z);
-		glVertex3f(x + boxSizeX, y + boxSizeY, z + boxSizeZ);
+		GL11.glTexCoord2f(1, 1);
+		glVertex3f(x, y + boxSizeY, z);
+		GL11.glTexCoord2f(1, 0);
 		glVertex3f(x, y + boxSizeY, z + boxSizeZ);
+		GL11.glTexCoord2f(0, 0);
+		glVertex3f(x + boxSizeX, y + boxSizeY, z + boxSizeZ);
 			
-		//Bottom Face
+		//Bottom Face		
 		glNormal3f(0, -1.0f, 0);
+		GL11.glTexCoord2f(0, 1);
 		glVertex3f(x + boxSizeX, y, z);
+		GL11.glTexCoord2f(1, 1);
 		glVertex3f(x, y, z);
+		GL11.glTexCoord2f(1, 0);
 		glVertex3f(x, y, z + boxSizeZ);
+		GL11.glTexCoord2f(0, 0);
 		glVertex3f(x + boxSizeX, y, z + boxSizeZ);
-		
-		
-		
-		
 	}
 	
-	public void convertAndDraw(int pX, int pY, float ColR, float ColG, float ColB, short notTile)
+	public void convertAndDraw(int pX, int pY, short texture, short notTile) throws FileNotFoundException, IOException
 	{
+		textures.get(texture).bind();
+		glBegin(GL_QUADS);
+		
+		//for(Abstract3dModel model : models){
+		//	model.draw();
+		//}
+
 		float posX = startTileX + notTile*(float)difTileObject/2 + (pX * (tileSize + spaceBetweenTiles));
 		float posY = startTileY + notTile*(float)difTileObject/2 + (pY * (tileSize + spaceBetweenTiles));
 		
-		glColor3f(ColR, ColG, ColB);
-		
 		drawBox(posX, posY, tileHeight + tileHeight*notTile, tileSize - notTile*difTileObject, tileSize - notTile*difTileObject, tileSize - notTile*difTileObject);
+		glEnd();
 	}
 	
 	/*
@@ -188,7 +222,7 @@ public class OpenGL {
 	}
 
 	//initsiering
-	public void initialize(int screenWidth, int screenHeight, int tileSize, int GUIWidth) throws LWJGLException
+	public void initialize(int screenWidth, int screenHeight, int tileSize, int GUIWidth) throws LWJGLException, FileNotFoundException, IOException
 	{	
 		screen_width = screenWidth;
 		screen_height = screenHeight;
@@ -214,6 +248,20 @@ public class OpenGL {
 		getDelta();
 		
 		last_fps = getTime();
+		
+		textures = new ArrayList<Texture>();
+		resourceLoader = new Resourceloader();
+		textures.add(resourceLoader.getTexture("PNG","resources/landscapes/water.png"));// =  );
+		textures.add(resourceLoader.getTexture("PNG", "resources/landscapes/forest.png")); // = resourceLoader.getTexture("PNG", "resources/landscapes/forest.png");
+		textures.add(resourceLoader.getTexture("PNG", "resources/landscapes/plains.png"));// = resourceLoader.getTexture("PNG", "resources/landscapes/plains.png");
+		textures.add(resourceLoader.getTexture("PNG", "resources/landscapes/mountain.png"));// = resourceLoader.getTexture("PNG", "resources/landscapes/mountain.png");
+		textures.add(resourceLoader.getTexture("PNG", "resources/house_button_logo.png")); // = resourceLoader.getTexture("PNG", "resources/house_button_logo.png");
+		textures.add(resourceLoader.getTexture("PNG", "resources/human_button_logo.png"));// = resourceLoader.getTexture("PNG", "resources/human_button_logo.png");
+		textures.add(resourceLoader.getTexture("PNG", "resources/zombie_button_logo.png")); //= resourceLoader.getTexture("PNG", "resources/zombie_button_logo.png");
+		
+		models = new ArrayList<Abstract3dModel>();
+		
+		//models.add(new Model("resources/kub.obj"));
 	}
 	
 	private void initDisplay() throws LWJGLException
@@ -235,6 +283,7 @@ public class OpenGL {
 		
 		glDepthFunc(GL_LEQUAL);
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_TEXTURE_2D);
 		glShadeModel(GL_SMOOTH);
 		
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
@@ -348,6 +397,14 @@ public class OpenGL {
 			p2.y = (int)v.y/ (tileSize + spaceBetweenTiles);
 		}
 		updateFPS();
+		
+		//for(Abstract3dModel model : models)
+		//{
+		//	model.z = 10;
+		//	model.x = 20;
+		//	model.y = 20;
+		//	model.scale = 4;
+		//}
 		return p2;
 	}
 	
@@ -368,11 +425,16 @@ public class OpenGL {
 		glTranslatef(0, 0, -10);
 		
 		glBegin(GL_QUADS);
+		
+		//for(Abstract3dModel model : models){
+		//	model.draw();
+		//}
+		glEnd();
 	}
 	
 	public void endDraw()
 	{
-		glEnd();
+		
 		
 		glPopMatrix();
 		

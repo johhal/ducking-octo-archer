@@ -1,5 +1,6 @@
-package network;
 
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
@@ -8,7 +9,7 @@ import org.lwjgl.LWJGLException;
 import Client.ClientGameManager;
 import Client.LibraryLoader;
 
-public class ClientTest {
+public class ClientMain {
 
 	/**
 	 * @param args
@@ -38,7 +39,15 @@ public class ClientTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		client.run();
+		try {
+			client.run();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

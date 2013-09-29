@@ -114,8 +114,8 @@ public class House extends Fighter{
 	}
 	
 	public DrawingObject draw() {
-		short sh = 1;
-		float n = (float)getCurrentHitpoints() / (float)getMaxHitpoints();
-		return new DrawingObject(currentX, currentY, n, n/2, 0, sh);
+		short nt = 1;
+		short tp = 4; // texturePosition
+		return new DrawingObject(currentX, currentY, tp, nt);
 	}
 }

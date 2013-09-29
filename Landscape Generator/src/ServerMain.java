@@ -7,7 +7,7 @@ import Client.ClientGameManager;
 import Client.LibraryLoader;
 import Server.ServerGameManager;
 
-public class Tester {
+public class ServerMain {
 	public static void main(String[] args) throws LWJGLException {
 //		try
 //		{

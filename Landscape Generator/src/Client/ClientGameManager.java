@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -61,7 +62,7 @@ public class ClientGameManager implements ActionListener {
 		readThread.start();
 	}
 
-	public void run() {
+	public void run() throws FileNotFoundException, IOException {
 		while (!gl.isCloseRequested()) {
 			draw();
 			update();
@@ -80,11 +81,9 @@ public class ClientGameManager implements ActionListener {
 		 inputManager.resetClickLocation();
 	}
 	
-	public void draw() {
+	public void draw() throws FileNotFoundException, IOException {
 		gl.initDraw();
 
-		float n;
-		short nt;
 		DrawingObject cd;
 		ArrayList<DrawingObject> otd = new ArrayList<DrawingObject>();
 		ArrayList<ArrayList<Tile>> board = guiModel.getTiles();
@@ -94,7 +93,6 @@ public class ClientGameManager implements ActionListener {
 			// i++;
 			// else
 			// i = 0;
-			nt = 0;
 			for (int j = 0; j < maxJ; j++) {
 				otd.add(board.get(i).get(j).draw(i, j));
 
@@ -117,7 +115,7 @@ public class ClientGameManager implements ActionListener {
 		
 		 for (int i = 0; i < otd.size(); i++) {
 			cd = otd.get(i);
-			gl.convertAndDraw(cd.posX, cd.posY, cd.cr, cd.cg, cd.cb, cd.notTile);
+			gl.convertAndDraw(cd.posX, cd.posY, cd.texturePos, cd.notTile);
 		}
 
 
@@ -129,7 +127,15 @@ public class ClientGameManager implements ActionListener {
 		Runnable r = new Runnable() {
 			@Override
 			public void run() {
-				ClientGameManager.this.draw();
+				try {
+					ClientGameManager.this.draw();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			}
 		};

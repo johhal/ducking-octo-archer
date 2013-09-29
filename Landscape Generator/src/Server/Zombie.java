@@ -105,9 +105,9 @@ public class Zombie extends Fighter {
 	}
 
 	public DrawingObject draw() {
-		short sh = 1;
-		float n = (float) getCurrentHitpoints() / (float) getMaxHitpoints();
-		return new DrawingObject(currentX, currentY, n, 0, 0, sh);
+		short nt = 1;
+		short tp = 6; // texturePosition
+		return new DrawingObject(currentX, currentY, tp, nt);
 	}
 
 }

@@ -18,7 +18,7 @@ public class Tile {
 	private boolean containsZombies = false;
 	private boolean inhabited = false;
 	private boolean hasHouse = false;
-
+	private short texture;
 	public Tile(TypeEnum type) {
 		this.type = type;
 	}
@@ -38,6 +38,8 @@ public class Tile {
 		containsZombies = ((Boolean)sm.get("containsZombies"));
 		inhabited = ((Boolean)sm.get("inhabited"));
 		hasHouse = ((Boolean)sm.get("hasHouse"));
+		
+		texture = ((Double)sm.get("texture")).shortValue();
 	}
 	private TypeEnum stringToType(String s) {
 		if(s.equals(TypeEnum.FORREST.toString())){
@@ -103,12 +105,16 @@ public class Tile {
 		double rnd = Math.random();
 		if (rnd < waterThreshold) {
 			type = TypeEnum.FORREST;
+			texture = 1;
 		} else if (rnd < plainThreshold) {
 			type = TypeEnum.WATER;
+			texture = 0;
 		} else if (rnd < mountainThreshold) {
 			type = TypeEnum.PLAIN;
+			texture = 2;
 		} else {
 			type = TypeEnum.MOUNTAIN;
+			texture = 3;
 		}
 	}
 
@@ -140,29 +146,6 @@ public class Tile {
 				+ plainThreshold;
 	}
 
-	public BufferedImage getTileImage(int x, int y) {
-
-		BufferedImage image = new BufferedImage(x, y,
-				BufferedImage.TYPE_INT_ARGB);
-		for (int i = 0; i < x; i++) {
-			for (int j = 0; j < y; j++) {
-				if (i == 0) {
-					image.setRGB(i, j, Color.black.getRGB());
-				} else if (j == 0) {
-					image.setRGB(i, j, Color.black.getRGB());
-				} else if (i == (x - 1)) {
-					image.setRGB(i, j, Color.black.getRGB());
-				} else if (j == (y - 1)) {
-					image.setRGB(i, j, Color.black.getRGB());
-				} else {
-					image.setRGB(i, j, getRGBA().getRGB());
-				}
-			}
-		}
-
-		return image;
-	}
-
 	public TypeEnum getType() {
 		return type;
 	}
@@ -180,19 +163,6 @@ public class Tile {
 		return "";
 		
 	}
-	public Color getRGBA() {
-		switch (type) {
-		case FORREST:
-			return new Color(0, 255, 0);
-		case PLAIN:
-			return new Color(255, 255, 0);
-		case MOUNTAIN:
-			return new Color(127, 127, 127);
-		case WATER:
-			return new Color(0, 0, 255);
-		}
-		return new Color(255, 255, 255);
-	}
 
 	public boolean hasHouse() {
 		return hasHouse;
@@ -204,9 +174,8 @@ public class Tile {
 	
 	public DrawingObject draw(int x, int y)
 	{
-		Color c = getRGBA();
 		short nt = 0;
-		DrawingObject dro = new DrawingObject(x, y, (float)c.getRed()/255, (float)c.getGreen()/255, (float)c.getBlue()/255, nt);
+		DrawingObject dro = new DrawingObject(x, y, texture, nt);
 		return dro;
 	}
 }

@@ -126,9 +126,10 @@ public class Human extends Fighter {
 	}
 	
 	public DrawingObject draw() {
-		short nt = 1; //notTile, value 1 if not a tile.
-		float n = (float) getCurrentHitpoints() / (float) getMaxHitpoints();
-		return new DrawingObject(currentX, currentY, n, n, n, nt);
+		
+		short nt = 1; // notTile, value 1 if not a tile.
+		short tp = 5; // texturePosition
+		return new DrawingObject(currentX, currentY, tp, nt);
 	}
 	public int getCurrentX() {
 		return currentX;
