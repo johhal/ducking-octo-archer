@@ -43,8 +43,6 @@ public class Zombie extends Fighter {
 
 	private void move() {
 		int rnd = (int) (Math.random() * 4);
-		int newX = currentX;
-		int newY = currentY;
 		switch (rnd) {
 		case 0:
 			newX = currentX + 1;

@@ -262,6 +262,8 @@ public class OpenGL {
 		models = new ArrayList<Abstract3dModel>();
 		
 		//models.add(new Model("resources/kub.obj"));
+		//models.add(new Model("resources/HEro_pj/amulett/amulett.obj"));
+		models.add(new Model("resources/ratbandit/Rat_bandit.obj"));
 	}
 	
 	private void initDisplay() throws LWJGLException
@@ -274,7 +276,7 @@ public class OpenGL {
 
 	private void initGL()
 	{ 
-		initLight(-400, -300, -800);			
+		initLight(-80, -80, -200);			
 		
 		glViewport(0, 0, screen_width, screen_height);
 		
@@ -398,13 +400,11 @@ public class OpenGL {
 		}
 		updateFPS();
 		
-		//for(Abstract3dModel model : models)
-		//{
-		//	model.z = 10;
-		//	model.x = 20;
-		//	model.y = 20;
-		//	model.scale = 4;
-		//}
+
+		models.get(0).z = -10;
+		models.get(0).x = 40;
+		models.get(0).y = 40;
+		models.get(0).scale = 20;
 		return p2;
 	}
 	
@@ -424,12 +424,10 @@ public class OpenGL {
 		
 		glTranslatef(0, 0, -10);
 		
-		glBegin(GL_QUADS);
+		for(Abstract3dModel model : models){
+			model.draw();
+		}
 		
-		//for(Abstract3dModel model : models){
-		//	model.draw();
-		//}
-		glEnd();
 	}
 	
 	public void endDraw()
