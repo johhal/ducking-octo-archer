@@ -294,7 +294,7 @@ public class OpenGL {
 	//förflyttning
 	public void moveCamera(float ammount, float direction)
 	{
-		camera.moveXY(ammount, direction);
+		camera.moveForward(0.1f, 0);
 	}
 
 	//Ljus
@@ -340,13 +340,13 @@ public class OpenGL {
 			{
 				//C
 				input -= mathExp(10, 7);
-				camera.moveXY(-1f, 90);
+				camera.moveForward(-1f, 90);
 			}
 			if(input/mathExp(10, 6) != 0)
 			{
 				//Z
 				input -= mathExp(10, 6);
-				camera.moveXY(1f, 90);
+				camera.moveForward(1f, 90);
 			}
 			if(input/mathExp(10, 5) != 0)
 			{

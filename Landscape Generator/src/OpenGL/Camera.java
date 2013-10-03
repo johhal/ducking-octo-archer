@@ -3,7 +3,11 @@ package OpenGL;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.*;
 
+import org.lwjgl.util.vector.Vector3f;
+
 public class Camera {
+	private Vector3f position;
+	
 	private float posX;
 	private float posY;
 	private float posZ;
@@ -25,6 +29,11 @@ public class Camera {
 
 	public void initialize(float fov, float aspect, float near, float far)
 	{
+		position = new Vector3f();
+		position.x = -20;
+		position.y = -30;
+		position.z = -10;
+		
 		posX = -20;
 		posY = -30;
 		posZ = -10;
@@ -73,10 +82,19 @@ public class Camera {
 		rotZ += ammount;
 	}
 
-	public void moveXY(float ammount, float direction)
+	public void moveForward(float ammount, float direction)
 	{
-		posY += ammount * Math.sin(Math.toRadians(rotY + 90 * direction));
-		posX += ammount * Math.cos(Math.toRadians(rotY + 90 * direction));
+		float angle = rotY;
+		Vector3f newPosition = new Vector3f(position);
+		float v = ammount;
+		float katAdjacent = v * (float)Math.cos(Math.toRadians(angle));
+		float katFar = (float)Math.sin(Math.toRadians(angle) * v);
+		
+		newPosition.x -= katFar;
+		newPosition.z += katAdjacent;
+		
+		position.x = newPosition.x;
+		position.z = newPosition.z;
 	}
 
 	public void moveXZ(float ammount, float direction)
