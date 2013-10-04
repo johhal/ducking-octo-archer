@@ -87,6 +87,7 @@ public class HumanoidManager {
 						zombies.get(i).kill();
 						zombies.remove(i);
 						moneyGeneratedThisTurn+=((int)Math.random()*30+20);
+						humans.get(j).giveExperience(50);
 					}
 					if(humans.get(j).getCurrentHitpoints()<=0){
 						humans.get(j).kill();

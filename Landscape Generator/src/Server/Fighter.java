@@ -9,6 +9,8 @@ public class Fighter {
 	private int attack;
 	private int armor;
 	private int initiative;
+	private int experience;
+	private int level;
 
 	public Fighter(int hitPoints, int damage, int initiative, int attack,
 			int armor) {
@@ -18,6 +20,8 @@ public class Fighter {
 		this.initiative = initiative;
 		this.attack = attack;
 		this.armor = armor;
+		level = 1;
+		experience = 0;
 	}
 	public Fighter(StringMap sm){
 		currentHitPoints =((Double)sm.get("currentHitPoints")).intValue();
@@ -28,6 +32,29 @@ public class Fighter {
 		initiative =((Double)sm.get("initiative")).intValue();
 	}
 
+	private void levelUp(){
+		if(level<10){
+			level++;
+			int newHp = ((int)Math.random())*5+1;
+			currentHitPoints+=newHp;
+			maxHitPoints += newHp;
+			damage+=1;
+			initiative+=1;
+			attack+=1;
+			armor+=1;
+			experience=0;
+		}
+		System.out.println("Leveled up!");
+		
+	}
+	
+	public void giveExperience(int xp){
+		experience+=xp;
+		if(experience>=((int)Math.pow(2, level))*100){
+			levelUp();
+		}
+	}
+	
 	public int getAttack() {
 		return attack;
 	}

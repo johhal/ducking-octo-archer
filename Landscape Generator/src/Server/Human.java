@@ -108,6 +108,7 @@ public class Human extends Fighter {
 			// Genereate new sleep time
 			generateSleepTime();
 			generateMoney();
+			generateExperience();
 			// Randomize movement
 			move();
 
@@ -120,6 +121,9 @@ public class Human extends Fighter {
 
 	}
 
+	private void generateExperience() {
+		giveExperience(5);
+	}
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Human");
