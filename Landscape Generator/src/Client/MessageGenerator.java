@@ -23,6 +23,7 @@ public class MessageGenerator {
 	}
 
 	public void putHouse(Point p) {
+		
 		ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.SUBMIT, ProtocolEnum.EVENT.NEW_HOUSE);
 		Parameter param = new Parameter(ProtocolEnum.PARAMETER_TYPE.POINT);
 		param.setData(p);

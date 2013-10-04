@@ -31,6 +31,8 @@ public class ServerGameManager {
 	private OutputManager outputManager;
 	private ServerInputManager inputManager;
 
+	private Session session;
+
 	private ServerSocket serverSocket;
 
 	private Gson gson;
@@ -71,10 +73,10 @@ public class ServerGameManager {
 		try {
 			serverSocket = new ServerSocket(12345);
 			Socket socket = (Socket) serverSocket.accept();
-			Session s = new Session(socket);
-			outputManager.addSession(s);
-			TCPReadThread serverReadThread = new TCPReadThread(s, readQueue,
-					true);
+			session = new Session(socket);
+			outputManager.addSession(session);
+			TCPReadThread serverReadThread = new TCPReadThread(session,
+					readQueue, true);
 			serverReadThread.start();
 			run();
 
@@ -116,15 +118,19 @@ public class ServerGameManager {
 
 	public void update() {
 		// int input = inputManager.update();
-		if(inputManager.hasInput()){
+
+		if (inputManager.hasInput()) {
 			Point p = inputManager.getNewHousePoint();
-			if(p!= null){
-				inputManager.resetNewHousePoint();
-				humanoidManager.addHouse(p.x, p.y);
+			if (session.getMoney() >= 100) {
+				if (p != null) {
+					inputManager.resetNewHousePoint();
+					humanoidManager.addHouse(p.x, p.y);
+					session.removeMoney(100);
+				}
 			}
 			inputManager.resetInput();
 		}
-		
+
 		if (needTiles) {
 			ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
 					ProtocolEnum.EVENT.MAP);
@@ -136,6 +142,18 @@ public class ServerGameManager {
 		}
 
 		humanoidManager.update();
+
+		int moneyGeneratedThisTurn = humanoidManager
+				.getMoneyGeneratedThisTurn();
+		if (moneyGeneratedThisTurn > 0) {
+			session.addMoney(moneyGeneratedThisTurn);
+			ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
+					ProtocolEnum.EVENT.MAP);
+			Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.MONEY);
+			p.setData(session.getMoney());
+			pm.addParameter(p);
+			outputManager.sendToAll(gson.toJson(pm));
+		}
 
 		if (humanoidManager.housesUpdated()) {
 			ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,

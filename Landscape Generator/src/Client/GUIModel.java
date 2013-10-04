@@ -23,6 +23,7 @@ public class GUIModel {
 	private ArrayList<ArrayList<Tile>> tiles;
 	private ActionListener listener;
 	private boolean locked = false;
+	private int money;
 
 	public synchronized void update(ProtocolMessage pm) {
 		while(locked){
@@ -76,6 +77,9 @@ public class GUIModel {
 					i++;
 				}
 			}
+			if(p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.MONEY){
+				money = ((Double)p.getData()).intValue();
+			}
 			locked = false;
 			notifyAll();
 		}
@@ -91,6 +95,7 @@ public class GUIModel {
 		houses = new ArrayList<House>();
 		humans = new ArrayList<Human>();
 		tiles = new ArrayList<ArrayList<Tile>>();
+		money = 0;
 		// listener = new ActionListener();
 	}
 
@@ -168,5 +173,14 @@ public class GUIModel {
 
 	public void setSizeY(int sizeY) {
 		this.sizeY = sizeY;
+	}
+
+	public int getMoney() {
+		return money;
+	}
+
+	public void removeMoney(int money) {
+		this.money -=money;
+		
 	}
 }

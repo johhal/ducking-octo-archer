@@ -47,7 +47,7 @@ public class ClientGameManager implements ActionListener {
 		guiModel = new GUIModel();
 		initNetwork();
 		messageGenerator = new MessageGenerator(writeQueue, session);
-		inputManager = new ClientInputManager(messageGenerator);
+		inputManager = new ClientInputManager(messageGenerator, guiModel);
 		gl = new OpenGL();
 		gl.initialize(800, 600, 2, 0);
 		guiModel.addActionListener(this);

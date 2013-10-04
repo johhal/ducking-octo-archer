@@ -7,7 +7,6 @@ import java.io.OutputStreamWriter;
  * the Job to the SSLSocket provided in the Job.
  *
  * @author Johan Hallberg
- * @author Carl Bjerggaard
  */
 public class TCPWriteThread extends Thread {
 
@@ -35,13 +34,7 @@ public class TCPWriteThread extends Thread {
     public void run() {
         while (running) {
             try {
-            	if(!isServerThread){
-            		System.out.println("Waiting for data");
-            	}
                 job = writeQueue.get();
-                if(!isServerThread){
-            		System.out.println("Sending data");
-            	}
                 bufferedWriter = new BufferedWriter(new OutputStreamWriter(job.getSession().getSocket().getOutputStream()));
                 bufferedWriter.write(job.getMessage(), 0, job.getMessage().length());
                 bufferedWriter.newLine();
