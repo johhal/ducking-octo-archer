@@ -202,7 +202,7 @@ public class ClientInputManager implements MouseListener, ActionListener {
 			messageGenerator.putHouse(p);
 			guiModel.removeMoney(100);
 		}else{
-//			System.out.println("You dont have enough money to build a house. You need 100 and only have "+guiModel.getMoney());
+			System.out.println("You dont have enough money to build a house. You need 100 and only have "+guiModel.getMoney());
 		}
 	}
 }

@@ -146,6 +146,7 @@ public class ServerGameManager {
 		int moneyGeneratedThisTurn = humanoidManager
 				.getMoneyGeneratedThisTurn();
 		if (moneyGeneratedThisTurn > 0) {
+			System.out.println("ServerGameManager: moneyGenerated:"+moneyGeneratedThisTurn);
 			session.addMoney(moneyGeneratedThisTurn);
 			ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
 					ProtocolEnum.EVENT.MAP);
