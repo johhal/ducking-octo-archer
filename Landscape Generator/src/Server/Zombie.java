@@ -79,7 +79,7 @@ public class Zombie extends Fighter {
 				remainingSleepTime = ((int) Math.random()*2000)+2000;
 				break;
 			case PLAIN:
-				remainingSleepTime = ((int) Math.random()*500)+100;
+				remainingSleepTime = ((int) Math.random()*500)+1000;
 				break;
 			case WATER:
 				remainingSleepTime = ((int) Math.random()*5000)+6000;

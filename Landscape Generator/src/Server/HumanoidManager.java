@@ -54,6 +54,8 @@ public class HumanoidManager {
 				}
 			}	
 		}
+		addHouse(25,25);
+		addHouse(26,23);
 	}
 
 	public boolean addZombie(int xpos, int ypos) {
