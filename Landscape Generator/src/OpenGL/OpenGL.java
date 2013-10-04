@@ -402,7 +402,7 @@ public class OpenGL {
 		updateFPS();
 
 		
-		models.(0).setxBase(models.get(0).getxBase() + 0.1f);
+		models.get(0).setxBase(models.get(0).getxBase() + 0.1f);
 		models.get(0).setY(10);
 		models.get(0).setZ(10);
 		models.get(0).setScale(0.1f);
