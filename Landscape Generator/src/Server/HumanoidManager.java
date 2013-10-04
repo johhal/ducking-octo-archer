@@ -10,9 +10,18 @@ public class HumanoidManager {
 	private ArrayList<House> houses;
 	private Landscape landscape;
 
+	private int moneyGeneratedThisTurn;
+	
+	private boolean houseUpdated;
+	private boolean humanUpdated;
+	private boolean zombieUpdated;
+
 	public void initialize(Landscape _landscape) {
+		moneyGeneratedThisTurn = 100;
 		this.landscape = _landscape;
-		
+		houseUpdated = true;
+		humanUpdated = true;
+		zombieUpdated = true;
 		//Initiera zombies + m�nniskor + hus
 		zombies = new ArrayList<Zombie>();
 		humans = new ArrayList<Human>();
@@ -45,26 +54,26 @@ public class HumanoidManager {
 				}
 			}	
 		}
-		addHouse(25,25);
-		addHuman(25,24);
 	}
 
 	public boolean addZombie(int xpos, int ypos) {
 		// S�tt ut zombies?
 		zombies.add(new Zombie(xpos, ypos, landscape));
+		zombieUpdated = true;
 		return true;
 	}
 
 	public boolean addHuman(int xpos, int ypos) {
 		//S�tt ut m�nniskor
 		humans.add(new Human(xpos, ypos, landscape));
-		System.out.println("Human added!!!");
+		humanUpdated = true;
 		return true;
 	}
 
 	public boolean addHouse(int xpos, int ypos) {
 		//s�tt ut hus
 		houses.add(new House(xpos, ypos, landscape));
+		houseUpdated = true;
 		return true;
 	}
 
@@ -77,6 +86,8 @@ public class HumanoidManager {
 					if(zombies.get(i).getCurrentHitpoints()<=0){
 						zombies.get(i).kill();
 						zombies.remove(i);
+						moneyGeneratedThisTurn+=((int)Math.random()*30+20);
+						humans.get(j).giveExperience(50);
 					}
 					if(humans.get(j).getCurrentHitpoints()<=0){
 						humans.get(j).kill();
@@ -88,6 +99,8 @@ public class HumanoidManager {
 						}
 						humans.remove(j);
 					}
+					zombieUpdated= true;
+					humanUpdated = true;
 					return true;
 				}
 			}
@@ -104,6 +117,8 @@ public class HumanoidManager {
 						houses.get(j).kill();
 						houses.remove(j);
 					}
+					zombieUpdated = true;
+					houseUpdated = true;
 					return true;
 				}
 			}
@@ -115,6 +130,15 @@ public class HumanoidManager {
 		//Uppdatera Zombies
 		for(Zombie z: zombies){
 			z.update();
+			int newX = z.getNewX();
+			int newY = z.getNewY();
+			if(newX!=z.getCurrentX() || newY!=z.getCurrentY()){
+				if(landscape.canMoveHuman(z.getCurrentX(), z.getCurrentY(), newX, newY)){
+					z.setCurrentX(newX);
+					z.setCurrentY(newY);
+					setZombieUpdated(true);
+				}
+			}
 		}
 		while (zombieKillingSpree())
 			;
@@ -122,15 +146,18 @@ public class HumanoidManager {
 		//Uppdatera M�nniskor
 		for(Human h: humans){
 			h.update();
+			moneyGeneratedThisTurn+=h.getMoney();
 			int newX = h.getNewX();
 			int newY = h.getNewY();
 			if(newX!=h.getCurrentX() || newY!=h.getCurrentY()){
 				if(landscape.canMoveHuman(h.getCurrentX(), h.getCurrentY(), newX, newY)){
 					h.setCurrentX(newX);
 					h.setCurrentY(newY);
+					setHumanUpdated(true);
 				}
 			}
 		}
+		
 		
 		//Uppdatera Hus
 		for (int i = 0; i < houses.size(); i++) {
@@ -146,7 +173,11 @@ public class HumanoidManager {
 			}
 		}
 	}
-
+	public int getMoneyGeneratedThisTurn(){
+		int temp = moneyGeneratedThisTurn;
+		moneyGeneratedThisTurn = 0;
+		return temp;
+	}
 
 //	public ArrayList<DrawingObject> draw() {
 //		ArrayList<DrawingObject> dro = new ArrayList<DrawingObject>();
@@ -189,6 +220,32 @@ public class HumanoidManager {
 	}
 	public ArrayList<House> getHouses(){
 		return houses;
+	}
+
+	public boolean housesUpdated() {
+		// TODO Auto-generated method stub
+		return houseUpdated;
+	}
+
+	public boolean zombiesUpdated() {
+		// TODO Auto-generated method stub
+		return zombieUpdated;
+	}
+	public boolean humansUpdated() {
+		// TODO Auto-generated method stub
+		return humanUpdated;
+	}
+
+	public void setHouseUpdated(boolean houseUpdated) {
+		this.houseUpdated = houseUpdated;
+	}
+
+	public void setHumanUpdated(boolean humanUpdated) {
+		this.humanUpdated = humanUpdated;
+	}
+
+	public void setZombieUpdated(boolean zombieUpdated) {
+		this.zombieUpdated = zombieUpdated;
 	}
 	
 }

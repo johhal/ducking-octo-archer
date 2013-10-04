@@ -12,6 +12,7 @@ public class Human extends Fighter {
 //	private Landscape landscape;
 	private long remainingSleepTime;
 	private long lastEntered;
+	private int money;
 
 	
 	public Human(int currentX, int currentY, Landscape landscape) {
@@ -42,7 +43,16 @@ public class Human extends Fighter {
 		lastEntered = ((Double)sm.get("lastEntered")).intValue();
 	}
 	
-
+	private void generateMoney(){
+		money+=10;
+	}
+	
+	public int getMoney(){
+		int temp = money;
+		money = 0;
+		return temp;
+	}
+	
 	private void generateSleepTime() {
 		remainingSleepTime = 1000;
 
@@ -97,7 +107,8 @@ public class Human extends Fighter {
 
 			// Genereate new sleep time
 			generateSleepTime();
-
+			generateMoney();
+			generateExperience();
 			// Randomize movement
 			move();
 
@@ -110,6 +121,9 @@ public class Human extends Fighter {
 
 	}
 
+	private void generateExperience() {
+		giveExperience(5);
+	}
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Human");

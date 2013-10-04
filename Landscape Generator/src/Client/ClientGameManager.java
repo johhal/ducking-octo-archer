@@ -31,9 +31,10 @@ public class ClientGameManager implements ActionListener {
 	private JobQueue writeQueue;
 	private Session session;
 	private GUIModel guiModel;
+	private MessageGenerator messageGenerator;
 
-	private InputManager inputManager;
-	
+	private ClientInputManager inputManager;
+
 	private OpenGL gl;
 	private DrawingObject otd;
 
@@ -45,7 +46,8 @@ public class ClientGameManager implements ActionListener {
 	public void init() throws UnknownHostException, IOException, LWJGLException {
 		guiModel = new GUIModel();
 		initNetwork();
-		inputManager = new InputManager();
+		messageGenerator = new MessageGenerator(writeQueue, session);
+		inputManager = new ClientInputManager(messageGenerator, guiModel);
 		gl = new OpenGL();
 		gl.initialize(800, 600, 2, 0);
 		guiModel.addActionListener(this);
@@ -60,6 +62,7 @@ public class ClientGameManager implements ActionListener {
 		readThread = new TCPReadThread(session, readQueue, false);
 		clientJobThread.start();
 		readThread.start();
+		writeThread.start();
 	}
 
 	public void run() throws FileNotFoundException, IOException {
@@ -68,19 +71,22 @@ public class ClientGameManager implements ActionListener {
 			update();
 		}
 	}
-	
-	public void update()
-	{
-		 int input = inputManager.update();
-		
-		 //guiHandler.update();
-		
-		 Point mi = inputManager.getClickLocation();
-		 Point p = gl.update(gl.getDelta(), input, mi);
-		 		
-		 inputManager.resetClickLocation();
+
+	public void update() {
+		int input = inputManager.update();
+
+		// guiHandler.update();
+
+		Point mi = inputManager.getClickLocation();
+		Point p = gl.update(gl.getDelta(), input, mi);
+		if (p.x >= 1 && p.y >= 1) {
+			System.out.println(p.x + " "+p.y);
+			inputManager.tileClicked(p);
+		}
+
+		inputManager.resetClickLocation();
 	}
-	
+
 	public void draw() throws FileNotFoundException, IOException {
 		gl.initDraw();
 
@@ -98,31 +104,27 @@ public class ClientGameManager implements ActionListener {
 
 			}
 		}
-		 for(Human h: guiModel.getHumans())
-		 {
-			 otd.add(h.draw());
-		 }
-		 
-		 for(Zombie z: guiModel.getZombies())
-		 {
-			 otd.add(z.draw());
-		 }
-		
-		 for(House h: guiModel.getHouses())
-		 {
-			 otd.add(h.draw());
-		 }
-		 //guiHandler.draw();
-		
-		 for (int i = 0; i < otd.size(); i++) {
+		for (Human h : guiModel.getHumans()) {
+			otd.add(h.draw());
+		}
+
+		for (Zombie z : guiModel.getZombies()) {
+			otd.add(z.draw());
+		}
+
+		for (House h : guiModel.getHouses()) {
+			otd.add(h.draw());
+		}
+		// guiHandler.draw();
+
+		for (int i = 0; i < otd.size(); i++) {
 			cd = otd.get(i);
 			gl.convertAndDraw(cd.posX, cd.posY, cd.texturePos, cd.notTile);
 		}
 
-
 		gl.endDraw();
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Runnable r = new Runnable() {

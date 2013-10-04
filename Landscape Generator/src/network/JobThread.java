@@ -22,26 +22,15 @@ public abstract class JobThread extends Thread {
 	public void run() {
 		while (running) {
 			try {
-				if(!isServerThread){
-				}
 				job = readQueue.get();
-				if(!isServerThread){
-				}
 				ProtocolMessage pm = gson.fromJson(job.getMessage(),
 						ProtocolMessage.class);
-				if(!isServerThread){
-				}
-				// String answer = null;
 				if (pm != null) {
 					switch (pm.getType()) {
 					case UPDATE:
-						if(!isServerThread){
-						}
 						handleUpdate(pm);
 						break;
 					case SUBMIT:
-						if(!isServerThread){
-						}
 						handleSubmit(pm);
 						break;
 					// case ERROR:

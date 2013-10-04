@@ -43,6 +43,8 @@ public class Zombie extends Fighter {
 
 	private void move() {
 		int rnd = (int) (Math.random() * 4);
+		newX = currentX;
+		newY = currentY;
 		switch (rnd) {
 		case 0:
 			newX = currentX + 1;
@@ -66,20 +68,7 @@ public class Zombie extends Fighter {
 	}
 
 	public void generateSleepTime() {
-//		switch (landscape.getTile(currentX, currentY).getType()) {
-//		case WATER:
-//			// g�r inte, men ville inte ha felmeddelandet.
-//			break;
-//		case FORREST:
-//			remainingSleepTime = (long) (Math.random() * 1000) + 1500;
-//			break;
-//		case PLAIN:
-//			remainingSleepTime = (long) (Math.random() * 1000) + 500;
-//			break;
-//		case MOUNTAIN:
-//			remainingSleepTime = (long) (Math.random() * 1000) + 4000;
-//			break;
-//		}
+		remainingSleepTime = 1000;
 	}
 
 	public void kill() {
@@ -123,6 +112,33 @@ public class Zombie extends Fighter {
 		short nt = 1;
 		short tp = 6; // texturePosition
 		return new DrawingObject(currentX, currentY, tp, nt);
+	}
+	public int getCurrentX() {
+		return currentX;
+	}
+
+	public void setCurrentX(int currentX) {
+		this.currentX = currentX;
+	}
+
+	public int getCurrentY() {
+		return currentY;
+	}
+
+	public void setCurrentY(int currentY) {
+		this.currentY = currentY;
+	}
+
+	public int getNewX() {
+		return newX;
+	}
+
+	public void setNewX(int newX) {
+		this.newX = newX;
+	}
+
+	public int getNewY() {
+		return newY;
 	}
 
 }

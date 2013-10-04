@@ -7,7 +7,6 @@ import java.io.OutputStreamWriter;
  * the Job to the SSLSocket provided in the Job.
  *
  * @author Johan Hallberg
- * @author Carl Bjerggaard
  */
 public class TCPWriteThread extends Thread {
 

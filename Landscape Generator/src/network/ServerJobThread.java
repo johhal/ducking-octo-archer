@@ -26,7 +26,14 @@ public class ServerJobThread extends JobThread {
 
     
     protected void handleSubmit(ProtocolMessage pm) {
-    	
+    	ProtocolEnum.EVENT event = pm.getEvent();
+    	if(event != null){
+    		switch (event){
+    		case NEW_HOUSE:
+    			inputManager.newHouse(pm.getParameterList());
+    			break;
+    		}
+    	}
     }
 
 	@Override

@@ -12,7 +12,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-public class InputManager implements MouseListener, ActionListener {
+public class ClientInputManager implements MouseListener, ActionListener {
 	private boolean leftMouseClicked = false;
 	private boolean rightMouseClicked = false;
 
@@ -23,9 +23,18 @@ public class InputManager implements MouseListener, ActionListener {
 	private boolean spawnZombieSelected = false;
 	private boolean spawnHumanSelected = false;
 	private boolean spawnHouseSelected = false;
+	private MessageGenerator messageGenerator;
 	
 	private boolean prevLeftBtn;
 	private boolean prevRightBtn;
+	
+	private GUIModel guiModel;
+	
+	public ClientInputManager(MessageGenerator messageGenerator, GUIModel guiModel){
+		this.messageGenerator = messageGenerator;
+		this.guiModel = guiModel;
+	}
+	
 
 	public void initilize() throws LWJGLException {
 		
@@ -186,5 +195,14 @@ public class InputManager implements MouseListener, ActionListener {
 		}
 		
 		return checkKeyboard();
+	}
+
+	public void tileClicked(Point p) {
+		if(guiModel.getMoney()>=100){
+			messageGenerator.putHouse(p);
+			guiModel.removeMoney(100);
+		}else{
+			System.out.println("You dont have enough money to build a house. You need 100 and only have "+guiModel.getMoney());
+		}
 	}
 }

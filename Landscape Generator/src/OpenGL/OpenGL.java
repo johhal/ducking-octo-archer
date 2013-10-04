@@ -398,7 +398,7 @@ public class OpenGL {
 		{
 			Vector3f v = getMousePositionIn3dCoords(p2.x, p2.y);
 			p2.x = (int)v.x/ (tileSize + spaceBetweenTiles);
-			p2.y = (int)v.y/ (tileSize + spaceBetweenTiles);
+			p2.y = (int)v.z/ (tileSize + spaceBetweenTiles);
 		}
 		updateFPS();
 		
