@@ -29,7 +29,7 @@ public class Human extends Fighter {
 		newX = currentX;
 		newY = currentY;
 	//	this.landscape = landscape;
-		generateSleepTime();
+		generateSleepTime(null);
 		lastEntered = System.currentTimeMillis();
 	//	landscape.getTile(currentX, currentY).inhabited(true);
 	}
@@ -43,8 +43,21 @@ public class Human extends Fighter {
 		lastEntered = ((Double)sm.get("lastEntered")).intValue();
 	}
 	
-	private void generateMoney(){
-		money+=10;
+	private void generateMoney(Tile t){
+		switch(t.getType()){
+		case FORREST:
+			money+=((int) Math.random()*3);
+			break;
+		case MOUNTAIN:
+			money+=((int) Math.random()*5);
+			break;
+		case PLAIN:
+			money+=((int) Math.random()*2);
+			break;
+		case WATER:
+			money+=((int) Math.random()*10);
+			break;
+		}
 	}
 	
 	public int getMoney(){
@@ -53,9 +66,25 @@ public class Human extends Fighter {
 		return temp;
 	}
 	
-	private void generateSleepTime() {
-		remainingSleepTime = 1000;
-
+	private void generateSleepTime(Tile t) {
+		if(t == null){
+			remainingSleepTime = 1000;
+		}else{
+			switch(t.getType()){
+			case FORREST:
+				remainingSleepTime = ((int) Math.random()*1000)+1000;
+				break;
+			case MOUNTAIN:
+				remainingSleepTime = ((int) Math.random()*2000)+1000;
+				break;
+			case PLAIN:
+				remainingSleepTime = ((int) Math.random()*500)+500;
+				break;
+			case WATER:
+				remainingSleepTime = ((int) Math.random()*5000)+5000;
+				break;
+			}
+		}
 	}
 
 	public void initialize() {
@@ -93,22 +122,16 @@ public class Human extends Fighter {
 			newY = currentY - 1;
 			break;
 		}
-//		if (landscape.canMoveHuman(currentX, currentY, newX, newY)) {
-//			landscape.getTile(currentX, currentY).inhabited(false);
-//			currentX = newX;
-//			currentY = newY;
-//			landscape.getTile(currentX, currentY).inhabited(true);
-//		}
 	}
 
-	public void update() {
+	public void update(Tile t) {
 		if (remainingSleepTime <= 0) {
 			// Has slept enough!
 
 			// Genereate new sleep time
-			generateSleepTime();
-			generateMoney();
-			generateExperience();
+			generateSleepTime(t);
+			generateMoney(t);
+			generateExperience(t);
 			// Randomize movement
 			move();
 
@@ -121,8 +144,21 @@ public class Human extends Fighter {
 
 	}
 
-	private void generateExperience() {
-		giveExperience(5);
+	private void generateExperience(Tile t) {
+		switch(t.getType()){
+		case FORREST:
+			giveExperience(((int) Math.random()*5));
+			break;
+		case MOUNTAIN:
+			giveExperience(((int) Math.random()*7));
+			break;
+		case PLAIN:
+			giveExperience(((int) Math.random()*2));
+			break;
+		case WATER:
+			giveExperience(((int) Math.random()*10));
+			break;
+		}
 	}
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

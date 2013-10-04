@@ -129,7 +129,8 @@ public class HumanoidManager {
 	public void update() {
 		//Uppdatera Zombies
 		for(Zombie z: zombies){
-			z.update();
+			Tile t = landscape.getTile(z.getCurrentX(), z.getCurrentY());
+			z.update(t);
 			int newX = z.getNewX();
 			int newY = z.getNewY();
 			if(newX!=z.getCurrentX() || newY!=z.getCurrentY()){
@@ -145,7 +146,8 @@ public class HumanoidManager {
 		
 		//Uppdatera M�nniskor
 		for(Human h: humans){
-			h.update();
+			Tile t = landscape.getTile(h.getCurrentX(), h.getCurrentY());
+			h.update(t);
 			moneyGeneratedThisTurn+=h.getMoney();
 			int newX = h.getNewX();
 			int newY = h.getNewY();
@@ -161,7 +163,8 @@ public class HumanoidManager {
 		
 		//Uppdatera Hus
 		for (int i = 0; i < houses.size(); i++) {
-			houses.get(i).update();
+			Tile t = landscape.getTile(houses.get(i).getCurrentX(), houses.get(i).getCurrentY());
+			houses.get(i).update(t);
 			if (houses.get(i).getFertility() >= 100) {
 
 				Point pos = landscape.getNearbyAvailableLocation(houses.get(i)

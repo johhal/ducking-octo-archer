@@ -54,22 +54,21 @@ public class House extends Fighter{
 		//landscape.getTile(currentX, currentY).inhabited(false);
 	}
 
-	private void generateFertility() {
-		fertility +=10;
-//		switch (landscape.getTile(currentX, currentY).getType()) {
-//		case WATER:
-//			//atm
-//			break;
-//		case FORREST:
-//			fertility += (int) (Math.random()*10);
-//			break;
-//		case PLAIN:
-//			fertility += (int) (Math.random()*20);
-//			break;
-//		case MOUNTAIN:
-//			fertility += (int) (Math.random()*5);
-//			break;
-//		}
+	private void generateFertility(Tile t) {
+		switch (t.getType()) {
+		case WATER:
+			//atm
+			break;
+		case FORREST:
+			fertility += (int) (Math.random()*5);
+			break;
+		case PLAIN:
+			fertility += (int) (Math.random()*10);
+			break;
+		case MOUNTAIN:
+			fertility += (int) (Math.random()*2);
+			break;
+		}
 	}
 	public int getFertility(){
 		return fertility;
@@ -79,13 +78,13 @@ public class House extends Fighter{
 		fertility = i;
 	}
 	
-	public void update() {
+	public void update(Tile t) {
 		if (remainingSleepTime <= 0) {
 			//Has slept enough!
 			
 			//Genereate new sleep time
 			generateSleepTime();
-			generateFertility();
+			generateFertility(t);
 			//Randomize movement
 //			move();
 
@@ -116,5 +115,15 @@ public class House extends Fighter{
 		short nt = 1;
 		short tp = 4; // texturePosition
 		return new DrawingObject(currentX, currentY, tp, nt);
+	}
+
+	public int getCurrentX() {
+		// TODO Auto-generated method stub
+		return currentX;
+	}
+
+	public int getCurrentY() {
+		// TODO Auto-generated method stub
+		return currentY;
 	}
 }

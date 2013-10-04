@@ -21,7 +21,7 @@ public class Zombie extends Fighter {
 		newX = currentX;
 		newY = currentY;
 	//	this.landscape = landscape;
-		generateSleepTime();
+		generateSleepTime(null);
 		lastEntered = System.currentTimeMillis();
 		landscape.getTile(currentX, currentY).infest(true);
 		// TODO Auto-generated constructor stub
@@ -67,20 +67,37 @@ public class Zombie extends Fighter {
 //		}
 	}
 
-	public void generateSleepTime() {
-		remainingSleepTime = 1000;
+	public void generateSleepTime(Tile t) {
+		if(t == null){
+			remainingSleepTime = 2000;
+		}else{
+			switch(t.getType()){
+			case FORREST:
+				remainingSleepTime = ((int) Math.random()*1500)+2000;
+				break;
+			case MOUNTAIN:
+				remainingSleepTime = ((int) Math.random()*2000)+2000;
+				break;
+			case PLAIN:
+				remainingSleepTime = ((int) Math.random()*500)+100;
+				break;
+			case WATER:
+				remainingSleepTime = ((int) Math.random()*5000)+6000;
+				break;
+			}
+		}
 	}
 
 	public void kill() {
 	//	landscape.getTile(currentX, currentY).infest(false);
 	}
 
-	public void update() {
+	public void update(Tile t) {
 		if (remainingSleepTime <= 0) {
 			// Has slept enough!
 
 			// Genereate new sleep time
-			generateSleepTime();
+			generateSleepTime(t);
 
 			// Randomize movement
 			move();
