@@ -56,7 +56,6 @@ public class House extends Fighter{
 
 	private void generateFertility() {
 		fertility +=10;
-		System.out.println("Fertility: "+fertility);
 //		switch (landscape.getTile(currentX, currentY).getType()) {
 //		case WATER:
 //			//atm

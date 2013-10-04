@@ -1,5 +1,6 @@
 package Server;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -33,6 +34,7 @@ public class ServerGameManager {
 	private ServerSocket serverSocket;
 
 	private Gson gson;
+	boolean needTiles = true;
 
 	// private GUIHandler guiHandler;
 
@@ -54,18 +56,14 @@ public class ServerGameManager {
 		LandscapeGenerator landGen = new LandscapeGenerator();
 		landscape = new Landscape(landGen.generate(boardWidth, boardHeight));
 
-
 		// Skapa Varelser
 		humanoidManager = new HumanoidManager();
 		humanoidManager.initialize(landscape);
 
-
 		// inputManager = new InputManager();
 		// inputManager.initilize();
 
-
-		//gl.initialize(screenWidth, screenHeight, tileSize, GUIWidth);
-
+		// gl.initialize(screenWidth, screenHeight, tileSize, GUIWidth);
 
 		// guiHandler = new GUIHandler();
 		// guiHandler.Initialize(3, 2);
@@ -108,55 +106,66 @@ public class ServerGameManager {
 		}
 	}
 
-//	private String tileToString(int x, int y) {
-//		StringBuilder sb = new StringBuilder();
-//		sb.append(landscape.getTile(x, y).toString());
-//		sb.append("\n");
-//		sb.append(humanoidManager.humanoidToString(new Point(x, y)));
-//		return sb.toString();
-//	}
+	// private String tileToString(int x, int y) {
+	// StringBuilder sb = new StringBuilder();
+	// sb.append(landscape.getTile(x, y).toString());
+	// sb.append("\n");
+	// sb.append(humanoidManager.humanoidToString(new Point(x, y)));
+	// return sb.toString();
+	// }
 
 	public void update() {
 		// int input = inputManager.update();
+		if(inputManager.hasInput()){
+			Point p = inputManager.getNewHousePoint();
+			if(p!= null){
+				inputManager.resetNewHousePoint();
+				humanoidManager.addHouse(p.x, p.y);
+			}
+			inputManager.resetInput();
+		}
+		
+		if (needTiles) {
+			ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
+					ProtocolEnum.EVENT.MAP);
+			Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.TILES);
+			p.setData(landscape.getTiles());
+			pm.addParameter(p);
+			outputManager.sendToAll(gson.toJson(pm));
+			needTiles = false;
+		}
 
 		humanoidManager.update();
-		
-		ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
-				ProtocolEnum.EVENT.MAP);
-		Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.TILES);
-		p.setData(landscape.getTiles());
-		pm.addParameter(p);
-		outputManager.sendToAll(gson.toJson(pm));
-		
-		pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
-				ProtocolEnum.EVENT.MAP);
-		p = new Parameter(ProtocolEnum.PARAMETER_TYPE.DIMENSIONS);
-		p.setData(new int[] {landscape.getBoardWidth(), landscape.getBoardHeight()});
-		pm.addParameter(p);
-		outputManager.sendToAll(gson.toJson(pm));
-		
-		
-		pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
-				ProtocolEnum.EVENT.MAP);
-		p = new Parameter(ProtocolEnum.PARAMETER_TYPE.HOUSES);
-		p.setData(humanoidManager.getHouses());
-		pm.addParameter(p);
-		outputManager.sendToAll(gson.toJson(pm));
-		
-		pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
-				ProtocolEnum.EVENT.MAP);
-		p = new Parameter(ProtocolEnum.PARAMETER_TYPE.HUMANS);
-		p.setData(humanoidManager.getHumans());
-		pm.addParameter(p);
-		outputManager.sendToAll(gson.toJson(pm));
-		
-		pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
-				ProtocolEnum.EVENT.MAP);
-		p = new Parameter(ProtocolEnum.PARAMETER_TYPE.ZOMBIES);
-		p.setData(humanoidManager.getZombies());
-		pm.addParameter(p);
-		outputManager.sendToAll(gson.toJson(pm));
-		
+
+		if (humanoidManager.housesUpdated()) {
+			ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
+					ProtocolEnum.EVENT.MAP);
+			Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.HOUSES);
+			p.setData(humanoidManager.getHouses());
+			pm.addParameter(p);
+			outputManager.sendToAll(gson.toJson(pm));
+			humanoidManager.setHouseUpdated(false);
+		}
+
+		if (humanoidManager.humansUpdated()) {
+			ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
+					ProtocolEnum.EVENT.MAP);
+			Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.HUMANS);
+			p.setData(humanoidManager.getHumans());
+			pm.addParameter(p);
+			outputManager.sendToAll(gson.toJson(pm));
+			humanoidManager.setHumanUpdated(false);
+		}
+
+		if (humanoidManager.zombiesUpdated()) {
+			ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
+					ProtocolEnum.EVENT.MAP);
+			Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.ZOMBIES);
+			p.setData(humanoidManager.getZombies());
+			pm.addParameter(p);
+			outputManager.sendToAll(gson.toJson(pm));
+			humanoidManager.setZombieUpdated(false);
+		}
 
 		// guiHandler.update();
 		// Point mi = inputManager.getClickLocation();

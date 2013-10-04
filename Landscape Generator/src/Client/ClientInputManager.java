@@ -12,7 +12,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-public class InputManager implements MouseListener, ActionListener {
+public class ClientInputManager implements MouseListener, ActionListener {
 	private boolean leftMouseClicked = false;
 	private boolean rightMouseClicked = false;
 
@@ -23,9 +23,14 @@ public class InputManager implements MouseListener, ActionListener {
 	private boolean spawnZombieSelected = false;
 	private boolean spawnHumanSelected = false;
 	private boolean spawnHouseSelected = false;
+	private MessageGenerator messageGenerator;
 	
 	private boolean prevLeftBtn;
 	private boolean prevRightBtn;
+	
+	public ClientInputManager(MessageGenerator messageGenerator){
+		this.messageGenerator = messageGenerator;
+	}
 
 	public void initilize() throws LWJGLException {
 		
@@ -186,5 +191,11 @@ public class InputManager implements MouseListener, ActionListener {
 		}
 		
 		return checkKeyboard();
+	}
+
+	public void tileClicked(Point p) {
+		messageGenerator.putHouse(p);
+		// TODO Auto-generated method stub
+		
 	}
 }
