@@ -404,7 +404,7 @@ public class OpenGL {
 		
 
 		models.get(0).z = -10;
-		models.get(0).x = 40;
+		models.get(0).x += 40;
 		models.get(0).y = 40;
 		models.get(0).scale = 20;
 		return p2;
