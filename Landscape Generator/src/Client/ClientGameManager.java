@@ -79,7 +79,7 @@ public class ClientGameManager implements ActionListener {
 
 		Point mi = inputManager.getClickLocation();
 		Point p = gl.update(gl.getDelta(), input, mi);
-		if (p.x >= 1 && p.y >= 1) {
+		if (p.x >= 0 && p.y >= 0) {
 			System.out.println(p.x + " "+p.y);
 			inputManager.tileClicked(p);
 		}

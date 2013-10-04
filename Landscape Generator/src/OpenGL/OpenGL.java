@@ -394,7 +394,7 @@ public class OpenGL {
 	{
 		Point p2 = new Point(p.x, p.y);
 		translateInput(input);
-		if(p2.x != 0 || p2.y != 0)
+		if(p2.x != -1 || p2.y != -1)
 		{
 			Vector3f v = getMousePositionIn3dCoords(p2.x, p2.y);
 			p2.x = (int)v.x/ (tileSize + spaceBetweenTiles);

@@ -16,7 +16,7 @@ public class ClientInputManager implements MouseListener, ActionListener {
 	private boolean leftMouseClicked = false;
 	private boolean rightMouseClicked = false;
 
-	public Point clickLocation = new Point(0,0);
+	public Point clickLocation = new Point(-1,-1);
 	
 	JPopupMenu popMenu;
 	
@@ -42,7 +42,7 @@ public class ClientInputManager implements MouseListener, ActionListener {
 	
 	public void resetClickLocation()
 	{
-		clickLocation = new Point(0,0);
+		clickLocation = new Point(-1,-1);
 	}
 	
 	public boolean spawnZombieSelected() {
