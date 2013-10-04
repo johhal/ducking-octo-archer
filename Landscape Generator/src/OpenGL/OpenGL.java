@@ -401,10 +401,10 @@ public class OpenGL {
 			p2.y = (int)v.z/ (tileSize + spaceBetweenTiles);
 		}
 		updateFPS();
-		
 
-		models.get(0).z = -10;
-		models.get(0).x += 40;
+		
+		models.get(0).z = 10;
+		models.get(0).x = 400;
 		models.get(0).y = 40;
 		models.get(0).scale = 20;
 		return p2;

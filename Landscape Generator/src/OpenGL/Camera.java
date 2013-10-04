@@ -8,10 +8,6 @@ import org.lwjgl.util.vector.Vector3f;
 public class Camera {
 	private Vector3f position;
 	
-	private float posX;
-	private float posY;
-	private float posZ;
-
 	private float rotX;
 	private float rotY;
 	private float rotZ;
@@ -33,10 +29,6 @@ public class Camera {
 		position.x = -20;
 		position.y = -30;
 		position.z = -10;
-		
-		posX = -20;
-		posY = -30;
-		posZ = -10;
 
 		rotX = 0;
 		rotY = 0;
@@ -110,39 +102,6 @@ public class Camera {
 		
 		position.x = newPosition.x;
 		position.z = newPosition.z;
-		
-		//posZ += ammount * Math.sin(Math.toRadians(rotY + 90 * direction));
-		//posX += ammount * Math.cos(Math.toRadians(rotY + 90 * direction));
-	}
-
-	public float getX()
-	{
-		return posX;
-	}
-
-	public float getY()
-	{
-		return posY;
-	}
-
-	public float getZ()
-	{
-		return posZ;
-	}
-
-	public void setX(float x)
-	{
-		posX = x;
-	}
-
-	public void setY(float y)
-	{
-		posY = y;
-	}
-
-	public void setZ(float z)
-	{
-		posZ = z;
 	}
 
 	public float getRotX()
