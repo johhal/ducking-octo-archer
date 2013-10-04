@@ -42,7 +42,7 @@ public class OpenGL {
 	private int fps;
 	private long last_fps;
 	
-	ArrayList<Abstract3dModel> models;
+	ArrayList<Model> models;
 
 	
 	private Camera camera;
@@ -134,10 +134,6 @@ public class OpenGL {
 	{
 		textures.get(texture).bind();
 		glBegin(GL_QUADS);
-		
-		//for(Abstract3dModel model : models){
-		//	model.draw();
-		//}
 
 		float posX = startTileX + notTile*(float)difTileObject/2 + (pX * (tileSize + spaceBetweenTiles));
 		float posZ = startTileY + notTile*(float)difTileObject/2 + (pY * (tileSize + spaceBetweenTiles));
@@ -256,11 +252,14 @@ public class OpenGL {
 		textures.add(resourceLoader.getTexture("PNG", "resources/human_button_logo.png"));// = resourceLoader.getTexture("PNG", "resources/human_button_logo.png");
 		textures.add(resourceLoader.getTexture("PNG", "resources/zombie_button_logo.png")); //= resourceLoader.getTexture("PNG", "resources/zombie_button_logo.png");
 		
-		models = new ArrayList<Abstract3dModel>();
+		models = new ArrayList<Model>();
+		
+		//models.add(new Model("resources/ratbandit/Rat_bandit.obj"));
 		
 		//models.add(new Model("resources/kub.obj"));
+		
 		//models.add(new Model("resources/HEro_pj/amulett/amulett.obj"));
-		models.add(new Model("resources/ratbandit/Rat_bandit.obj"));
+		
 	}
 	
 	private void initDisplay() throws LWJGLException
@@ -403,15 +402,16 @@ public class OpenGL {
 		updateFPS();
 
 		
-		models.get(0).z = 10;
-		models.get(0).x = 400;
-		models.get(0).y = 40;
-		models.get(0).scale = 20;
+		models.(0).setxBase(models.get(0).getxBase() + 0.1f);
+		models.get(0).setY(10);
+		models.get(0).setZ(10);
+		models.get(0).setScale(0.1f);
+		//models.get(0).setxSpeed(0.1f);
 		return p2;
 	}
 	
 	//Rita
-	public void initDraw()
+	public void initDraw(int boardSizeX, int boardSizeY)
 	{
 		glViewport(0, 0, screen_width, screen_height);
 		
@@ -426,7 +426,9 @@ public class OpenGL {
 		
 		glTranslatef(0, 0, -10);
 		
-		for(Abstract3dModel model : models){
+		drawBox(startTileX - 5, startTileY - 5, -5, boardSizeX*(tileSize + spaceBetweenTiles) + 5, boardSizeY*(tileSize + spaceBetweenTiles) + 5, tileHeight + 30);
+
+		for(Model model : models){
 			model.draw();
 		}
 		

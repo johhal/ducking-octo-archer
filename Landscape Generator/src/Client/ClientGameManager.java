@@ -88,11 +88,14 @@ public class ClientGameManager implements ActionListener {
 	}
 
 	public void draw() throws FileNotFoundException, IOException {
-		gl.initDraw();
-
+		
 		DrawingObject cd;
 		ArrayList<DrawingObject> otd = new ArrayList<DrawingObject>();
 		ArrayList<ArrayList<Tile>> board = guiModel.getTiles();
+		
+		gl.initDraw(board.get(0).size(), board.size());
+
+		
 		for (int i = 0; i < board.size(); i++) {
 			int maxJ = board.get(i).size();
 			// if(i<board.size())

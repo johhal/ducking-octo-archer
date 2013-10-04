@@ -43,7 +43,6 @@ public class Model extends Abstract3dModel {
 		copy.xSpeed = this.xSpeed;
 		copy.ySpeed = this.ySpeed;
 		
-		
 		return copy;
 	}
 	
