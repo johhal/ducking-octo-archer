@@ -140,9 +140,9 @@ public class OpenGL {
 		//}
 
 		float posX = startTileX + notTile*(float)difTileObject/2 + (pX * (tileSize + spaceBetweenTiles));
-		float posY = startTileY + notTile*(float)difTileObject/2 + (pY * (tileSize + spaceBetweenTiles));
+		float posZ = startTileY + notTile*(float)difTileObject/2 + (pY * (tileSize + spaceBetweenTiles));
 		
-		drawBox(posX, posY, tileHeight + tileHeight*notTile, tileSize - notTile*difTileObject, tileSize - notTile*difTileObject, tileSize - notTile*difTileObject);
+		drawBox(posX, tileHeight + tileHeight*notTile, posZ, tileSize - notTile*difTileObject, tileSize - notTile*difTileObject, tileSize - notTile*difTileObject);
 		glEnd();
 	}
 	
@@ -242,9 +242,6 @@ public class OpenGL {
 
 		initGL();
 
-		camera = new Camera();
-		camera.initialize(70f, (float)screen_width/screen_height, 0.3f, 1000f);	//, posX, posY, posZ);
-		System.out.println("3");
 		getDelta();
 		
 		last_fps = getTime();
@@ -276,9 +273,9 @@ public class OpenGL {
 
 	private void initGL()
 	{ 
-		initLight(-80, -80, -200);			
-		
 		glViewport(0, 0, screen_width, screen_height);
+		
+		initLight(-80, 200, -80);		
 		
 		glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 		glClearDepth(1.0f);
@@ -289,13 +286,16 @@ public class OpenGL {
 		glShadeModel(GL_SMOOTH);
 		
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+		
+		camera = new Camera();
+		camera.initialize(70f, (float)screen_width/screen_height, 0.3f, 1000f);	//, posX, posY, posZ);
 	}
 	
 	//förflyttning
-	public void moveCamera(float ammount, float direction)
-	{
-		camera.moveForward(0.1f, 0);
-	}
+	//public void moveCamera(float ammount, float direction)
+	//{
+		//camera.moveForward(0.1f, 0);
+	//}
 
 	//Ljus
 	private void setLight(float xPos, float yPos, float zPos)
@@ -340,25 +340,27 @@ public class OpenGL {
 			{
 				//C
 				input -= mathExp(10, 7);
-				camera.moveForward(-1f, 90);
+				camera.moveSideways(-1f);
 			}
 			if(input/mathExp(10, 6) != 0)
 			{
 				//Z
 				input -= mathExp(10, 6);
-				camera.moveForward(1f, 90);
+				camera.moveSideways(1f);
+				
 			}
 			if(input/mathExp(10, 5) != 0)
 			{
 				//E
 				input -= mathExp(10, 5);
-				camera.moveXZ(-1f, 1);
+				camera.moveForward(-1f);
 			}
 			if(input/mathExp(10, 4) != 0)
 			{
 				//Q
 				input -= mathExp(10, 4);
-				camera.moveXZ(1f, 1);
+				camera.moveForward(1f);
+				
 			}
 			if(input/mathExp(10, 3) != 0)
 			{

@@ -64,7 +64,7 @@ public class Camera {
 		glRotatef(rotY, 0, 1, 0);
 		glRotatef(rotZ, 0, 0, 1);
 
-		glTranslatef(posX, posY, posZ);
+		glTranslatef(position.x, position.y, position.z);
 	}
 
 	public void rotateX(float ammount)
@@ -82,7 +82,7 @@ public class Camera {
 		rotZ += ammount;
 	}
 
-	public void moveForward(float ammount, float direction)
+	public void moveForward(float ammount)
 	{
 		float angle = rotY;
 		Vector3f newPosition = new Vector3f(position);
@@ -97,10 +97,22 @@ public class Camera {
 		position.z = newPosition.z;
 	}
 
-	public void moveXZ(float ammount, float direction)
+	public void moveSideways(float ammount)
 	{
-		posZ += ammount * Math.sin(Math.toRadians(rotY + 90 * direction));
-		posX += ammount * Math.cos(Math.toRadians(rotY + 90 * direction));
+		float angle = rotY-90;
+		Vector3f newPosition = new Vector3f(position);
+		float v = ammount;
+		float katAdjacent = v * (float)Math.cos(Math.toRadians(angle));
+		float katFar = (float)Math.sin(Math.toRadians(angle) * v);
+		
+		newPosition.x -= katFar;
+		newPosition.z += katAdjacent;
+		
+		position.x = newPosition.x;
+		position.z = newPosition.z;
+		
+		//posZ += ammount * Math.sin(Math.toRadians(rotY + 90 * direction));
+		//posX += ammount * Math.cos(Math.toRadians(rotY + 90 * direction));
 	}
 
 	public float getX()
