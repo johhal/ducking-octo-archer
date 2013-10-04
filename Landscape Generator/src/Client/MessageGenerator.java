@@ -23,12 +23,15 @@ public class MessageGenerator {
 	}
 
 	public void putHouse(Point p) {
-		
-		ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.SUBMIT, ProtocolEnum.EVENT.NEW_HOUSE);
-		Parameter param = new Parameter(ProtocolEnum.PARAMETER_TYPE.POINT);
-		param.setData(p);
-		pm.addParameter(param);
-		writeQueue.put(new Job<String>(session, gson.toJson(pm)));
+		if(session.getMoney()>=100){
+			ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.SUBMIT, ProtocolEnum.EVENT.NEW_HOUSE);
+			Parameter param = new Parameter(ProtocolEnum.PARAMETER_TYPE.POINT);
+			param.setData(p);
+			pm.addParameter(param);
+			writeQueue.put(new Job<String>(session, gson.toJson(pm)));
+		} else{
+			System.out.println("You need more money. "+session.getMoney()+"/100.");
+		}
 	}
 	
 

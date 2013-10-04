@@ -54,8 +54,6 @@ public class HumanoidManager {
 				}
 			}	
 		}
-		addHouse(25,25);
-		addHouse(26,23);
 	}
 
 	public boolean addZombie(int xpos, int ypos) {
@@ -184,20 +182,6 @@ public class HumanoidManager {
 		return temp;
 	}
 
-//	public ArrayList<DrawingObject> draw() {
-//		ArrayList<DrawingObject> dro = new ArrayList<DrawingObject>();
-//		for(Zombie z: zombies){
-//			dro.add(z.draw());
-//		}
-//		for(Human h: humans){
-//			dro.add(h.draw());
-//		}
-//		for(House h: houses){
-//			dro.add(h.draw());
-//		}
-//		return dro;
-//	}
-
 	public String humanoidToString(Point p) {
 		StringBuilder sb = new StringBuilder();
 		for(Zombie z: zombies){
@@ -228,16 +212,13 @@ public class HumanoidManager {
 	}
 
 	public boolean housesUpdated() {
-		// TODO Auto-generated method stub
 		return houseUpdated;
 	}
 
 	public boolean zombiesUpdated() {
-		// TODO Auto-generated method stub
 		return zombieUpdated;
 	}
 	public boolean humansUpdated() {
-		// TODO Auto-generated method stub
 		return humanUpdated;
 	}
 
