@@ -26,7 +26,7 @@ public class ClientMain {
 			System.exit(0);
 		}
 		
-		ClientGameManager client = new ClientGameManager("localhost", 12345);
+		ClientGameManager client = new ClientGameManager("localhost", 12346);
 		try {
 			client.init();
 		} catch (UnknownHostException e) {

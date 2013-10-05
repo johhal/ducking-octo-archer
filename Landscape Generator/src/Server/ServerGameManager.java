@@ -71,7 +71,7 @@ public class ServerGameManager {
 		// guiHandler.Initialize(3, 2);
 
 		try {
-			serverSocket = new ServerSocket(12345);
+			serverSocket = new ServerSocket(12346);
 			Socket socket = (Socket) serverSocket.accept();
 			session = new Session(socket);
 			outputManager.addSession(session);

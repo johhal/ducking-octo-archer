@@ -426,8 +426,16 @@ public class OpenGL {
 		
 		glTranslatef(0, -10, 0);
 		
-		drawBox(startTileX - 10, startTileY - 10, -10, boardSizeX*(tileSize + spaceBetweenTiles) + 10, boardSizeY*(tileSize + spaceBetweenTiles) + 10, tileHeight + 30);
+		textures.get(0).bind();
+		glBegin(GL_QUADS);
+		
+		drawBox(startTileX - 10, -10, startTileY - 10, 
+				boardSizeX*(tileSize + spaceBetweenTiles) + 10*2, //x
+				-10 + (tileHeight + 60), 								//y
+				boardSizeY*(tileSize + spaceBetweenTiles) + 10*2);//z
 
+		glEnd();
+		
 		for(Model model : models){
 			model.draw();
 		}
