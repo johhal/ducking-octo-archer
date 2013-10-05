@@ -254,7 +254,7 @@ public class OpenGL {
 		
 		models = new ArrayList<Model>();
 		
-		//models.add(new Model("resources/ratbandit/Rat_bandit.obj"));
+		models.add(new Model("resources/ratbandit/Rat_bandit.obj"));
 		
 		//models.add(new Model("resources/kub.obj"));
 		
@@ -396,8 +396,8 @@ public class OpenGL {
 		if(p2.x != -1 || p2.y != -1)
 		{
 			Vector3f v = getMousePositionIn3dCoords(p2.x, p2.y);
-			p2.x = (int)v.x/ (tileSize + spaceBetweenTiles);
-			p2.y = (int)v.z/ (tileSize + spaceBetweenTiles);
+			p2.x = (int)(v.x + startTileX)/ (tileSize + spaceBetweenTiles);
+			p2.y = (int)(v.z + startTileY)/ (tileSize + spaceBetweenTiles);
 		}
 		updateFPS();
 
@@ -406,7 +406,7 @@ public class OpenGL {
 		models.get(0).setY(10);
 		models.get(0).setZ(10);
 		models.get(0).setScale(0.1f);
-		//models.get(0).setxSpeed(0.1f);
+		models.get(0).setxSpeed(0.1f);
 		return p2;
 	}
 	
@@ -424,9 +424,9 @@ public class OpenGL {
 		
 		glPushMatrix();
 		
-		glTranslatef(0, 0, -10);
+		glTranslatef(0, -10, 0);
 		
-		drawBox(startTileX - 5, startTileY - 5, -5, boardSizeX*(tileSize + spaceBetweenTiles) + 5, boardSizeY*(tileSize + spaceBetweenTiles) + 5, tileHeight + 30);
+		drawBox(startTileX - 10, startTileY - 10, -10, boardSizeX*(tileSize + spaceBetweenTiles) + 10, boardSizeY*(tileSize + spaceBetweenTiles) + 10, tileHeight + 30);
 
 		for(Model model : models){
 			model.draw();
@@ -460,7 +460,7 @@ public class OpenGL {
 		viewport.clear();
 		modelview.clear();
 		projection.clear();
-		winZ.clear();;
+		winZ.clear();
 		position.clear();
 	    float winX, winY;
 
@@ -473,7 +473,7 @@ public class OpenGL {
 	    winY = /* (float)viewport.get(3) -  */  //Uncomment this if you invert Y
 	         (float)mouseY;
 
-	    GL11.glReadPixels(mouseX, (int)winY, 1, 1, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, winZ);
+	    GL11.glReadPixels((int)winX, (int)winY, 1, 1, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, winZ);
 
 	    float zz = winZ.get();
 
