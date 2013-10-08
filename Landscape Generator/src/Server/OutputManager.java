@@ -23,5 +23,6 @@ public class OutputManager {
 	}
 	public void addSession(Session s){
 		sessionList.add(s);
+		System.out.println("Outputmanager: Session added. Sessions: "+ sessionList.size());
 	}
 }

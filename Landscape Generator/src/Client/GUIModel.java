@@ -67,7 +67,9 @@ public class GUIModel {
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.TILES) {
 				ArrayList<ArrayList<StringMap>> temp = (ArrayList<ArrayList<StringMap>>) p
 						.getData();
+				
 				tiles = new ArrayList<ArrayList<Tile>>();
+				System.out.println("GUIModel: tiles recieved");
 				int i = 0;
 				for (ArrayList<StringMap> al : temp) {
 					tiles.add(new ArrayList<Tile>());

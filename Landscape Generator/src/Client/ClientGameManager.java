@@ -80,7 +80,7 @@ public class ClientGameManager implements ActionListener {
 		Point mi = inputManager.getClickLocation();
 		Point p = gl.update(gl.getDelta(), input, mi);
 		if (p.x >= 0 && p.y >= 0) {
-			System.out.println(p.x + " "+p.y);
+			System.out.println(p.x + " " + p.y);
 			inputManager.tileClicked(p);
 		}
 
@@ -88,44 +88,44 @@ public class ClientGameManager implements ActionListener {
 	}
 
 	public void draw() throws FileNotFoundException, IOException {
-		
+
 		DrawingObject cd;
 		ArrayList<DrawingObject> otd = new ArrayList<DrawingObject>();
 		ArrayList<ArrayList<Tile>> board = guiModel.getTiles();
-		
-		gl.initDraw(board.get(0).size(), board.size());
+		if (board.size() > 0) {
+			gl.initDraw(board.get(0).size(), board.size());
 
-		
-		for (int i = 0; i < board.size(); i++) {
-			int maxJ = board.get(i).size();
-			// if(i<board.size())
-			// i++;
-			// else
-			// i = 0;
-			for (int j = 0; j < maxJ; j++) {
-				otd.add(board.get(i).get(j).draw(i, j));
+			for (int i = 0; i < board.size(); i++) {
+				int maxJ = board.get(i).size();
+				// if(i<board.size())
+				// i++;
+				// else
+				// i = 0;
+				for (int j = 0; j < maxJ; j++) {
+					otd.add(board.get(i).get(j).draw(i, j));
 
+				}
 			}
-		}
-		for (Human h : guiModel.getHumans()) {
-			otd.add(h.draw());
-		}
+			for (Human h : guiModel.getHumans()) {
+				otd.add(h.draw());
+			}
 
-		for (Zombie z : guiModel.getZombies()) {
-			otd.add(z.draw());
-		}
+			for (Zombie z : guiModel.getZombies()) {
+				otd.add(z.draw());
+			}
 
-		for (House h : guiModel.getHouses()) {
-			otd.add(h.draw());
-		}
-		// guiHandler.draw();
+			for (House h : guiModel.getHouses()) {
+				otd.add(h.draw());
+			}
+			// guiHandler.draw();
 
-		for (int i = 0; i < otd.size(); i++) {
-			cd = otd.get(i);
-			gl.convertAndDraw(cd.posX, cd.posY, cd.texturePos, cd.notTile);
-		}
+			for (int i = 0; i < otd.size(); i++) {
+				cd = otd.get(i);
+				gl.convertAndDraw(cd.posX, cd.posY, cd.texturePos, cd.notTile);
+			}
 
-		gl.endDraw();
+			gl.endDraw();
+		}
 	}
 
 	@Override
