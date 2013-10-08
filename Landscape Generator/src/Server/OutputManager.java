@@ -18,10 +18,19 @@ public class OutputManager {
 	}
 	public void sendToAll(String message){
 		for(Session s: sessionList){
-			sendQueue.put(new Job<String>(s,message));
+			send(message,s);
 		}
+	}
+	
+	public ArrayList<Session> getSessionList(){
+		return sessionList;
 	}
 	public void addSession(Session s){
 		sessionList.add(s);
+		System.out.println("Outputmanager: Session added. Sessions: "+ sessionList.size());
+	}
+
+	public void send(String message, Session s) {
+		sendQueue.put(new Job<String>(s,message));
 	}
 }

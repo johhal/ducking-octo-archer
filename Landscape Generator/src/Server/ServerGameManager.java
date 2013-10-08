@@ -23,6 +23,7 @@ import OpenGL.OpenGL;
 public class ServerGameManager {
 	private int boardWidth;
 	private int boardHeight;
+	private int port;
 
 	private JobQueue writeQueue;
 	private JobQueue readQueue;
@@ -30,8 +31,10 @@ public class ServerGameManager {
 	private TCPWriteThread writeThread;
 	private OutputManager outputManager;
 	private ServerInputManager inputManager;
+	private ConnectionThread connectionThread;
+	private ConnectionManager connectionManager;
 
-	private Session session;
+	// private Session session;
 
 	private ServerSocket serverSocket;
 
@@ -41,12 +44,12 @@ public class ServerGameManager {
 	// private GUIHandler guiHandler;
 
 	private HumanoidManager humanoidManager;
-	// public InputManager inputManager;
 
 	Landscape landscape;
 
-	public void initialize(int _boardWidth, int _boardHeight, int _tileSize)
-			throws LWJGLException {
+	public void initialize(int _boardWidth, int _boardHeight, int _tileSize,
+			int port) throws LWJGLException {
+		this.port = port;
 		initNetwork();
 		gson = new Gson();
 
@@ -61,28 +64,7 @@ public class ServerGameManager {
 		// Skapa Varelser
 		humanoidManager = new HumanoidManager();
 		humanoidManager.initialize(landscape);
-
-		// inputManager = new InputManager();
-		// inputManager.initilize();
-
-		// gl.initialize(screenWidth, screenHeight, tileSize, GUIWidth);
-
-		// guiHandler = new GUIHandler();
-		// guiHandler.Initialize(3, 2);
-
-		try {
-			serverSocket = new ServerSocket(12346);
-			Socket socket = (Socket) serverSocket.accept();
-			session = new Session(socket);
-			outputManager.addSession(session);
-			TCPReadThread serverReadThread = new TCPReadThread(session,
-					readQueue, true);
-			serverReadThread.start();
-			run();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		run();
 
 	}
 
@@ -98,69 +80,121 @@ public class ServerGameManager {
 
 		serverJobThread.start();
 		writeThread.start();
+
+		connectionManager = new ConnectionManager();
+		connectionThread = new ConnectionThread(port, connectionManager);
+		connectionThread.start();
+
 	}
 
 	public void run() {
 		// Spela!!
 		while (true) {
+			getConnections();
 			update();
 			// draw();
 		}
 	}
 
-	// private String tileToString(int x, int y) {
-	// StringBuilder sb = new StringBuilder();
-	// sb.append(landscape.getTile(x, y).toString());
-	// sb.append("\n");
-	// sb.append(humanoidManager.humanoidToString(new Point(x, y)));
-	// return sb.toString();
-	// }
+	private void getConnections() {
+		if (connectionManager.hasNewSession()) {
+			Session temp = connectionManager.getSession();
+			outputManager.addSession(temp);
+			TCPReadThread serverReadThread = new TCPReadThread(temp, readQueue,
+					true);
+			serverReadThread.start();
+			sendEverything(temp);
+		}
+
+	}
+
+	private void sendEverything(Session session) {
+
+		ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
+				ProtocolEnum.EVENT.MAP);
+		Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.TILES);
+		p.setData(landscape.getTiles());
+		pm.addParameter(p);
+		outputManager.send(gson.toJson(pm), session);
+		needTiles = false;
+
+		pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
+				ProtocolEnum.EVENT.MAP);
+		p = new Parameter(ProtocolEnum.PARAMETER_TYPE.MONEY);
+		p.setData(session.getMoney());
+		pm.addParameter(p);
+		outputManager.send(gson.toJson(pm), session);
+
+		pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
+				ProtocolEnum.EVENT.MAP);
+		p = new Parameter(ProtocolEnum.PARAMETER_TYPE.HOUSES);
+		p.setData(humanoidManager.getClientHouses());
+		pm.addParameter(p);
+		outputManager.send(gson.toJson(pm), session);
+		humanoidManager.setHouseUpdated(false);
+
+		pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
+				ProtocolEnum.EVENT.MAP);
+		p = new Parameter(ProtocolEnum.PARAMETER_TYPE.HUMANS);
+		p.setData(humanoidManager.getClientHumans());
+		pm.addParameter(p);
+		outputManager.send(gson.toJson(pm), session);
+		humanoidManager.setHumanUpdated(false);
+
+		pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
+				ProtocolEnum.EVENT.MAP);
+		p = new Parameter(ProtocolEnum.PARAMETER_TYPE.ZOMBIES);
+		p.setData(humanoidManager.getClientZombies());
+		pm.addParameter(p);
+		outputManager.send(gson.toJson(pm), session);
+		humanoidManager.setZombieUpdated(false);
+
+	}
 
 	public void update() {
-		// int input = inputManager.update();
+		readInput();
 
+		// if (needTiles) {
+		// sendTiles();
+		// }
+
+		humanoidManager.update();
+		sendHumanoids();
+		sendMoney();
+	}
+
+	// private void sendTiles() {
+	// ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
+	// ProtocolEnum.EVENT.MAP);
+	// Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.TILES);
+	// p.setData(landscape.getTiles());
+	// pm.addParameter(p);
+	// outputManager.sendToAll(gson.toJson(pm));
+	// needTiles = false;
+	// }
+
+	private void readInput() {
 		if (inputManager.hasInput()) {
 			Point p = inputManager.getNewHousePoint();
+			Session session = inputManager.getSession();
 			if (session.getMoney() >= 100) {
 				if (p != null) {
 					inputManager.resetNewHousePoint();
-					humanoidManager.addHouse(p.x, p.y);
+					humanoidManager.addHouse(p.x, p.y, session);
 					session.removeMoney(100);
 				}
 			}
 			inputManager.resetInput();
 		}
+	}
 
-		if (needTiles) {
-			ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
-					ProtocolEnum.EVENT.MAP);
-			Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.TILES);
-			p.setData(landscape.getTiles());
-			pm.addParameter(p);
-			outputManager.sendToAll(gson.toJson(pm));
-			needTiles = false;
-		}
-
-		humanoidManager.update();
-
-		int moneyGeneratedThisTurn = humanoidManager
-				.getMoneyGeneratedThisTurn();
-		if (moneyGeneratedThisTurn > 0) {
-			System.out.println("ServerGameManager: moneyGenerated:"+moneyGeneratedThisTurn);
-			session.addMoney(moneyGeneratedThisTurn);
-			ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
-					ProtocolEnum.EVENT.MAP);
-			Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.MONEY);
-			p.setData(session.getMoney());
-			pm.addParameter(p);
-			outputManager.sendToAll(gson.toJson(pm));
-		}
+	private void sendHumanoids() {
 
 		if (humanoidManager.housesUpdated()) {
 			ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
 					ProtocolEnum.EVENT.MAP);
 			Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.HOUSES);
-			p.setData(humanoidManager.getHouses());
+			p.setData(humanoidManager.getClientHouses());
 			pm.addParameter(p);
 			outputManager.sendToAll(gson.toJson(pm));
 			humanoidManager.setHouseUpdated(false);
@@ -170,7 +204,7 @@ public class ServerGameManager {
 			ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
 					ProtocolEnum.EVENT.MAP);
 			Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.HUMANS);
-			p.setData(humanoidManager.getHumans());
+			p.setData(humanoidManager.getClientHumans());
 			pm.addParameter(p);
 			outputManager.sendToAll(gson.toJson(pm));
 			humanoidManager.setHumanUpdated(false);
@@ -180,45 +214,26 @@ public class ServerGameManager {
 			ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
 					ProtocolEnum.EVENT.MAP);
 			Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.ZOMBIES);
-			p.setData(humanoidManager.getZombies());
+			p.setData(humanoidManager.getClientZombies());
 			pm.addParameter(p);
 			outputManager.sendToAll(gson.toJson(pm));
 			humanoidManager.setZombieUpdated(false);
 		}
-
-		// guiHandler.update();
-		// Point mi = inputManager.getClickLocation();
-		// Point p = gl.update(gl.getDelta(), input, mi);
-
-		// if((p.x != mi.x || p.y != mi.y) && p.x < boardWidth && p.y <
-		// boardHeight && p.x >= 0 && p.y >= 0)
-		// humanoidManager.addHouse(p.x, p.y);
-
-		// inputManager.resetClickLocation();
 	}
-	//
-	// public void draw() {
-	// gl.initDraw();
-	//
-	// // ArrayList<DrawingObject> otd = new ArrayList<DrawingObject>();
-	// // DrawingObject cd;
-	//
-	// otd = landscape.draw();
-	// for(int i=0; i<otd.size(); i++)
-	// {
-	// cd = otd.get(i);
-	// gl.convertAndDraw(cd.posX, cd.posY, cd.cr, cd.cg, cd.cb, cd.notTile);
-	// }
-	//
-	// otd = humanoidManager.draw();
-	//
-	// for(int i=0; i<otd.size(); i++)
-	// {
-	// cd = otd.get(i);
-	// gl.convertAndDraw(cd.posX, cd.posY, cd.cr, cd.cg, cd.cb, cd.notTile);
-	// }
-	// //guiHandler.draw();
-	//
-	// gl.endDraw();
-	// }
+
+	private void sendMoney() {
+
+		for (Session s : outputManager.getSessionList()) {
+			if (s.isMoneyUpdated()) {
+				System.out.println("ServerGameManager: sending money "+s.getMoney());
+				ProtocolMessage pm = new ProtocolMessage(
+						ProtocolEnum.TYPE.UPDATE, ProtocolEnum.EVENT.MAP);
+				Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.MONEY);
+				p.setData(s.getMoney());
+				pm.addParameter(p);
+				outputManager.send(gson.toJson(pm), s);
+				s.setMoneyUpdated(false);
+			}
+		}
+	}
 }

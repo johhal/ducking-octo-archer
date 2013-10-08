@@ -8,18 +8,24 @@ public class Session {
     private String playerName;
     private Socket socket;
     private int money;
+    private boolean moneyUpdated;
 
     public Session(Socket socket) {
         this.socket = socket;
-        money = 0;
+        money = 100;
+        moneyUpdated = true;
     }
 
     public void logInAs(String empID, String empName, ArrayList<String> permissions) {
         this.playerName = empName;
     }
     
-    public void setMoney(int money){
-    	this.money = money;
+    public boolean isMoneyUpdated(){
+    	return moneyUpdated;
+    }
+    
+    public void setMoneyUpdated(boolean moneyUpdated){
+    	this.moneyUpdated = moneyUpdated;
     }
     
     public int getMoney(){
@@ -52,12 +58,16 @@ public class Session {
       }
 
 	public void addMoney(int moneyGeneratedThisTurn) {
+		System.out.println("Earned "+moneyGeneratedThisTurn);
 		money+=moneyGeneratedThisTurn;
+		moneyUpdated = true;
 		
 	}
 
 	public void removeMoney(int i) {
+		System.out.println("Removing money: "+i);
 		money-=i;
+		moneyUpdated = true;
 	}
 }
 
