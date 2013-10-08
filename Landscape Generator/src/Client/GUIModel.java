@@ -16,9 +16,9 @@ import Server.Tile;
 import Server.Zombie;
 
 public class GUIModel {
-	private ArrayList<Zombie> zombies;
-	private ArrayList<House> houses;
-	private ArrayList<Human> humans;
+	private ArrayList<ClientZombie> zombies;
+	private ArrayList<ClientHouse> houses;
+	private ArrayList<ClientHuman> humans;
 	private int sizeX, sizeY = 0;
 	private ArrayList<ArrayList<Tile>> tiles;
 	private ActionListener listener;
@@ -26,48 +26,46 @@ public class GUIModel {
 	private int money;
 
 	public synchronized void update(ProtocolMessage pm) {
-		while(locked){
-			try{
+		while (locked) {
+			try {
 				wait();
-			} catch(InterruptedException e){
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 		locked = true;
 		ArrayList<Parameter> pmList = pm.getParameterList();
 		for (Parameter p : pmList) {
-			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.ZOMBIES)
-				setZombies((ArrayList<Zombie>) p.getData());
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.HOUSES) {
 				ArrayList<StringMap> tempHouses = (ArrayList<StringMap>) p
 						.getData();
-				houses = new ArrayList<House>();
+				houses = new ArrayList<ClientHouse>();
 
 				for (StringMap al : tempHouses)
-					houses.add(new House(al));
+					houses.add(new ClientHouse(al));
 			}
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.HUMANS) {
 				ArrayList<StringMap> tempHumans = (ArrayList<StringMap>) p
 						.getData();
-				humans = new ArrayList<Human>();
+				humans = new ArrayList<ClientHuman>();
 				for (StringMap sm : tempHumans) {
-					humans.add(new Human(sm));
+					humans.add(new ClientHuman(sm));
 				}
 			}
-			
+
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.ZOMBIES) {
 				ArrayList<StringMap> tempZombies = (ArrayList<StringMap>) p
 						.getData();
-				zombies = new ArrayList<Zombie>();
+				zombies = new ArrayList<ClientZombie>();
 				for (StringMap sm : tempZombies) {
-					zombies.add(new Zombie(sm));
+					zombies.add(new ClientZombie(sm));
 				}
 			}
 
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.TILES) {
 				ArrayList<ArrayList<StringMap>> temp = (ArrayList<ArrayList<StringMap>>) p
 						.getData();
-				
+
 				tiles = new ArrayList<ArrayList<Tile>>();
 				System.out.println("GUIModel: tiles recieved");
 				int i = 0;
@@ -79,8 +77,8 @@ public class GUIModel {
 					i++;
 				}
 			}
-			if(p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.MONEY){
-				money = ((Double)p.getData()).intValue();
+			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.MONEY) {
+				money = ((Double) p.getData()).intValue();
 			}
 			locked = false;
 			notifyAll();
@@ -93,9 +91,9 @@ public class GUIModel {
 	}
 
 	public GUIModel() {
-		zombies = new ArrayList<Zombie>();
-		houses = new ArrayList<House>();
-		humans = new ArrayList<Human>();
+		zombies = new ArrayList<ClientZombie>();
+		houses = new ArrayList<ClientHouse>();
+		humans = new ArrayList<ClientHuman>();
 		tiles = new ArrayList<ArrayList<Tile>>();
 		money = 0;
 		// listener = new ActionListener();
@@ -105,45 +103,45 @@ public class GUIModel {
 		this.listener = listener;
 	}
 
-	private void setZombies(ArrayList<Zombie> zombies) {
+	private void setZombies(ArrayList<ClientZombie> zombies) {
 		this.zombies = zombies;
 	}
 
-	private void setHouses(ArrayList<House> houses) {
+	private void setHouses(ArrayList<ClientHouse> houses) {
 		this.houses = houses;
 	}
 
-	private void setHumans(ArrayList<Human> humans) {
+	private void setHumans(ArrayList<ClientHuman> humans) {
 		this.humans = humans;
 	}
 
-	public synchronized ArrayList<Zombie> getZombies() {
-		while(locked){
-			try{
+	public synchronized ArrayList<ClientZombie> getZombies() {
+		while (locked) {
+			try {
 				wait();
-			} catch(InterruptedException e){
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 		return zombies;
 	}
 
-	public synchronized ArrayList<House> getHouses() {
-		while(locked){
-			try{
+	public synchronized ArrayList<ClientHouse> getHouses() {
+		while (locked) {
+			try {
 				wait();
-			} catch(InterruptedException e){
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 		return houses;
 	}
 
-	public synchronized ArrayList<Human> getHumans() {
-		while(locked){
-			try{
+	public synchronized ArrayList<ClientHuman> getHumans() {
+		while (locked) {
+			try {
 				wait();
-			} catch(InterruptedException e){
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
@@ -151,10 +149,10 @@ public class GUIModel {
 	}
 
 	public synchronized ArrayList<ArrayList<Tile>> getTiles() {
-		while(locked){
-			try{
+		while (locked) {
+			try {
 				wait();
-			} catch(InterruptedException e){
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
@@ -182,7 +180,7 @@ public class GUIModel {
 	}
 
 	public void removeMoney(int money) {
-		this.money -=money;
-		
+		this.money -= money;
+
 	}
 }

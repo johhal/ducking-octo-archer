@@ -2,6 +2,10 @@ package Server;
 
 import java.awt.Point;
 
+import network.Session;
+
+import Client.ClientHouse;
+
 import com.google.gson.internal.StringMap;
 
 public class House extends Fighter{
@@ -12,15 +16,16 @@ public class House extends Fighter{
 	private long lastEntered;
 	private int fertility;
 	
-	public House(int currentX, int currentY, Landscape landscape) {
+	private Session owner;
+	
+	public House(int currentX, int currentY, Session owner) {
 		super(10,2,4,4,18);
 		this.currentX = currentX;
 		this.currentY = currentY;
-		//this.landscape = landscape;
 		generateSleepTime();
 		lastEntered = System.currentTimeMillis();
-		landscape.getTile(currentX,currentY).buildHouse(true);
 		fertility = 0;
+		this.owner = owner;
 	}
 
 	public House(StringMap sm) {
@@ -35,6 +40,10 @@ public class House extends Fighter{
 		
 		//((Double)sm.get("forrestChance")).doubleValue();
 	
+	}
+	
+	public Session getOwner(){
+		return owner;
 	}
 
 	private void generateSleepTime() {
@@ -125,5 +134,9 @@ public class House extends Fighter{
 	public int getCurrentY() {
 		// TODO Auto-generated method stub
 		return currentY;
+	}
+	
+	public ClientHouse toClientHouse(){
+		return new ClientHouse(currentX, currentY, getCurrentHitpoints(), getDamage(), getInitiative(), getAttack(), getArmor());
 	}
 }

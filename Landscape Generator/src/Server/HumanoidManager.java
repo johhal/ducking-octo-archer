@@ -3,6 +3,12 @@ package Server;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import Client.ClientHouse;
+import Client.ClientHuman;
+import Client.ClientZombie;
+
+import network.Session;
+
 public class HumanoidManager {
 
 	private ArrayList<Zombie> zombies;
@@ -58,21 +64,21 @@ public class HumanoidManager {
 
 	public boolean addZombie(int xpos, int ypos) {
 		// S�tt ut zombies?
-		zombies.add(new Zombie(xpos, ypos, landscape));
+		zombies.add(new Zombie(xpos, ypos));
 		zombieUpdated = true;
 		return true;
 	}
 
-	public boolean addHuman(int xpos, int ypos) {
+	public boolean addHuman(int xpos, int ypos, Session owner) {
 		//S�tt ut m�nniskor
-		humans.add(new Human(xpos, ypos, landscape));
+		humans.add(new Human(xpos, ypos, owner));
 		humanUpdated = true;
 		return true;
 	}
 
-	public boolean addHouse(int xpos, int ypos) {
+	public boolean addHouse(int xpos, int ypos, Session owner) {
 		//s�tt ut hus
-		houses.add(new House(xpos, ypos, landscape));
+		houses.add(new House(xpos, ypos, owner));
 		houseUpdated = true;
 		return true;
 	}
@@ -90,7 +96,6 @@ public class HumanoidManager {
 						humans.get(j).giveExperience(50);
 					}
 					if(humans.get(j).getCurrentHitpoints()<=0){
-						humans.get(j).kill();
 						Point pos = landscape.getNearbyAvailableLocation(
 								zombies.get(i).getPos().x, zombies.get(i)
 										.getPos().y);
@@ -148,7 +153,7 @@ public class HumanoidManager {
 		for(Human h: humans){
 			Tile t = landscape.getTile(h.getCurrentX(), h.getCurrentY());
 			h.update(t);
-			moneyGeneratedThisTurn+=h.getMoney();
+//			moneyGeneratedThisTurn+=h.getMoney();
 			int newX = h.getNewX();
 			int newY = h.getNewY();
 			if(newX!=h.getCurrentX() || newY!=h.getCurrentY()){
@@ -170,7 +175,7 @@ public class HumanoidManager {
 				Point pos = landscape.getNearbyAvailableLocation(houses.get(i)
 						.getPos().x, houses.get(i).getPos().y);
 				if (pos != null) {
-					addHuman(pos.x, pos.y);
+					addHuman(pos.x, pos.y, houses.get(i).getOwner());
 				}
 				houses.get(i).setFertility(0);
 			}
@@ -210,6 +215,29 @@ public class HumanoidManager {
 	public ArrayList<House> getHouses(){
 		return houses;
 	}
+	
+	public ArrayList<ClientHuman> getClientHumans(){
+		ArrayList<ClientHuman> temp = new ArrayList<ClientHuman>();
+		for(Human h: humans){
+			temp.add(h.toClientHuman());
+		}
+		return temp;
+	}
+	public ArrayList<ClientZombie> getClientZombies(){
+		ArrayList<ClientZombie> temp = new ArrayList<ClientZombie>();
+		for(Zombie z: zombies){
+			temp.add(z.toClientZombie());
+		}
+		return temp;
+	}
+	public ArrayList<ClientHouse> getClientHouses(){
+		ArrayList<ClientHouse> temp = new ArrayList<ClientHouse>();
+		for(House h: houses){
+			temp.add(h.toClientHouse());
+		}
+		return temp;
+	}
+	
 
 	public boolean housesUpdated() {
 		return houseUpdated;

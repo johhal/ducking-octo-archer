@@ -2,6 +2,10 @@ package Server;
 
 import java.awt.Point;
 
+import network.Session;
+
+import Client.ClientHuman;
+
 import com.google.gson.internal.StringMap;
 
 public class Human extends Fighter {
@@ -12,10 +16,11 @@ public class Human extends Fighter {
 //	private Landscape landscape;
 	private long remainingSleepTime;
 	private long lastEntered;
-	private int money;
+	
+	private Session owner;
 
 	
-	public Human(int currentX, int currentY, Landscape landscape) {
+	public Human(int currentX, int currentY, Session owner) {
 		super(4, 2, 4, 4, 15);
 		if (Math.random() < 0.2) {
 			setDamage(4);
@@ -28,10 +33,9 @@ public class Human extends Fighter {
 		this.currentY = currentY;
 		newX = currentX;
 		newY = currentY;
-	//	this.landscape = landscape;
 		generateSleepTime(null);
 		lastEntered = System.currentTimeMillis();
-	//	landscape.getTile(currentX, currentY).inhabited(true);
+		this.owner = owner;
 	}
 	public Human(StringMap sm){
 		super(sm);
@@ -46,24 +50,18 @@ public class Human extends Fighter {
 	private void generateMoney(Tile t){
 		switch(t.getType()){
 		case FORREST:
-			money+=((int) Math.random()*3);
+			owner.addMoney((int) (Math.random()*3)+1);
 			break;
 		case MOUNTAIN:
-			money+=((int) Math.random()*5);
+			owner.addMoney((int) (Math.random()*5)+1);
 			break;
 		case PLAIN:
-			money+=((int) Math.random()*2);
+			owner.addMoney((int) (Math.random()*2)+1);
 			break;
 		case WATER:
-			money+=((int) Math.random()*10);
+			owner.addMoney((int) (Math.random()*10)+1);
 			break;
 		}
-	}
-	
-	public int getMoney(){
-		int temp = money;
-		money = 0;
-		return temp;
 	}
 	
 	private void generateSleepTime(Tile t) {
@@ -96,9 +94,6 @@ public class Human extends Fighter {
 		return new Point(currentX, currentY);
 	}
 
-	public void kill() {
-		//landscape.getTile(currentX, currentY).inhabited(false);
-	}
 
 	public void setNewY(int newY) {
 		this.newY = newY;
@@ -126,17 +121,12 @@ public class Human extends Fighter {
 
 	public void update(Tile t) {
 		if (remainingSleepTime <= 0) {
-			// Has slept enough!
-
-			// Genereate new sleep time
-			generateSleepTime(t);
-			generateMoney(t);
-			generateExperience(t);
-			// Randomize movement
 			move();
+			generateExperience(t);
+			generateMoney(t);
+			generateSleepTime(t);
 
 		} else {
-			// Need more sleep!
 			remainingSleepTime = remainingSleepTime
 					- (System.currentTimeMillis() - lastEntered);
 			lastEntered = System.currentTimeMillis();
@@ -207,5 +197,9 @@ public class Human extends Fighter {
 
 	public int getNewY() {
 		return newY;
+	}
+	public ClientHuman toClientHuman(){
+		return new ClientHuman(currentX, currentY, getCurrentHitpoints(), getDamage(), getInitiative(), getAttack(),
+				getArmor());
 	}
 }

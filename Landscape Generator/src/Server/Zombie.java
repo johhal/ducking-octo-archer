@@ -2,6 +2,8 @@ package Server;
 
 import java.awt.Point;
 
+import Client.ClientZombie;
+
 import com.google.gson.internal.StringMap;
 
 public class Zombie extends Fighter {
@@ -13,18 +15,15 @@ public class Zombie extends Fighter {
 	private long remainingSleepTime;
 	private long lastEntered;
 
-	public Zombie(int currentX, int currentY, Landscape landscape) {
+	public Zombie(int currentX, int currentY) {
 		super(7, 4, 7, 6, 16);
 		this.currentX = currentX;
 		this.currentY = currentY;
 		
 		newX = currentX;
 		newY = currentY;
-	//	this.landscape = landscape;
 		generateSleepTime(null);
 		lastEntered = System.currentTimeMillis();
-		landscape.getTile(currentX, currentY).infest(true);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Zombie(StringMap sm){
@@ -158,4 +157,8 @@ public class Zombie extends Fighter {
 		return newY;
 	}
 
+	public ClientZombie toClientZombie(){
+		return new ClientZombie(currentX, currentY, getCurrentHitpoints(), getDamage(), getInitiative(), getAttack(),
+				getArmor());
+	}
 }

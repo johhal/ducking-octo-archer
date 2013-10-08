@@ -106,15 +106,15 @@ public class ClientGameManager implements ActionListener {
 
 				}
 			}
-			for (Human h : guiModel.getHumans()) {
+			for (ClientHuman h : guiModel.getHumans()) {
 				otd.add(h.draw());
 			}
 
-			for (Zombie z : guiModel.getZombies()) {
+			for (ClientZombie z : guiModel.getZombies()) {
 				otd.add(z.draw());
 			}
 
-			for (House h : guiModel.getHouses()) {
+			for (ClientHouse h : guiModel.getHouses()) {
 				otd.add(h.draw());
 			}
 			// guiHandler.draw();

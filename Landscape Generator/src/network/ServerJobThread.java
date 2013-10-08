@@ -30,7 +30,7 @@ public class ServerJobThread extends JobThread {
     	if(event != null){
     		switch (event){
     		case NEW_HOUSE:
-    			inputManager.newHouse(pm.getParameterList());
+    			inputManager.newHouse(pm.getParameterList(),job.getSession());
     			break;
     		}
     	}

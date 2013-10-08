@@ -138,4 +138,7 @@ public class Fighter {
 		}
 
 	}
+	public int getInitiative(){
+		return initiative;
+	}
 }
