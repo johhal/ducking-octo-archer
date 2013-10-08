@@ -74,8 +74,6 @@ public class ClientGameManager implements ActionListener {
 	public void update() {
 		int input = inputManager.update();
 
-		// guiHandler.update();
-
 		Point mi = inputManager.getClickLocation();
 		Point p = gl.update(gl.getDelta(), input, mi);
 		if (p.x >= 0 && p.y >= 0) {

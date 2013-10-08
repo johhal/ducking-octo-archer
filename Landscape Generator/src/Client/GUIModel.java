@@ -24,6 +24,8 @@ public class GUIModel {
 	private ActionListener listener;
 	private boolean locked = false;
 	private int money;
+	private double cycle;
+	private String timeOfDay;
 
 	public synchronized void update(ProtocolMessage pm) {
 		while (locked) {
@@ -37,49 +39,31 @@ public class GUIModel {
 		ArrayList<Parameter> pmList = pm.getParameterList();
 		for (Parameter p : pmList) {
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.HOUSES) {
-				ArrayList<StringMap> tempHouses = (ArrayList<StringMap>) p
-						.getData();
-				houses = new ArrayList<ClientHouse>();
-
-				for (StringMap al : tempHouses)
-					houses.add(new ClientHouse(al));
+				updateHouses(p);
 			}
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.HUMANS) {
-				ArrayList<StringMap> tempHumans = (ArrayList<StringMap>) p
-						.getData();
-				humans = new ArrayList<ClientHuman>();
-				for (StringMap sm : tempHumans) {
-					humans.add(new ClientHuman(sm));
-				}
+				updateHumans(p);
 			}
 
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.ZOMBIES) {
-				ArrayList<StringMap> tempZombies = (ArrayList<StringMap>) p
-						.getData();
-				zombies = new ArrayList<ClientZombie>();
-				for (StringMap sm : tempZombies) {
-					zombies.add(new ClientZombie(sm));
-				}
+				updateZombies(p);
 			}
 
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.TILES) {
-				ArrayList<ArrayList<StringMap>> temp = (ArrayList<ArrayList<StringMap>>) p
-						.getData();
-
-				tiles = new ArrayList<ArrayList<Tile>>();
-				System.out.println("GUIModel: tiles recieved");
-				int i = 0;
-				for (ArrayList<StringMap> al : temp) {
-					tiles.add(new ArrayList<Tile>());
-					for (StringMap m : al) {
-						tiles.get(i).add(new Tile(m));
-					}
-					i++;
-				}
+				updateTiles(p);
 			}
 			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.MONEY) {
-				money = ((Double) p.getData()).intValue();
+				updateMoney(p);
 			}
+			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.CYCLE) {
+				updateCycle(p);
+			}
+			if (p.getParameterType() == ProtocolEnum.PARAMETER_TYPE.TIME_OF_DAY) {
+				updateTimeOfDay(p);
+			}
+			
+			
+			
 			locked = false;
 			notifyAll();
 		}
@@ -88,6 +72,60 @@ public class GUIModel {
 		 * if(listener != null){ listener.actionPerformed(new ActionEvent(this,
 		 * 0, "DRAW")); }
 		 */
+	}
+
+	private void updateTimeOfDay(Parameter p) {
+		timeOfDay = (String) p.getData();
+	}
+
+	private void updateCycle(Parameter p) {
+		cycle = (Double) p.getData();
+	}
+
+	private void updateMoney(Parameter p) {
+		money = ((Double) p.getData()).intValue();
+	}
+
+	private void updateTiles(Parameter p) {
+		ArrayList<ArrayList<StringMap>> temp = (ArrayList<ArrayList<StringMap>>) p
+				.getData();
+
+		tiles = new ArrayList<ArrayList<Tile>>();
+		int i = 0;
+		for (ArrayList<StringMap> al : temp) {
+			tiles.add(new ArrayList<Tile>());
+			for (StringMap m : al) {
+				tiles.get(i).add(new Tile(m));
+			}
+			i++;
+		}
+	}
+
+	private void updateZombies(Parameter p) {
+		ArrayList<StringMap> tempZombies = (ArrayList<StringMap>) p
+				.getData();
+		zombies = new ArrayList<ClientZombie>();
+		for (StringMap sm : tempZombies) {
+			zombies.add(new ClientZombie(sm));
+		}
+	}
+
+	private void updateHumans(Parameter p) {
+		ArrayList<StringMap> tempHumans = (ArrayList<StringMap>) p
+				.getData();
+		humans = new ArrayList<ClientHuman>();
+		for (StringMap sm : tempHumans) {
+			humans.add(new ClientHuman(sm));
+		}
+	}
+
+	private void updateHouses(Parameter p) {
+		ArrayList<StringMap> tempHouses = (ArrayList<StringMap>) p
+				.getData();
+		houses = new ArrayList<ClientHouse>();
+
+		for (StringMap al : tempHouses)
+			houses.add(new ClientHouse(al));
 	}
 
 	public GUIModel() {
