@@ -19,6 +19,7 @@ import org.newdawn.slick.opengl.Texture;
 
 import static org.lwjgl.opengl.GL11.*;
 
+
 public class OpenGL {
 	private int screen_width;
 	private int screen_height;
@@ -28,7 +29,6 @@ public class OpenGL {
 	private int tileSize;
 	private int difTileObject;
 	
-	//Hur långt ifrån kanten nere och till vänster man börjar..typ
 	private float startTileX;
 	private float startTileY;
 	private int spaceBetweenTiles;
@@ -44,6 +44,7 @@ public class OpenGL {
 	
 	ArrayList<Model> models;
 
+	ArrayList<VertexBufferObject> vboArrayList;
 	
 	private Camera camera;
 	
@@ -55,12 +56,7 @@ public class OpenGL {
     	fb.flip();
     	return fb;
      }
-    
-    public boolean isCloseRequested()
-    {
-    	return Display.isCloseRequested();
-    }
-	
+    	
 	public void drawBox(float x, float y, float z, float boxSizeX, float boxSizeY, float boxSizeZ)
 	{	
 		//front Face
@@ -142,9 +138,18 @@ public class OpenGL {
 		glEnd();
 	}
 	
-	/*
-	public void drawGUI(GUIHandler guiHandler)
+	public void drawGUI()
 	{
+		GL11.glTexCoord2f(0, 1);
+		glVertex2f(0, 0);
+		GL11.glTexCoord2f(0, 0);
+		glVertex2f(0, screen_height);
+		GL11.glTexCoord2f(1, 0);
+		glVertex2f(screen_width, 0 );
+		GL11.glTexCoord2f(1, 1);
+		glVertex2f(screen_width, screen_height);
+		
+		/*
 		int nrOfTeams = guiHandler.getNrOfTeams();
 		int nrOfObjects = guiHandler.getNrOfObjects();
 		
@@ -177,8 +182,9 @@ public class OpenGL {
 			glVertex2f(10 + i * ((GUIX - 10)/nrOfTeams) + 20, 570);
 			glVertex2f(10 + i * ((GUIX - 10)/nrOfTeams), 570);
 		}
+		*/
 	}
-	*/
+	
 	//småstuff
 	public boolean isRunning()
 	{
@@ -217,6 +223,17 @@ public class OpenGL {
 		fps++;
 	}
 
+	private void loadTextures() throws FileNotFoundException, IOException
+	{
+		textures.add(resourceLoader.getTexture("PNG","resources/landscapes/water.png"));// =  );
+		textures.add(resourceLoader.getTexture("PNG", "resources/landscapes/forest.png")); // = resourceLoader.getTexture("PNG", "resources/landscapes/forest.png");
+		textures.add(resourceLoader.getTexture("PNG", "resources/landscapes/plains.png"));// = resourceLoader.getTexture("PNG", "resources/landscapes/plains.png");
+		textures.add(resourceLoader.getTexture("PNG", "resources/landscapes/mountain.png"));// = resourceLoader.getTexture("PNG", "resources/landscapes/mountain.png");
+		textures.add(resourceLoader.getTexture("PNG", "resources/house_button_logo.png")); // = resourceLoader.getTexture("PNG", "resources/house_button_logo.png");
+		textures.add(resourceLoader.getTexture("PNG", "resources/human_button_logo.png"));// = resourceLoader.getTexture("PNG", "resources/human_button_logo.png");
+		textures.add(resourceLoader.getTexture("PNG", "resources/zombie_button_logo.png")); //= resourceLoader.getTexture("PNG", "resources/zombie_button_logo.png");
+	}
+	
 	//initsiering
 	public void initialize(int screenWidth, int screenHeight, int tileSize, int GUIWidth) throws LWJGLException, FileNotFoundException, IOException
 	{	
@@ -230,7 +247,7 @@ public class OpenGL {
 		startTileY = 0;
 		tileHeight = 2;
 		
-		spaceBetweenTiles = 1;
+		spaceBetweenTiles = 0;
 		
 		GUIX = GUIWidth;
 
@@ -244,13 +261,20 @@ public class OpenGL {
 		
 		textures = new ArrayList<Texture>();
 		resourceLoader = new Resourceloader();
-		textures.add(resourceLoader.getTexture("PNG","resources/landscapes/water.png"));// =  );
-		textures.add(resourceLoader.getTexture("PNG", "resources/landscapes/forest.png")); // = resourceLoader.getTexture("PNG", "resources/landscapes/forest.png");
-		textures.add(resourceLoader.getTexture("PNG", "resources/landscapes/plains.png"));// = resourceLoader.getTexture("PNG", "resources/landscapes/plains.png");
-		textures.add(resourceLoader.getTexture("PNG", "resources/landscapes/mountain.png"));// = resourceLoader.getTexture("PNG", "resources/landscapes/mountain.png");
-		textures.add(resourceLoader.getTexture("PNG", "resources/house_button_logo.png")); // = resourceLoader.getTexture("PNG", "resources/house_button_logo.png");
-		textures.add(resourceLoader.getTexture("PNG", "resources/human_button_logo.png"));// = resourceLoader.getTexture("PNG", "resources/human_button_logo.png");
-		textures.add(resourceLoader.getTexture("PNG", "resources/zombie_button_logo.png")); //= resourceLoader.getTexture("PNG", "resources/zombie_button_logo.png");
+		loadTextures();
+		
+		vboArrayList = new ArrayList<VertexBufferObject>();
+		
+		float [] asd = {10f, 10f, 10f,
+						10f, 10f, 20f,
+						10f, 20f, 10f};
+						/*10f, 20f, 20f,
+						20f, 10f, 10f,
+						20f, 10f, 20f,
+						20f, 20f, 10f,
+						20f, 20f, 20f};*/
+		
+		vboArrayList.add(new VertexBufferObject(asd, 3, 3));
 		
 		models = new ArrayList<Model>();
 		
@@ -274,7 +298,6 @@ public class OpenGL {
 	{ 
 		glViewport(0, 0, screen_width, screen_height);
 		
-		initLight(-80, 200, -80);		
 		
 		glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 		glClearDepth(1.0f);
@@ -286,15 +309,11 @@ public class OpenGL {
 		
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		
+		initLight(100, 200, 100);		
+		
 		camera = new Camera();
 		camera.initialize(70f, (float)screen_width/screen_height, 0.3f, 1000f);	//, posX, posY, posZ);
 	}
-	
-	//förflyttning
-	//public void moveCamera(float ammount, float direction)
-	//{
-		//camera.moveForward(0.1f, 0);
-	//}
 
 	//Ljus
 	private void setLight(float xPos, float yPos, float zPos)
@@ -400,13 +419,7 @@ public class OpenGL {
 			p2.y = (int)(v.z + startTileY)/ (tileSize + spaceBetweenTiles);
 		}
 		updateFPS();
-
 		
-		models.get(0).setxBase(models.get(0).getxBase() + 0.1f);
-		models.get(0).setY(10);
-		models.get(0).setZ(10);
-		models.get(0).setScale(0.1f);
-		models.get(0).setxSpeed(0.1f);
 		return p2;
 	}
 	
@@ -415,7 +428,7 @@ public class OpenGL {
 	{
 		glViewport(0, 0, screen_width, screen_height);
 		
-		glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
+		glClearColor(1.0f, 0.0f, 0.0f, 0.5f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		glLoadIdentity();
@@ -436,17 +449,23 @@ public class OpenGL {
 
 		glEnd();
 		
-		for(Model model : models){
-			model.draw();
+		
+		for(VertexBufferObject vbo : vboArrayList)
+		{
+			vbo.draw();
 		}
 		
+//		for(Model model : models){
+//			model.draw();
+//		}
+		glPopMatrix();
 	}
 	
 	public void endDraw()
 	{
 		
 		
-		glPopMatrix();
+		
 		
 		//Ritar ut på skärmen
 		Display.update();

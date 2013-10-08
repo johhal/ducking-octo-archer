@@ -133,5 +133,10 @@ public class Camera {
 	{
 		rotZ = z;
 	}
+	
+	public Vector3f getPosition()
+	{
+		return position;
+	}
 
 }

@@ -36,7 +36,6 @@ public class ClientGameManager implements ActionListener {
 	private ClientInputManager inputManager;
 
 	private OpenGL gl;
-	private DrawingObject otd;
 
 	public ClientGameManager(String address, int port) {
 		this.address = address;
@@ -66,7 +65,7 @@ public class ClientGameManager implements ActionListener {
 	}
 
 	public void run() throws FileNotFoundException, IOException {
-		while (!gl.isCloseRequested()) {
+		while (gl.isRunning()) {
 			draw();
 			update();
 		}
@@ -87,7 +86,7 @@ public class ClientGameManager implements ActionListener {
 		inputManager.resetClickLocation();
 	}
 
-	public void draw() throws FileNotFoundException, IOException {
+	private void draw() throws FileNotFoundException, IOException {
 		
 		DrawingObject cd;
 		ArrayList<DrawingObject> otd = new ArrayList<DrawingObject>();
@@ -124,7 +123,9 @@ public class ClientGameManager implements ActionListener {
 			cd = otd.get(i);
 			gl.convertAndDraw(cd.posX, cd.posY, cd.texturePos, cd.notTile);
 		}
-
+		
+		gl.drawGUI();
+		
 		gl.endDraw();
 	}
 
