@@ -428,8 +428,6 @@ public class OpenGL {
 	{
 		glViewport(0, 0, screen_width, screen_height);
 		
-		glClearColor(1.0f, 0.0f, 0.0f, 0.5f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		glLoadIdentity();
 		
@@ -444,7 +442,7 @@ public class OpenGL {
 		
 		drawBox(startTileX - 10, -10, startTileY - 10, 
 				boardSizeX*(tileSize + spaceBetweenTiles) + 10*2, //x
-				-10 + (tileHeight + 60), 								//y
+				-10 + (tileHeight + 60), 						 //y
 				boardSizeY*(tileSize + spaceBetweenTiles) + 10*2);//z
 
 		glEnd();
@@ -458,14 +456,16 @@ public class OpenGL {
 //		for(Model model : models){
 //			model.draw();
 //		}
-		glPopMatrix();
+		
 	}
 	
 	public void endDraw()
 	{
 		
+		glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		
+		glPopMatrix();
 		
 		//Ritar ut på skärmen
 		Display.update();

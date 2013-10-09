@@ -134,6 +134,8 @@ public class ClientGameManager implements ActionListener {
 
 			gl.endDraw();
 		}
+		
+		
 	}
 
 	@Override
