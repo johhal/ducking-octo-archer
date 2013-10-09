@@ -24,6 +24,9 @@ public class ClientJobThread extends JobThread {
 			case MAP:
 				guiModel.update(pm);
 				break;
+			case TIME:
+				guiModel.update(pm);
+				break;
 			}
 		}
 	}

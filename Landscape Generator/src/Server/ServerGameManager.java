@@ -1,9 +1,7 @@
 package Server;
 
 import java.awt.Point;
-import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 import network.JobQueue;
 import network.Parameter;
@@ -18,8 +16,6 @@ import org.lwjgl.LWJGLException;
 
 import com.google.gson.Gson;
 
-import OpenGL.OpenGL;
-
 public class ServerGameManager {
 	private int boardWidth;
 	private int boardHeight;
@@ -33,6 +29,7 @@ public class ServerGameManager {
 	private ServerInputManager inputManager;
 	private ConnectionThread connectionThread;
 	private ConnectionManager connectionManager;
+	private DayManager dayManager;
 
 	// private Session session;
 
@@ -64,6 +61,9 @@ public class ServerGameManager {
 		// Skapa Varelser
 		humanoidManager = new HumanoidManager();
 		humanoidManager.initialize(landscape);
+
+		dayManager = new DayManager(600);
+
 		run();
 
 	}
@@ -153,25 +153,27 @@ public class ServerGameManager {
 
 	public void update() {
 		readInput();
-
-		// if (needTiles) {
-		// sendTiles();
-		// }
-
+		dayManager.update();
 		humanoidManager.update();
 		sendHumanoids();
 		sendMoney();
+		sendTime();
 	}
 
-	// private void sendTiles() {
-	// ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
-	// ProtocolEnum.EVENT.MAP);
-	// Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.TILES);
-	// p.setData(landscape.getTiles());
-	// pm.addParameter(p);
-	// outputManager.sendToAll(gson.toJson(pm));
-	// needTiles = false;
-	// }
+	private void sendTime() {
+		if (dayManager.isUpdated()) {
+			ProtocolMessage pm = new ProtocolMessage(ProtocolEnum.TYPE.UPDATE,
+					ProtocolEnum.EVENT.TIME);
+			Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.CYCLE);
+			p.setData(dayManager.getCurrentTime());
+			pm.addParameter(p);
+			p = new Parameter(ProtocolEnum.PARAMETER_TYPE.TIME_OF_DAY);
+			p.setData(dayManager.getTimeOfDay());
+			pm.addParameter(p);
+			outputManager.sendToAll(gson.toJson(pm));
+			dayManager.setUpdated(false);
+		}
+	}
 
 	private void readInput() {
 		if (inputManager.hasInput()) {
@@ -225,7 +227,8 @@ public class ServerGameManager {
 
 		for (Session s : outputManager.getSessionList()) {
 			if (s.isMoneyUpdated()) {
-				System.out.println("ServerGameManager: sending money "+s.getMoney());
+				System.out.println("ServerGameManager: sending money "
+						+ s.getMoney());
 				ProtocolMessage pm = new ProtocolMessage(
 						ProtocolEnum.TYPE.UPDATE, ProtocolEnum.EVENT.MAP);
 				Parameter p = new Parameter(ProtocolEnum.PARAMETER_TYPE.MONEY);

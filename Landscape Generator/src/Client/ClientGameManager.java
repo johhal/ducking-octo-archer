@@ -74,8 +74,6 @@ public class ClientGameManager implements ActionListener {
 	public void update() {
 		int input = inputManager.update();
 
-		// guiHandler.update();
-
 		Point mi = inputManager.getClickLocation();
 		Point p = gl.update(gl.getDelta(), input, mi);
 		if (p.x >= 0 && p.y >= 0) {
@@ -116,6 +114,16 @@ public class ClientGameManager implements ActionListener {
 
 			for (ClientHouse h : guiModel.getHouses()) {
 				otd.add(h.draw());
+			}
+			
+			if(guiModel.cycleChanged()){
+				double cycle = guiModel.getCycle();
+				if(cycle>0.5){
+					gl.setLight(50,-200,50);
+				}else{
+					gl.setLight(50,200,50);
+				}
+				
 			}
 			// guiHandler.draw();
 
