@@ -86,7 +86,6 @@ public class ClientGameManager implements ActionListener {
 
 	public void draw() throws FileNotFoundException, IOException {
 
-
 		DrawingObject cd;
 		ArrayList<DrawingObject> otd = new ArrayList<DrawingObject>();
 		ArrayList<ArrayList<Tile>> board = guiModel.getTiles();
@@ -115,26 +114,29 @@ public class ClientGameManager implements ActionListener {
 			for (ClientHouse h : guiModel.getHouses()) {
 				otd.add(h.draw());
 			}
-			
-			if(guiModel.cycleChanged()){
-				double cycle = guiModel.getCycle();
-				if(cycle>0.5){
-					gl.setLight(50,-200,50);
-				}else{
-					gl.setLight(50,200,50);
-				}
-				
-			}
-			// guiHandler.draw();
 
-		for (int i = 0; i < otd.size(); i++) {
-			cd = otd.get(i);
-			gl.convertAndDraw(cd.posX, cd.posY, cd.texturePos, cd.notTile);
-		}
-		
-		//gl.drawGUI();
-		
-		gl.endDraw();
+			if (guiModel.cycleChanged()) {
+				double cycle = guiModel.getCycle();
+				int tileSize = gl.getTileSize();
+				int spaceBetweenTiles = gl.getSpaceBetweenTiles();
+				int sizeX = board.size();
+				int sizeZ = board.get(0).size();
+				int radius = (tileSize + spaceBetweenTiles) * sizeZ / 2;
+				double rad = Math.PI * 2 * cycle;
+
+				int y = (int) (Math.sin(rad) * radius);
+				int z = (int) (Math.cos(rad) * radius) + radius;
+				int x = (tileSize + spaceBetweenTiles) * sizeX / 2;
+
+				gl.setLight(x, y, z);
+
+			}
+
+			for (int i = 0; i < otd.size(); i++) {
+				cd = otd.get(i);
+				gl.convertAndDraw(cd.posX, cd.posY, cd.texturePos, cd.notTile);
+			}
+
 			for (int i = 0; i < otd.size(); i++) {
 				cd = otd.get(i);
 				gl.convertAndDraw(cd.posX, cd.posY, cd.texturePos, cd.notTile);
