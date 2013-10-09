@@ -117,18 +117,26 @@ public class ClientGameManager implements ActionListener {
 
 			if (guiModel.cycleChanged()) {
 				double cycle = guiModel.getCycle();
+				
 				if (cycle > 0.5) {
 					gl.setLight(50, -200, 50);
 				} else {
 					gl.setLight(50, 200, 50);
 				}
 
-			}
-			// guiHandler.draw();
+				int tileSize = gl.getTileSize();
+				int spaceBetweenTiles = gl.getSpaceBetweenTiles();
+				int sizeX = board.size();
+				int sizeZ = board.get(0).size();
+				int radius = (tileSize + spaceBetweenTiles) * sizeZ / 2;
+				double rad = Math.PI * 2 * cycle;
 
-			for (int i = 0; i < otd.size(); i++) {
-				cd = otd.get(i);
-				gl.convertAndDraw(cd.posX, cd.posY, cd.texturePos, cd.notTile);
+				int y = (int) (Math.sin(rad) * radius);
+				int z = (int) (Math.cos(rad) * radius) + radius;
+				int x = (tileSize + spaceBetweenTiles) * sizeX / 2;
+
+				gl.setLight(x, y, z);
+
 			}
 
 			// gl.drawGUI();
