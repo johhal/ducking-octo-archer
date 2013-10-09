@@ -115,6 +115,16 @@ public class ClientGameManager implements ActionListener {
 			for (ClientHouse h : guiModel.getHouses()) {
 				otd.add(h.draw());
 			}
+			
+			if(guiModel.cycleChanged()){
+				double cycle = guiModel.getCycle();
+				if(cycle>0.5){
+					gl.setLight(50,-200,50);
+				}else{
+					gl.setLight(50,200,50);
+				}
+				
+			}
 			// guiHandler.draw();
 
 		for (int i = 0; i < otd.size(); i++) {

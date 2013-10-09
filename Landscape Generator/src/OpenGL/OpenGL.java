@@ -316,7 +316,7 @@ public class OpenGL {
 	}
 
 	//Ljus
-	private void setLight(float xPos, float yPos, float zPos)
+	public void setLight(float xPos, float yPos, float zPos)
 	{
 		//ljusets position
 		glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, floatBuffer(xPos, yPos, zPos, 1));

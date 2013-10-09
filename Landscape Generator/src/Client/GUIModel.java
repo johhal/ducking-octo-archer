@@ -26,6 +26,8 @@ public class GUIModel {
 	private int money;
 	private double cycle;
 	private String timeOfDay;
+	
+	private boolean cycleChanged;
 
 	public synchronized void update(ProtocolMessage pm) {
 		while (locked) {
@@ -80,6 +82,7 @@ public class GUIModel {
 
 	private void updateCycle(Parameter p) {
 		cycle = (Double) p.getData();
+		cycleChanged = true;
 	}
 
 	private void updateMoney(Parameter p) {
@@ -220,5 +223,22 @@ public class GUIModel {
 	public void removeMoney(int money) {
 		this.money -= money;
 
+	}
+
+	public boolean cycleChanged() {
+		return cycleChanged;
+	}
+	
+
+	public synchronized double getCycle() {
+		while (locked) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		cycleChanged = false;
+		return cycle;
 	}
 }
