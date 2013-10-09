@@ -75,7 +75,7 @@ public class ClientGameManager implements ActionListener {
 		int input = inputManager.update();
 
 		Point mi = inputManager.getClickLocation();
-		Point p = gl.update(gl.getDelta(), input, mi);
+		Point p = gl.update(gl.getDelta(), input, mi, 50, 50);
 		if (p.x >= 0 && p.y >= 0) {
 			System.out.println(p.x + " " + p.y);
 			inputManager.tileClicked(p);
@@ -85,7 +85,6 @@ public class ClientGameManager implements ActionListener {
 	}
 
 	public void draw() throws FileNotFoundException, IOException {
-
 
 		DrawingObject cd;
 		ArrayList<DrawingObject> otd = new ArrayList<DrawingObject>();
@@ -115,26 +114,25 @@ public class ClientGameManager implements ActionListener {
 			for (ClientHouse h : guiModel.getHouses()) {
 				otd.add(h.draw());
 			}
-			
-			if(guiModel.cycleChanged()){
+
+			if (guiModel.cycleChanged()) {
 				double cycle = guiModel.getCycle();
-				if(cycle>0.5){
-					gl.setLight(50,-200,50);
-				}else{
-					gl.setLight(50,200,50);
+				if (cycle > 0.5) {
+					gl.setLight(50, -200, 50);
+				} else {
+					gl.setLight(50, 200, 50);
 				}
-				
+
 			}
 			// guiHandler.draw();
 
-		for (int i = 0; i < otd.size(); i++) {
-			cd = otd.get(i);
-			gl.convertAndDraw(cd.posX, cd.posY, cd.texturePos, cd.notTile);
-		}
-		
-		//gl.drawGUI();
-		
-		gl.endDraw();
+			for (int i = 0; i < otd.size(); i++) {
+				cd = otd.get(i);
+				gl.convertAndDraw(cd.posX, cd.posY, cd.texturePos, cd.notTile);
+			}
+
+			// gl.drawGUI();
+
 			for (int i = 0; i < otd.size(); i++) {
 				cd = otd.get(i);
 				gl.convertAndDraw(cd.posX, cd.posY, cd.texturePos, cd.notTile);
@@ -142,8 +140,6 @@ public class ClientGameManager implements ActionListener {
 
 			gl.endDraw();
 		}
-		
-		
 	}
 
 	@Override

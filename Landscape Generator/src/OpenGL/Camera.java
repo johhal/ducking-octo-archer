@@ -31,7 +31,7 @@ public class Camera {
 		position.z = -10;
 
 		rotX = 0;
-		rotY = 0;
+		rotY = 180;
 		rotZ = 0;
 
 		this.fov = fov;
@@ -136,7 +136,11 @@ public class Camera {
 	
 	public Vector3f getPosition()
 	{
-		return position;
+		return new Vector3f(position.x, position.y, position.z);
+	}
+	
+	public void setPosition(Vector3f position){
+		this.position = position;
 	}
 
 }

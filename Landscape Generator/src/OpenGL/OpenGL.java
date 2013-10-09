@@ -25,29 +25,29 @@ public class OpenGL {
 	private int screen_height;
 	private int tileHeight;
 	private String title = "Ducking-Octo-Archer";
-	
+
 	private int tileSize;
 	private int difTileObject;
-	
+
 	private float startTileX;
 	private float startTileY;
 	private int spaceBetweenTiles;
-	
+
 	ArrayList<Texture> textures;
 	Resourceloader resourceLoader;
-	
+
 	private float GUIX;
-	
+
 	private long last_frame;
 	private int fps;
 	private long last_fps;
-	
+
 	ArrayList<Model> models;
 
 	ArrayList<VertexBufferObject> vboArrayList;
-	
+
 	private Camera camera;
-	
+
     public FloatBuffer floatBuffer(float a, float b, float c, float d)
     {
     	float[] data = new float[]{a,b,c,d};
@@ -69,7 +69,7 @@ public class OpenGL {
 		glVertex3f(x + boxSizeX, y, z + boxSizeZ);
 		GL11.glTexCoord2f(1, 1);
 		glVertex3f(x, y, z + boxSizeZ);
-		
+
 		//Right Face
 		glNormal3f(-1.0f, 0, 0);
 		GL11.glTexCoord2f(1, 0);
@@ -80,7 +80,7 @@ public class OpenGL {
 		glVertex3f(x + boxSizeX, y, z);
 		GL11.glTexCoord2f(0, 0);
 		glVertex3f(x + boxSizeX, y, z + boxSizeZ);
-		
+
 		//Back Face
 		glNormal3f(0, 0, -1.0f);
 		GL11.glTexCoord2f(0, 1);
@@ -91,7 +91,7 @@ public class OpenGL {
 		glVertex3f(x + boxSizeX, y, z);
 		GL11.glTexCoord2f(1, 1);
 		glVertex3f(x, y, z);
-		
+
 		//Left Face
 		glNormal3f(1.0f, 0, 0);
 		GL11.glTexCoord2f(1, 0);
@@ -102,7 +102,7 @@ public class OpenGL {
 		glVertex3f(x, y, z);
 		GL11.glTexCoord2f(0, 0);
 		glVertex3f(x, y, z + boxSizeZ);
-		
+
 		//Top Face
 		glNormal3f(0, 1.0f, 0);
 		GL11.glTexCoord2f(0, 1);
@@ -113,7 +113,7 @@ public class OpenGL {
 		glVertex3f(x, y + boxSizeY, z + boxSizeZ);
 		GL11.glTexCoord2f(0, 0);
 		glVertex3f(x + boxSizeX, y + boxSizeY, z + boxSizeZ);
-			
+
 		//Bottom Face		
 		glNormal3f(0, -1.0f, 0);
 		GL11.glTexCoord2f(0, 1);
@@ -125,7 +125,7 @@ public class OpenGL {
 		GL11.glTexCoord2f(0, 0);
 		glVertex3f(x + boxSizeX, y, z + boxSizeZ);
 	}
-	
+
 	public void convertAndDraw(int pX, int pY, short texture, short notTile) throws FileNotFoundException, IOException
 	{
 		textures.get(texture).bind();
@@ -133,11 +133,11 @@ public class OpenGL {
 
 		float posX = startTileX + notTile*(float)difTileObject/2 + (pX * (tileSize + spaceBetweenTiles));
 		float posZ = startTileY + notTile*(float)difTileObject/2 + (pY * (tileSize + spaceBetweenTiles));
-		
+
 		drawBox(posX, tileHeight + tileHeight*notTile, posZ, tileSize - notTile*difTileObject, tileSize - notTile*difTileObject, tileSize - notTile*difTileObject);
 		glEnd();
 	}
-	
+
 	public void drawGUI()
 	{
 		GL11.glTexCoord2f(0, 1);
@@ -148,7 +148,7 @@ public class OpenGL {
 		glVertex2f(screen_width, 0 );
 		GL11.glTexCoord2f(1, 1);
 		glVertex2f(screen_width, screen_height);
-		
+
 		/*
 		int nrOfTeams = guiHandler.getNrOfTeams();
 		int nrOfObjects = guiHandler.getNrOfObjects();
@@ -184,42 +184,42 @@ public class OpenGL {
 		}
 		*/
 	}
-	
+
 	//småstuff
 	public boolean isRunning()
 	{
 		return !Display.isCloseRequested();
 	}
-	
+
 	public void quitGL()
 	{
 		Display.destroy();
 		System.exit(0);
 	}
-	
+
 	public int getDelta()
 	{
 		long time = getTime();
 		int delta = (int) (time - last_frame);
 		last_frame = time;
-		
+
 		return delta;
 	}
-	
+
 	public long getTime()
 	{
 		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
 	}
-	
+
 	public void updateFPS()
 	{
 		if(getTime() - last_fps > 1000)
 		{			
 			fps = 0;
-			
+
 			last_fps += 1000;
 		}
-		
+
 		fps++;
 	}
 
@@ -233,22 +233,22 @@ public class OpenGL {
 		textures.add(resourceLoader.getTexture("PNG", "resources/human_button_logo.png"));// = resourceLoader.getTexture("PNG", "resources/human_button_logo.png");
 		textures.add(resourceLoader.getTexture("PNG", "resources/zombie_button_logo.png")); //= resourceLoader.getTexture("PNG", "resources/zombie_button_logo.png");
 	}
-	
+
 	//initsiering
 	public void initialize(int screenWidth, int screenHeight, int tileSize, int GUIWidth) throws LWJGLException, FileNotFoundException, IOException
 	{	
 		screen_width = screenWidth;
 		screen_height = screenHeight;
-		
+
 		this.tileSize = tileSize;
 		difTileObject = 1;
-		
+
 		startTileX = 0;
 		startTileY = 0;
 		tileHeight = 2;
-		
+
 		spaceBetweenTiles = 0;
-		
+
 		GUIX = GUIWidth;
 
 		initDisplay();
@@ -256,15 +256,15 @@ public class OpenGL {
 		initGL();
 
 		getDelta();
-		
+
 		last_fps = getTime();
-		
+
 		textures = new ArrayList<Texture>();
 		resourceLoader = new Resourceloader();
 		loadTextures();
-		
+
 		vboArrayList = new ArrayList<VertexBufferObject>();
-		
+
 		float [] asd = {10f, 10f, 10f,
 						10f, 10f, 20f,
 						10f, 20f, 10f};
@@ -273,44 +273,44 @@ public class OpenGL {
 						20f, 10f, 20f,
 						20f, 20f, 10f,
 						20f, 20f, 20f};*/
-		
+
 		vboArrayList.add(new VertexBufferObject(asd, 3, 3));
-		
+
 		models = new ArrayList<Model>();
-		
+
 		models.add(new Model("resources/ratbandit/Rat_bandit.obj"));
-		
+
 		//models.add(new Model("resources/kub.obj"));
-		
+
 		//models.add(new Model("resources/HEro_pj/amulett/amulett.obj"));
-		
+
 	}
-	
+
 	private void initDisplay() throws LWJGLException
 	{
 		Display.setDisplayMode(new DisplayMode(screen_width, screen_height));
 		Display.create();
-		
+
 		Display.setTitle(title);
 	}
 
 	private void initGL()
 	{ 
 		glViewport(0, 0, screen_width, screen_height);
-		
-		
+
+
 		glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 		glClearDepth(1.0f);
-		
+
 		glDepthFunc(GL_LEQUAL);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_TEXTURE_2D);
 		glShadeModel(GL_SMOOTH);
-		
+
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-		
+
 		initLight(100, 200, 100);		
-		
+
 		camera = new Camera();
 		camera.initialize(70f, (float)screen_width/screen_height, 0.3f, 1000f);	//, posX, posY, posZ);
 	}
@@ -320,26 +320,26 @@ public class OpenGL {
 	{
 		//ljusets position
 		glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, floatBuffer(xPos, yPos, zPos, 1));
-		
+
 		glLight(GL_LIGHT0, GL_DIFFUSE, floatBuffer(1.0f, 1.0f, 1.0f, 1.0f));
 		glLight(GL_LIGHT0, GL_AMBIENT, floatBuffer(0.1f, 0.1f, 0.1f, 1.0f));
 		glLight(GL_LIGHT0, GL_SPECULAR, floatBuffer(1.0f, 1.0f, 1.0f, 1.0f));
 	}
-		
+
 	private void initLight(float xPos, float yPos, float zPos)
 	{
 		glEnable (GL_DEPTH_TEST);
 		glEnable (GL_LIGHTING);
 		glEnable (GL_LIGHT0);		
-		
+
 		glLightModeli(GL11.GL_LIGHT_MODEL_TWO_SIDE,GL11.GL_TRUE);
-		
+
 		glEnable(GL_COLOR_MATERIAL);
 		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
         
 		setLight(xPos, yPos, zPos);
 	}
-	
+
 	private int mathExp(int base, int exp)
 	{
 		int tmp = base;
@@ -349,8 +349,8 @@ public class OpenGL {
 			tmp = 1;
 		return tmp;
 	}
-	
-	private void translateInput(int input)
+
+	private void translateInput(int input, int boardSizeX, int boardSizeY)
 	{
 		if(input != 0)
 		{
@@ -365,7 +365,7 @@ public class OpenGL {
 				//Z
 				input -= mathExp(10, 6);
 				camera.moveSideways(1f);
-				
+
 			}
 			if(input/mathExp(10, 5) != 0)
 			{
@@ -378,7 +378,7 @@ public class OpenGL {
 				//Q
 				input -= mathExp(10, 4);
 				camera.moveForward(1f);
-				
+
 			}
 			if(input/mathExp(10, 3) != 0)
 			{
@@ -405,13 +405,28 @@ public class OpenGL {
 				camera.rotateY(-1f);
 			}
 		}
+
+		Vector3f position = camera.getPosition();
+		if(position.x > startTileX){
+			position.x = startTileX;
+		}
+		if (position.x < -(boardSizeX*(tileSize + spaceBetweenTiles) - startTileX)){
+			position.x = -(boardSizeX*(tileSize + spaceBetweenTiles) - startTileX); 
+		}
+		if(position.z > startTileY){
+			position.z = startTileY;
+		}
+		if(position.z < -(boardSizeY*(tileSize + spaceBetweenTiles) - startTileY)){
+			position.z = -(boardSizeY*(tileSize + spaceBetweenTiles) - startTileY);
+		}
+		camera.setPosition(position);
 	}
-	
+
 	//Updatera
-	public Point update(int delta, int input, Point p)
+	public Point update(int delta, int input, Point p, int boardSizeX, int boardSizeY)
 	{
 		Point p2 = new Point(p.x, p.y);
-		translateInput(input);
+		translateInput(input, boardSizeX, boardSizeY);
 		if(p2.x != -1 || p2.y != -1)
 		{
 			Vector3f v = getMousePositionIn3dCoords(p2.x, p2.y);
@@ -419,57 +434,57 @@ public class OpenGL {
 			p2.y = (int)(v.z + startTileY)/ (tileSize + spaceBetweenTiles);
 		}
 		updateFPS();
-		
+
 		return p2;
 	}
-	
+
 	//Rita
 	public void initDraw(int boardSizeX, int boardSizeY)
 	{
 		glViewport(0, 0, screen_width, screen_height);
-		
-		
+
+		glClearColor(1.0f, 0.0f, 0.0f, 0.5f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 		glLoadIdentity();
-		
+
 		camera.setView();
-		
+
 		glPushMatrix();
-		
+
 		glTranslatef(0, -10, 0);
-		
+
 		textures.get(0).bind();
 		glBegin(GL_QUADS);
-		
-		drawBox(startTileX - 10, -10, startTileY - 10, 
-				boardSizeX*(tileSize + spaceBetweenTiles) + 10*2, //x
-				-10 + (tileHeight + 60), 						 //y
-				boardSizeY*(tileSize + spaceBetweenTiles) + 10*2);//z
+
+		drawBox(startTileX - 0.5f, 0, startTileY - 0.5f, 
+				startTileX + boardSizeX*(tileSize + spaceBetweenTiles) + 0.5f*2, //x
+				(tileHeight + 60), 								//y
+				startTileY + boardSizeY*(tileSize + spaceBetweenTiles) + 0.5f*2);//z
 
 		glEnd();
-		
-		
+
+
 		for(VertexBufferObject vbo : vboArrayList)
 		{
 			vbo.draw();
 		}
-		
+
 //		for(Model model : models){
 //			model.draw();
 //		}
-		
+		glPopMatrix();
 	}
-	
+
 	public void endDraw()
 	{
-		
-		glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
-		glPopMatrix();
-		
+
+
+
+
 		//Ritar ut på skärmen
 		Display.update();
-		
+
 		//Sätter fpsen till 60
 		//Display.sync(60);
 	}
@@ -480,7 +495,7 @@ public class OpenGL {
 	static FloatBuffer projection = BufferUtils.createFloatBuffer(16);
 	static FloatBuffer winZ = BufferUtils.createFloatBuffer(20);
 	static FloatBuffer position = BufferUtils.createFloatBuffer(3);
-	   
+
 	static public Vector3f getMousePositionIn3dCoords(int mouseX, int mouseY)
 	{
 
@@ -495,7 +510,7 @@ public class OpenGL {
 	    GL11.glGetFloat( GL11.GL_MODELVIEW_MATRIX, modelview );
 	    GL11.glGetFloat( GL11.GL_PROJECTION_MATRIX, projection );
 	    GL11.glGetInteger( GL11.GL_VIEWPORT, viewport );
-	    
+
 	    winX = (float)mouseX;
 	    winY = /* (float)viewport.get(3) -  */  //Uncomment this if you invert Y
 	         (float)mouseY;
@@ -513,10 +528,4 @@ public class OpenGL {
 
 	    return v; 
 	    }
-
-
-
 }
-
-
-
