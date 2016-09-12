@@ -58,25 +58,32 @@ view_visible[0] = true;
             <string>view_wview[0] = 640 * zoom;
 view_hview[0] = 480 * zoom;
 
+view_xview[0] = x - view_wview / 2
+view_yview[0] = y - view_hview / 2
+
 if keyboard_check(ord("J"))
 {
-    view_xview[0] = view_xview[0]-100
-    if view_xview[0] &lt; 0 view_xview[0]=0
+    x-=10;  
+//  view_xview[0] = view_xview[0]-100
+//    if view_xview[0] &lt; 0 view_xview[0]=0
 }
 if keyboard_check(ord("L"))
 {
-    view_xview[0] = view_xview[0]+100
-    if view_xview[0] &gt; 3200 view_xview[0]=3200
+    x+=10;  
+//    view_xview[0] = view_xview[0]+100
+//    if view_xview[0] &gt; 3200 view_xview[0]=3200
 }
 if keyboard_check(ord("I"))
 {
-    view_yview[0] = view_yview[0]-100
-    if view_yview[0] &lt; 0 view_yview[0]=0
+    y-=10;  
+//    view_yview[0] = view_yview[0]-100
+//    if view_yview[0] &lt; 0 view_yview[0]=0
 }
 if keyboard_check(ord("K"))
 {
-    view_yview[0] = view_yview[0]+100
-    if view_yview[0] &gt; 3200 view_yview[0]=3200
+    y+=10;  
+//    view_yview[0] = view_yview[0]+100
+//    if view_yview[0] &gt; 3200 view_yview[0]=3200
 }
 
 if keyboard_check(ord("W"))  zoom += 0.05
