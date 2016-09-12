@@ -13,52 +13,46 @@
   <code>var x_dimension = 100;
 var y_dimension = 100;
 
+global.world_seed = round(random_range(1000000,10000000));
 global.world_map = ds_grid_create(x_dimension, y_dimension);
-
+global.height_map = ds_grid_create(x_dimension, y_dimension);
 
 var i;
 var j;
 
-var north_tile;
-var west_tile;
+//Calculate world height
 for (i = 0; i &lt; x_dimension; i += 1)
    {
    for (j = 0; j &lt; y_dimension; j += 1)
    {
-        if (i &gt;0)
-        {
-            west_tile = world_map[i-1,j];
-        }else
-        {
-            west_tile = -1;
-        }
+      var zz = scpt_getPerlinNoise_2D(i,j,100);
+        //ds_grid_add(grid,i,0,zz);
+        global.height_map[# i,j] = zz;    
+   }
+}
+
+//Depending on world height and 
+for (i = 0; i &lt; x_dimension; i += 1)
+   {
+   for (j = 0; j &lt; y_dimension; j += 1)
+   {
+        var tile = scpt_get_tile(global.height_map[# i,j]);
         
-        if (j&gt;0)
-        {
-            north_tile = world_map[i,j-1];
-        }else
-        {
-            north_tile = -1;
+        var obj_tmp
+        if(tile == 0){
+            obj_tmp = instance_create(0, 0,obj_grassland);
+            obj_tmp.x =obj_tmp.sprite_width*i;
+            obj_tmp.y =obj_tmp.sprite_height*j;
+        }else if(tile==1){
+            obj_tmp = instance_create(0, 0,obj_water);
+            obj_tmp.x =obj_tmp.sprite_width*i;
+            obj_tmp.y =obj_tmp.sprite_height*j;
+        }else{
+            obj_tmp = instance_create(0, 0,obj_mountain);
+            obj_tmp.x =obj_tmp.sprite_width*i;
+            obj_tmp.y =obj_tmp.sprite_height*j;
         }
-        world_map[i,j] =scpt_randomize_tile(north_tile, west_tile);
-        if(world_map[i,j]==0)
-        {
-        var obj_tmp = instance_create(0, 0,obj_grassland);
-        obj_tmp.x =obj_tmp.sprite_width*i;
-        obj_tmp.y =obj_tmp.sprite_height*j;
-        }
-        if(world_map[i,j]==1)
-        {
-        var obj_tmp = instance_create(0, 0,obj_water);
-        obj_tmp.x =obj_tmp.sprite_width*i;
-        obj_tmp.y =obj_tmp.sprite_height*j;
-        }
-        if(world_map[i,j]==2)
-        {
-        var obj_tmp = instance_create(0, 0,obj_mountain);
-        obj_tmp.x =obj_tmp.sprite_width*i;
-        obj_tmp.y =obj_tmp.sprite_height*j;
-        }
+        global.world_map[# i,j] = obj_tmp;
    }
 }</code>
   <enableViews>0</enableViews>

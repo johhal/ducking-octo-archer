@@ -14,6 +14,9 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\scpt_randomize_tile.gml</script>
+    <script>scripts\scpt_getPerlinNoise_2D.gml</script>
+    <script>scripts\scpt_get_tile.gml</script>
+    <script>scripts\randomSeed.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_grassland</object>
