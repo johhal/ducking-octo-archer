@@ -9,6 +9,9 @@
     <sprite>sprites\spr_grassland</sprite>
     <sprite>sprites\spr_water</sprite>
     <sprite>sprites\spr_mountain</sprite>
+    <sprite>sprites\spr_beach</sprite>
+    <sprite>sprites\spr_forrest</sprite>
+    <sprite>sprites\spr_glacier</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -22,6 +25,9 @@
     <object>objects\obj_grassland</object>
     <object>objects\obj_water</object>
     <object>objects\obj_mountain</object>
+    <object>objects\obj_forrest</object>
+    <object>objects\obj_glacier</object>
+    <object>objects\obj_beach</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_world</room>

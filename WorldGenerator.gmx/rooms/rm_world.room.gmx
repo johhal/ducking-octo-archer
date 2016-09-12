@@ -37,8 +37,10 @@ for (i = 0; i &lt; x_dimension; i += 1)
    for (j = 0; j &lt; y_dimension; j += 1)
    {
         var tile = scpt_get_tile(global.height_map[# i,j]);
-        
-        var obj_tmp
+        tile.x=tile.sprite_width*i;
+        tile.y=tile.sprite_height*j;
+        global.world_map[# i,j] = tile;
+     /**   var obj_tmp
         if(tile == 0){
             obj_tmp = instance_create(0, 0,obj_grassland);
             obj_tmp.x =obj_tmp.sprite_width*i;
@@ -53,6 +55,7 @@ for (i = 0; i &lt; x_dimension; i += 1)
             obj_tmp.y =obj_tmp.sprite_height*j;
         }
         global.world_map[# i,j] = obj_tmp;
+        **/
    }
 }</code>
   <enableViews>0</enableViews>
