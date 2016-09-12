@@ -28,6 +28,8 @@
     <object>objects\obj_forrest</object>
     <object>objects\obj_glacier</object>
     <object>objects\obj_beach</object>
+    <object>objects\obj_camera</object>
+    <object>objects\obj_generator</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_world</room>

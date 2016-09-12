@@ -10,55 +10,8 @@
   <persistent>0</persistent>
   <colour>12632256</colour>
   <showcolour>-1</showcolour>
-  <code>var x_dimension = 100;
-var y_dimension = 100;
-
-global.world_seed = round(random_range(1000000,10000000));
-global.world_map = ds_grid_create(x_dimension, y_dimension);
-global.height_map = ds_grid_create(x_dimension, y_dimension);
-
-var i;
-var j;
-
-//Calculate world height
-for (i = 0; i &lt; x_dimension; i += 1)
-   {
-   for (j = 0; j &lt; y_dimension; j += 1)
-   {
-      var zz = scpt_getPerlinNoise_2D(i,j,100);
-        //ds_grid_add(grid,i,0,zz);
-        global.height_map[# i,j] = zz;    
-   }
-}
-
-//Depending on world height and 
-for (i = 0; i &lt; x_dimension; i += 1)
-   {
-   for (j = 0; j &lt; y_dimension; j += 1)
-   {
-        var tile = scpt_get_tile(global.height_map[# i,j]);
-        tile.x=tile.sprite_width*i;
-        tile.y=tile.sprite_height*j;
-        global.world_map[# i,j] = tile;
-     /**   var obj_tmp
-        if(tile == 0){
-            obj_tmp = instance_create(0, 0,obj_grassland);
-            obj_tmp.x =obj_tmp.sprite_width*i;
-            obj_tmp.y =obj_tmp.sprite_height*j;
-        }else if(tile==1){
-            obj_tmp = instance_create(0, 0,obj_water);
-            obj_tmp.x =obj_tmp.sprite_width*i;
-            obj_tmp.y =obj_tmp.sprite_height*j;
-        }else{
-            obj_tmp = instance_create(0, 0,obj_mountain);
-            obj_tmp.x =obj_tmp.sprite_width*i;
-            obj_tmp.y =obj_tmp.sprite_height*j;
-        }
-        global.world_map[# i,j] = obj_tmp;
-        **/
-   }
-}</code>
-  <enableViews>0</enableViews>
+  <code>instance_create(0,0,obj_generator);</code>
+  <enableViews>-1</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <clearDisplayBuffer>-1</clearDisplayBuffer>
   <makerSettings>
@@ -88,7 +41,7 @@ for (i = 0; i &lt; x_dimension; i += 1)
     <background visible="0" foreground="0" name="" x="0" y="0" htiled="-1" vtiled="-1" hspeed="0" vspeed="0" stretch="0"/>
   </backgrounds>
   <views>
-    <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
+    <view visible="-1" objName="obj_camera" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
