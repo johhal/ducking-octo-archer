@@ -31,7 +31,10 @@
     <scripts name="character generation scripts">
       <script>scripts\scpt_radomize_class.gml</script>
     </scripts>
-    <script>scripts\scpt_update_vision.gml</script>
+    <scripts name="interraction scripts">
+      <script>scripts\scpt_update_vision.gml</script>
+      <script>scripts\scpt_fight.gml</script>
+    </scripts>
   </scripts>
   <objects name="objects">
     <objects name="world objects">

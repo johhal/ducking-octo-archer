@@ -25,16 +25,30 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_speed = 0;
-// just nu används djupet för att dölja zombies när dom är ur vision. 
-depth = 0;
-units_with_vision = 0;
+            <string>depth = 1;
+
+name = "";
+
+// For now.
+strength = irandom(18) + 1;
+agility = irandom(18) + 1;
+constitution = irandom(18) + 1;
+inteligence = irandom(18) + 1;
+wisdom = irandom(18) + 1;
+charisma = irandom(18) + 1;
+
+life = 100;
+armor = 0;
+
+vision = 1;
+
+//alarm[0] = 60;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="6" enumb="5">
+    <event eventtype="2" enumb="1">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -51,14 +65,13 @@ units_with_vision = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Spawn Zombie
-instance_create(x, y, obj_zombie);
+            <string>instance_destroy();
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="6" enumb="4">
+    <event eventtype="2" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -75,8 +88,61 @@ instance_create(x, y, obj_zombie);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Spawn Human
-instance_create(x, y, obj_human);
+            <string>///random walking
+
+var tmp = irandom(4)
+switch(tmp){
+    case 0:
+        tmp = x + obj_grassland.sprite_width;
+        scpt_update_vision(vision, x, y, -1);
+        scpt_update_vision(vision, tmp, y, 1);
+        x = tmp;
+        break;
+    case 1:
+        tmp = x - obj_grassland.sprite_width;
+        scpt_update_vision(vision, x, y, -1);
+        scpt_update_vision(vision, tmp, y, 1);
+        x = tmp;
+        break;
+    case 2:
+        tmp = y + obj_grassland.sprite_width;
+        scpt_update_vision(vision, x, y, -1);
+        scpt_update_vision(vision, x, tmp, 1);
+        y = tmp;
+        break;
+    case 3:
+        tmp = y - obj_grassland.sprite_width;
+        scpt_update_vision(vision, x, y, -1);
+        scpt_update_vision(vision, x, tmp, 1);
+        y = tmp;
+        break;
+}
+alarm[0] = 60;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="10">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//Ska skapa en ruta över karaktären som säger namn, är det 'din' 
+//karaktär kanske även stats ska skrivas ut. 
+//show_debug_message(name);
 </string>
           </argument>
         </arguments>
