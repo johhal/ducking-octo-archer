@@ -1,5 +1,3 @@
-enum directions {up = 0, down = 1, left = 2, right = 3};
-
 var vision = argument[0];
 var pos_x = argument[1];
 var pos_y = argument[2];
@@ -15,7 +13,7 @@ var k = 0;
 
 //for(i = 0; i < vision; i++)
 //{
-    for(j = -vision; j <= vision; j++) //8 kommer inte funka för större vision.... 
+    for(j = -vision; j <= vision; j++)  
     {
         for(k = -vision; k <= vision; k++){
             global.world_map[# grid_pos_x + j, grid_pos_y + k].units_with_vision += modifier;
