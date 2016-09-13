@@ -40,6 +40,8 @@
           <argument>
             <kind>1</kind>
             <string>name = "Zombie!";
+vision = 0;
+walk_speed = 100
 </string>
           </argument>
         </arguments>

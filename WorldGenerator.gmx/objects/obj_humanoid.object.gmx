@@ -37,12 +37,14 @@ inteligence = irandom(18) + 1;
 wisdom = irandom(18) + 1;
 charisma = irandom(18) + 1;
 
+// speed var upptaget, bör bytas men kommer inte på något nu
+walk_speed = 30;
+vision = 1;
+
 life = 100;
 armor = 0;
 
-vision = 1;
-
-//alarm[0] = 60;
+//alarm[0] = 30;
 </string>
           </argument>
         </arguments>
@@ -90,40 +92,10 @@ instance_destroy();
           <argument>
             <kind>1</kind>
             <string>///random walking
-var dirr = irandom(4);
-var distance = 1;   
-scpt_move_character(dirr, distance, vision);
-alarm[0] = 60;
-/*
+var dirr = irandom(4);  
+scpt_move_character(dirr, vision);
+alarm[0] = walk_speed;
 
-switch(tmp){
-    case 0:
-        tmp = x + obj_grassland.sprite_width;
-
-        scpt_update_vision(vision, tmp, y, 1);
-        x = tmp;
-        break;
-    case 1:
-        tmp = x - obj_grassland.sprite_width;
-        scpt_update_vision(vision, x, y, -1);
-        scpt_update_vision(vision, tmp, y, 1);
-        x = tmp;
-        break;
-    case 2:
-        tmp = y + obj_grassland.sprite_width;
-        scpt_update_vision(vision, x, y, -1);
-        scpt_update_vision(vision, x, tmp, 1);
-        y = tmp;
-        break;
-    case 3:
-        tmp = y - obj_grassland.sprite_width;
-        scpt_update_vision(vision, x, y, -1);
-        scpt_update_vision(vision, x, tmp, 1);
-        y = tmp;
-        break;
-}
-
-*/
 </string>
           </argument>
         </arguments>

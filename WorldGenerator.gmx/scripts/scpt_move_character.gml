@@ -1,20 +1,22 @@
 var dir = argument[0];
-var distance = argument[1];
-var vision = argument[2];
+var vision = argument[1];
 
 scpt_update_vision(vision, x, y, -1);
 switch(dir){
     case directions.right:
-        x += distance * obj_grassland.sprite_width;
+        x += obj_grassland.sprite_width;
         break;
     case directions.left:
-        x -= distance * obj_grassland.sprite_width;
+        x -= obj_grassland.sprite_width;
         break;
     case directions.up:
-        y -= distance * obj_grassland.sprite_height;
+        y -= obj_grassland.sprite_height;
         break;
     case directions.down:
-        y += distance * obj_grassland.sprite_height;
+        y += obj_grassland.sprite_height;
+        break;
+    default:
+        // Du är inte snäll om du skickar in något annat
         break;
 }
 scpt_update_vision(vision, x, y, 1);
