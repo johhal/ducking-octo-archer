@@ -30,7 +30,7 @@
 scpt_update_vision(vision, x, y, 1);
 //returnerar en class
 character_class = scpt_radomize_class();
-
+alarm[0] = 60;
 //show_debug_message(string(strength))
 </string>
           </argument>
