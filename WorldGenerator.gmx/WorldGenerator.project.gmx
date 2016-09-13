@@ -31,6 +31,7 @@
     <scripts name="character generation scripts">
       <script>scripts\scpt_radomize_class.gml</script>
     </scripts>
+    <script>scripts\scpt_update_vision.gml</script>
   </scripts>
   <objects name="objects">
     <objects name="world objects">
@@ -41,13 +42,19 @@
         <object>objects\obj_glacier</object>
         <object>objects\obj_grassland</object>
         <object>objects\obj_water</object>
-        <object>objects\obj_landmark</object>
       </objects>
       <object>objects\obj_generator</object>
       <object>objects\obj_camera</object>
+      <object>objects\obj_landmark</object>
     </objects>
     <objects name="unit objects">
-      <object>objects\obj_human</object>
+      <object>objects\obj_humanoid</object>
+      <objects name="monsters">
+        <object>objects\obj_zombie</object>
+      </objects>
+      <objects name="player objects">
+        <object>objects\obj_human</object>
+      </objects>
     </objects>
   </objects>
   <rooms name="rooms">

@@ -1,4 +1,5 @@
-enum class_name {peasant = 0, bard = 1};
+enum class_name {peasant = 0, 
+                    bard = 1};
 
 nr_of_classes = 1;
 
