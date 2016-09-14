@@ -29,6 +29,9 @@
 
 name = "";
 
+xpos_grid = x / obj_grassland.sprite_width;
+ypos_grid = y / obj_grassland.sprite_height;
+
 // For now.
 strength = irandom(18) + 1;
 agility = irandom(18) + 1;
@@ -37,7 +40,7 @@ inteligence = irandom(18) + 1;
 wisdom = irandom(18) + 1;
 charisma = irandom(18) + 1;
 
-// speed var upptaget, bör bytas men kommer inte på något nu
+// speed var upptaget, ju lägre sifra ju snabbare gång
 walk_speed = 30;
 vision = 1;
 
@@ -101,6 +104,30 @@ alarm[0] = walk_speed;
         </arguments>
       </action>
     </event>
+    <event eventtype="6" enumb="11">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//typiskt dåligt. 
+//instance_destroy();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="6" enumb="10">
       <action>
         <libid>1</libid>
@@ -121,6 +148,7 @@ alarm[0] = walk_speed;
             <string>//Ska skapa en ruta över karaktären som säger namn, är det 'din' 
 //karaktär kanske även stats ska skrivas ut. 
 //show_debug_message(name);
+//text_box = instance_create(x, y-15, obj_text_box);
 </string>
           </argument>
         </arguments>

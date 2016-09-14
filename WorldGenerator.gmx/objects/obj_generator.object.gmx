@@ -25,20 +25,20 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var x_dimension = 100;
-var y_dimension = 100;
+            <string>global.world_width = 100;
+global.world_height = 100;
 
 global.world_seed = round(random_range(1000000,10000000));
-global.world_map = ds_grid_create(x_dimension, y_dimension);
-global.height_map = ds_grid_create(x_dimension, y_dimension);
+global.world_map = ds_grid_create(global.world_width, global.world_height);
+global.height_map = ds_grid_create(global.world_width, global.world_height);
 
 var i;
 var j;
 
 //Calculate world height
-for (i = 0; i &lt; x_dimension; i += 1)
+for (i = 0; i &lt; global.world_width; i += 1)
    {
-   for (j = 0; j &lt; y_dimension; j += 1)
+   for (j = 0; j &lt; global.world_height; j += 1)
    {
       var zz = scpt_getPerlinNoise_2D(i,j,100);
         //ds_grid_add(grid,i,0,zz);
@@ -47,13 +47,13 @@ for (i = 0; i &lt; x_dimension; i += 1)
 }
 
 //Depending on world height and 
-for (i = 0; i &lt; x_dimension; i += 1)
+for (i = 0; i &lt; global.world_width; i += 1)
    {
-   for (j = 0; j &lt; y_dimension; j += 1)
+   for (j = 0; j &lt; global.world_height; j += 1)
    {
         var tile = scpt_get_tile(global.height_map[# i,j]);
-        tile.x = tile.sprite_width*i;
-        tile.y = tile.sprite_height*j;
+        tile.x = tile.sprite_width * i;
+        tile.y = tile.sprite_height * j;
         global.world_map[# i,j] =tile;
         
    }

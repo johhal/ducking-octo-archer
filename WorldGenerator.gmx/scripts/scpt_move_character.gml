@@ -1,22 +1,16 @@
-var dir = argument[0];
+var dirr = argument[0];
 var vision = argument[1];
 
-scpt_update_vision(vision, x, y, -1);
-switch(dir){
-    case directions.right:
-        x += obj_grassland.sprite_width;
-        break;
-    case directions.left:
-        x -= obj_grassland.sprite_width;
-        break;
-    case directions.up:
-        y -= obj_grassland.sprite_height;
-        break;
-    case directions.down:
-        y += obj_grassland.sprite_height;
-        break;
-    default:
-        // Du är inte snäll om du skickar in något annat
-        break;
-}
-scpt_update_vision(vision, x, y, 1);
+//Flytta nån annan stans?!
+xp[1] = 1;
+xp[2] = -1;
+xp[3] = 0;
+xp[4] = 0;
+yp[1] = 0;
+yp[2] = 0;
+yp[3] = -1;
+yp[4] = 1;
+
+scpt_update_vision(vision, xpos_grid, ypos_grid, -1);
+scpt_update_grid_pos(xpos_grid + xp[dirr], ypos_grid + yp[dirr]);
+scpt_update_vision(vision, xpos_grid, ypos_grid, 1);

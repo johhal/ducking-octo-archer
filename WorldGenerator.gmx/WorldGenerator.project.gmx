@@ -32,11 +32,15 @@
       <script>scripts\scpt_radomize_class.gml</script>
     </scripts>
     <scripts name="interraction scripts">
-      <script>scripts\scpt_update_vision.gml</script>
       <script>scripts\scpt_fight.gml</script>
-      <script>scripts\scpt_move_character.gml</script>
     </scripts>
     <script>scripts\scpt_enum.gml</script>
+    <scripts name="Walk scripts">
+      <script>scripts\scpt_move_character.gml</script>
+      <script>scripts\scpt_update_vision.gml</script>
+      <script>scripts\scpt_inside_world.gml</script>
+      <script>scripts\scpt_update_grid_pos.gml</script>
+    </scripts>
   </scripts>
   <objects name="objects">
     <objects name="world objects">
@@ -61,6 +65,7 @@
         <object>objects\obj_human</object>
       </objects>
     </objects>
+    <object>objects\obj_text_box</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_world</room>
