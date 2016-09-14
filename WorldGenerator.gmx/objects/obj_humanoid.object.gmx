@@ -40,8 +40,10 @@ inteligence = irandom(18) + 1;
 wisdom = irandom(18) + 1;
 charisma = irandom(18) + 1;
 
-// speed var upptaget, ju lägre sifra ju snabbare gång
-walk_speed = 30;
+// speed var upptaget, ju lägre sifra ju snabbare gång (0 är stilla!);
+walk_speed = 0;
+
+// hur långt man ser
 vision = 1;
 
 life = 100;

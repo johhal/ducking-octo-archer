@@ -35,6 +35,16 @@ global.height_map = ds_grid_create(global.world_width, global.world_height);
 var i;
 var j;
 
+//Flytta nån annan stans?! Also, inte snyggt, men det funkar!
+global.xp[directions.right] = 1;
+global.xp[directions.left] = -1;
+global.xp[directions.up] = 0;
+global.xp[directions.down] = 0;
+global.yp[directions.right] = 0;
+global.yp[directions.left] = 0;
+global.yp[directions.up] = -1;
+global.yp[directions.down] = 1;
+
 //Calculate world height
 for (i = 0; i &lt; global.world_width; i += 1)
    {

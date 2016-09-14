@@ -32,8 +32,9 @@ scpt_update_vision(vision, xpos_grid, ypos_grid, 1);
 character_class = scpt_radomize_class();
 
 name = string(character_class);
+walk_speed = 30;
 
-alarm[0] = 60;
+alarm[0] = walk_speed;
 //show_debug_message(string(strength))
 </string>
           </argument>

@@ -7,26 +7,24 @@ var i = 0;
 var j = 0;
 var k = 0;
 
+if(vision == 0) return 0;
 
-//for(i = 0; i < vision; i++)
-//{
-    for(j = -vision; j <= vision; j++)  
-    {
-        for(k = -vision; k <= vision; k++){
-            if(scpt_inside_world(pos_x + j, pos_y + k))
+for(j = -vision; j <= vision; j++)  
+{
+    for(k = -vision; k <= vision; k++){
+        if(scpt_inside_world(pos_x + j, pos_y + k))
+        {
+            global.world_map[# pos_x + j, pos_y + k].units_with_vision += modifier;
+            if(global.world_map[# pos_x + j, pos_y + k].units_with_vision != 0)
             {
-                global.world_map[# pos_x + j, pos_y + k].units_with_vision += modifier;
-                if(global.world_map[# pos_x + j, pos_y + k].units_with_vision != 0)
-                {
-                    global.world_map[# pos_x + j, pos_y + k].depth = 10;
-                    global.world_map[# pos_x + j, pos_y + k].image_index = 1;
-                }
-                else
-                {    
-                    global.world_map[# pos_x + j, pos_y + k].depth = 0;
-                    global.world_map[# pos_x + j, pos_y + k].image_index = 2;
-                }
+                global.world_map[# pos_x + j, pos_y + k].depth = 10;
+                global.world_map[# pos_x + j, pos_y + k].image_index = 1;
+            }
+            else
+            {    
+                global.world_map[# pos_x + j, pos_y + k].depth = 0;
+                global.world_map[# pos_x + j, pos_y + k].image_index = 2;
             }
         }
-   }
-//}
+    }
+}
