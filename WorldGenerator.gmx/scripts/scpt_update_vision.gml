@@ -1,3 +1,5 @@
+///scpt_update_vision(vision_range, grid_pos_x, grid_pos_y, modifier) modifier = 1 adds vision, -1 removes. 
+
 var vision = argument[0];
 var pos_x = argument[1];
 var pos_y = argument[2];

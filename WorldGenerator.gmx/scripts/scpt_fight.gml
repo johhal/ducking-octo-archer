@@ -1,3 +1,4 @@
+/// scpt_fight(combatant1, combatant2);
 var combatant1 = argument[0];
 var combatant2 = argument[1];
 

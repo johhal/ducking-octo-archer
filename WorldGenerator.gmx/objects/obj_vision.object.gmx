@@ -25,7 +25,10 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>scpt_update_vision(x/obj_grassland.sprite_width, y/obj_grassland.sprite_height, 5, 1);
+            <string>xpos = x/obj_grassland.sprite_width;
+ypos = y/obj_grassland.sprite_height;
+
+scpt_update_vision(5, xpos, ypos, 1);
 </string>
           </argument>
         </arguments>

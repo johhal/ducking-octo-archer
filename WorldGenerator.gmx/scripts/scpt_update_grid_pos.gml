@@ -1,3 +1,5 @@
+///scpt_update_grid_pos(grid_pos_x, grid_pos_y);
+
 var xpos = argument[0];
 var ypos = argument[1];
 

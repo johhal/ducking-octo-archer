@@ -1,3 +1,5 @@
+///scpt_move_character(direction, vision);
+
 var dirr = argument[0];
 var vision = argument[1];
 

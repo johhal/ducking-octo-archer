@@ -1,3 +1,5 @@
+///scpt_inside_world(grid_pos_x, grid_pos_y);
+
 var x_pos = argument[0];
 var y_pos = argument[1];
 
