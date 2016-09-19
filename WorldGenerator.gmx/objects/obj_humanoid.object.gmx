@@ -43,6 +43,9 @@ charisma = irandom(18) + 1;
 // speed var upptaget, ju lägre sifra ju snabbare gång (0 är stilla!);
 walk_speed = 0;
 
+// where am I allowed to go?
+walk_permission = land_type.land;
+
 // hur långt man ser
 vision = 1;
 

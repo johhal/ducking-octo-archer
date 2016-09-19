@@ -18,6 +18,7 @@
       <sprite>sprites\spr_human</sprite>
       <sprite>sprites\spr_zombie</sprite>
     </sprites>
+    <sprite>sprites\sprite8</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -63,6 +64,7 @@
       </objects>
       <objects name="player objects">
         <object>objects\obj_human</object>
+        <object>objects\obj_boat</object>
       </objects>
     </objects>
     <object>objects\obj_text_box</object>

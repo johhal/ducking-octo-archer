@@ -26,6 +26,10 @@
           <argument>
             <kind>1</kind>
             <string>image_speed = 0;
+
+// Används för permissioncheck vid walking 
+my_land_type = land_type.land;
+
 // just nu används djupet för att dölja zombies när dom är ur vision. 
 depth = 0;
 units_with_vision = 0;

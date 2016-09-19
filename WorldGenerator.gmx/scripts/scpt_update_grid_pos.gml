@@ -5,9 +5,12 @@ var ypos = argument[1];
 
 if(scpt_inside_world(xpos, ypos))
 {
-    xpos_grid = xpos;
-    ypos_grid = ypos;
+    if(walk_permission == global.world_map[#xpos, ypos].my_land_type)
+    {
+        xpos_grid = xpos;
+        ypos_grid = ypos;
 
-    x = xpos_grid * obj_grassland.sprite_width;
-    y = ypos_grid * obj_grassland.sprite_height;
+        x = xpos_grid * obj_grassland.sprite_width;
+        y = ypos_grid * obj_grassland.sprite_height;
+    }
 }
