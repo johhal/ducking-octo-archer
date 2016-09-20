@@ -32,6 +32,9 @@ name = "";
 xpos_grid = x / obj_grassland.sprite_width;
 ypos_grid = y / obj_grassland.sprite_height;
 
+target_x = -1;
+target_y = -1;
+
 // For now.
 strength = irandom(18) + 1;
 agility = irandom(18) + 1;
@@ -42,6 +45,12 @@ charisma = irandom(18) + 1;
 
 // speed var upptaget, ju lägre sifra ju snabbare gång (0 är stilla!);
 walk_speed = 0;
+
+//values for targeted walking
+current_move = 0;
+max_move = 0;
+walk_list[current_move] = directions.right;
+path_found = false;
 
 // where am I allowed to go?
 walk_permission = land_type.land;
@@ -101,6 +110,19 @@ instance_destroy();
             <kind>1</kind>
             <string>///random walking
 var dirr = irandom(4);  
+if(target_x != -1)
+{
+    if(path_found != true)
+        scpt_find_path();
+    if(max_move == current_move){
+        target_x = -1    
+        target_y = -1;
+        path_found = false;
+        current_move = 0;
+    }
+    else
+        dirr = walk_list[current_move++];
+}
 scpt_move_character(dirr, vision);
 alarm[0] = walk_speed;
 

@@ -80,6 +80,8 @@ units_with_vision = 0;
             <kind>1</kind>
             <string>///Spawn Zombie
 instance_create(x, y, obj_zombie);
+if(instance_exists(obj_human))
+    instance_create(x, y, obj_target);
 </string>
           </argument>
         </arguments>

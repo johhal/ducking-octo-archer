@@ -8,7 +8,8 @@ enum directions {   omnidirect = 0,
                     right = 2, 
                     down = 3, 
                     left = 4};
-                    
+
+// Behövs för "walking permission"                    
 enum land_type {land = 0,
                 water = 1, 
                 air = 2};

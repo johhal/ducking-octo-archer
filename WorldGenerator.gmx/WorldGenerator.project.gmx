@@ -18,7 +18,8 @@
       <sprite>sprites\spr_human</sprite>
       <sprite>sprites\spr_zombie</sprite>
     </sprites>
-    <sprite>sprites\sprite8</sprite>
+    <sprite>sprites\spr_boat</sprite>
+    <sprite>sprites\spr_target</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -35,13 +36,14 @@
     <scripts name="interraction scripts">
       <script>scripts\scpt_fight.gml</script>
     </scripts>
-    <script>scripts\scpt_enum.gml</script>
     <scripts name="Walk scripts">
       <script>scripts\scpt_move_character.gml</script>
       <script>scripts\scpt_update_vision.gml</script>
       <script>scripts\scpt_inside_world.gml</script>
       <script>scripts\scpt_update_grid_pos.gml</script>
+      <script>scripts\scpt_find_path.gml</script>
     </scripts>
+    <script>scripts\scpt_enum.gml</script>
   </scripts>
   <objects name="objects">
     <objects name="world objects">
@@ -65,6 +67,7 @@
       <objects name="player objects">
         <object>objects\obj_human</object>
         <object>objects\obj_boat</object>
+        <object>objects\obj_target</object>
       </objects>
     </objects>
     <object>objects\obj_text_box</object>
