@@ -25,6 +25,7 @@
     </sprites>
     <sprite>sprites\spr_target</sprite>
     <sprite>sprites\spr_gui</sprite>
+    <sprite>sprites\spr_road_2</sprite>
     <sprite>sprites\spr_road</sprite>
   </sprites>
   <backgrounds name="background"/>
