@@ -104,8 +104,17 @@ if(instance_exists(obj_human))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Spawn Human
-instance_create(x, y, obj_human);
+            <string>if(global.create_town == 1){
+    global.create_town = 0;
+    instance_create(x, y, obj_town);
+}
+if(global.create_human == 1){
+    global.create_human= 0;
+    instance_create(x, y, obj_human);
+}
+
+///Spawn Human
+//instance_create(x, y, obj_human);
 </string>
           </argument>
         </arguments>
