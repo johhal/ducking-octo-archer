@@ -36,10 +36,60 @@ ypos_grid = y / obj_grassland.sprite_height;
 
 vision = 2;
 
-scpt_update_vision(vision, xpos_grid, ypos_grid, 1);
-
 life = 1000;
 armor = 10;
+
+// FOr road buissniesserses
+current_move = 0;
+max_move = 0;
+walk_list[current_move] = directions.right;
+path_found = false;
+
+
+if(instance_exists(obj_town)){
+    var k = 10000;
+    
+    x += k;
+    obj = instance_nearest(x - k, y, obj_town);
+    
+    target_x = obj.x/obj_grassland.sprite_width;
+    target_y = obj.y/obj_grassland.sprite_height;
+    
+    x -= k;
+    
+    if(scpt_find_path())
+    {    
+        var prev_x = x/obj_grassland.sprite_width;
+        var prev_y = y/obj_grassland.sprite_height;
+        
+        var current_x = x/obj_grassland.sprite_width;
+        var current_y = y/obj_grassland.sprite_height;
+        
+        data_x[1] = 0;
+        data_x[2] = 1;
+        data_x[3] = 0;
+        data_x[4] = -1;
+        
+        data_y[1] = -1;
+        data_y[2] = 0;
+        data_y[3] = 1;
+        data_y[4] = 0;
+
+        prev_road = 0;
+        
+        for(current_move = 0; current_move &lt; max_move -1; current_move++){
+            current_x += data_x[walk_list[current_move]];
+            current_y += data_y[walk_list[current_move]];
+            
+            road = instance_create(current_x * obj_grassland.sprite_width, current_y * obj_grassland.sprite_height, obj_road);
+            road.image_index = 2;
+            
+            prev_x = current_x;
+            prev_y = current_y;
+        }
+    }
+}
+scpt_update_vision(vision, xpos_grid, ypos_grid, 1);
 </string>
           </argument>
         </arguments>

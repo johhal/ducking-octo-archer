@@ -81,6 +81,8 @@ while(done != 1 && object_counter > current_counter)
                 max_move = j;
                 for(j = 0; j < max_move; j++)
                     walk_list[j] = tmp_list[(max_move - 1) - j];
+                
+                return true;
             }
             else
             {
@@ -105,5 +107,6 @@ if(done != 1){
     object_counter = current_counter;  
     target_x = -1;
     target_y = -1;
+    return false;
 }
 

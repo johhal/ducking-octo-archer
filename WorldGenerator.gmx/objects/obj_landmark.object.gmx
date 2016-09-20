@@ -105,11 +105,13 @@ if(instance_exists(obj_human))
           <argument>
             <kind>1</kind>
             <string>if(global.create_town == 1){
-    global.create_town = 0;
+    if(!keyboard_check(vk_shift))
+       global.create_town = 0;
     instance_create(x, y, obj_town);
 }
 if(global.create_human == 1){
-    global.create_human= 0;
+    if(!keyboard_check(vk_shift))
+        global.create_human= 0;
     instance_create(x, y, obj_human);
 }
 
